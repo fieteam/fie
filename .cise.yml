@@ -1,0 +1,18 @@
+default:
+  prepare:
+    exec:
+      - 'ls ~/nvm || git clone http://gitlab.alibaba-inc.com/node/nvm.git ~/nvm'
+      - 'echo source ~/nvm/nvm.sh >> ~/.bashrc'
+      - 'nvm install 4.4.2'
+      - 'nvm alias default 4.4.2'
+      - 'npm install tnpm -g --registry=http://registry.npm.alibaba-inc.com'
+      - 'tnpm ii'
+  unit_test:
+    exec:
+      - 'tnpm run ci-test'
+      - 'tnpm run ci-log:coverage'
+      - 'tnpm run ci-log:mocha'
+  run_it:
+    exec:
+      - 'tnpm run ci-eslint -s'
+      - 'tnpm run ci-log:eslint'

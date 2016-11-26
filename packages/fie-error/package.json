@@ -1,0 +1,32 @@
+{
+  "name": "fie-error",
+  "main": "lib/index.js",
+  "description": "fie 错误个性化提示",
+  "version": "1.1.0",
+  "keywords": [
+    "nodejs",
+    "fie",
+    "fie-error"
+  ],
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "co": "^4.6.0",
+    "fie-env": "^1.1.0",
+    "fie-home": "^1.1.0",
+    "fie-log": "^1.1.0",
+    "fie-npm": "^1.1.0",
+    "lodash": "^4.17.2"
+  },
+  "devDependencies": {
+    "cross-spawn": "^5.0.1",
+    "fs-extra": "^1.0.0"
+  }
+}

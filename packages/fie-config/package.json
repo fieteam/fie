@@ -1,0 +1,29 @@
+{
+  "name": "fie-config",
+  "main": "lib/index.js",
+  "description": "fie.config.js文件操作",
+  "version": "1.1.0",
+  "keywords": [
+    "nodejs",
+    "fie",
+    "fie-config"
+  ],
+  "scripts": {},
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "debug": "^2.3.2",
+    "escodegen": "^1.8.1",
+    "esprima": "^3.1.1",
+    "esquery": "^0.4.0",
+    "fs-extra": "^1.0.0",
+    "tosource": "^1.0.0"
+  }
+}

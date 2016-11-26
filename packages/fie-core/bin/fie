@@ -1,0 +1,43 @@
+#! /usr/bin/env node
+'use strict';
+
+const argv = require('yargs').argv;
+const chalk = require('chalk');
+const log = require('fie-log')('fie-core');
+const fie = require('../lib/index');
+const effectiveUser = process.env.USER;
+const actualUser = process.env.SUDO_USER || process.env.USER;
+
+let command;
+let newArgv = [];
+
+// 禁止 sudo 执行 fie 命令
+if (effectiveUser === 'root' && actualUser !== 'root') {
+  log.error('请勿使用 sudo 执行 fie ，以免污染文件权限。fie 将退出！');
+  process.exit(1);
+}
+
+//特殊处理一下传入的参数
+if (!argv._.concat().pop() && (argv.v || argv.version)) {
+  // 没有传入任何参数, 且有 -v 或 --version
+  command = 'version';
+} else if (argv.help || argv.h) {
+  if (argv._.length === 1) {
+    // 显示插件帮助信息
+    command = argv._[0];
+    newArgv = ['help'];
+  } else {
+    command = 'help';
+  }
+} else if (argv._.length === 0) {
+  command = 'help';
+} else {
+  newArgv = argv._.concat();
+  command = newArgv.splice(0, 1).pop();
+}
+
+log.debug('控制台传入的原始参数: %o',argv);
+log.debug('即将执行的fie命令: %o',command);
+log.debug('fie命令的参数: %o',newArgv);
+
+fie.run(command, newArgv);

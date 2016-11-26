@@ -1,0 +1,4 @@
+--recursive
+--require ./test/setup
+--require co-mocha
+--ui bdd

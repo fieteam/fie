@@ -1,0 +1,27 @@
+{
+  "name": "fie-env",
+  "main": "lib/index.js",
+  "description": "fie内外网判断",
+  "version": "1.1.0",
+  "licenses": "GPL-3.0",
+  "keywords": [
+    "nodejs",
+    "fie-env",
+    "fie"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "fie-home": "^1.1.0",
+    "fs-extra": "^1.0.0",
+    "graceful-fs": "^4.1.11"
+  }
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>共享FIE Source: fie-module/lib/online-exist.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">共享FIE</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="fie-cache.html">fie-cache</a></li><li><a href="fie-config.html">fie-config</a></li><li><a href="fie-env.html">fie-env</a></li><li><a href="fie-error.html">fie-error</a></li><li><a href="fie-fs.html">fie-fs</a></li><li><a href="fie-home.html">fie-home</a></li><li><a href="fie-log.html">fie-log</a></li><li><a href="fie-report.html">fie-report</a></li><li><a href="fie-user.html">fie-user</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="fie-error.module_handle.html">fie-error.handle</a></li><li><a href="fie-error.module_register.html">fie-error.register</a></li><li><a href="fie-fs.module_copy-directory.html">fie-fs.copy-directory</a></li><li><a href="fie-fs.module_copy-tpl.html">fie-fs.copy-tpl</a></li><li><a href="fie-fs.module_rewrite-file.html">fie-fs.rewrite-file</a></li><li><a href="fie-report.module_fie-report.html">fie-report.fie-report</a></li><li><a href="module-fie-cache.html">fie-cache</a></li><li><a href="module-fie-config.html">fie-config</a></li><li><a href="module-fie-env.html">fie-env</a></li><li><a href="module-fie-home.html">fie-home</a></li><li><a href="module-fie-log.html">fie-log</a></li><li><a href="module-fie-report.html">fie-report</a></li><li><a href="module-fie-user.html">fie-user</a></li><li><a href="module-fie-utils.html">fie-utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#fieNpm">fieNpm</a></li><li><a href="global.html#fiePkg">fiePkg</a></li><li><a href="global.html#getCommonData">getCommonData</a></li><li><a href="global.html#getPadding">getPadding</a></li><li><a href="global.html#getProjectEnv">getProjectEnv</a></li><li><a href="global.html#globby">globby</a></li><li><a href="global.html#isGenerator">isGenerator</a></li><li><a href="global.html#isGeneratorFunction">isGeneratorFunction</a></li><li><a href="global.html#localExist">localExist</a></li><li><a href="global.html#log">log</a></li><li><a href="global.html#oneTask">oneTask</a></li><li><a href="global.html#onlineExist">onlineExist</a></li><li><a href="global.html#onlineList">onlineList</a></li><li><a href="global.html#outFieHelpInfo">outFieHelpInfo</a></li><li><a href="global.html#pluginFullName">pluginFullName</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#runFunction">runFunction</a></li><li><a href="global.html#runPlugin">runPlugin</a></li><li><a href="global.html#toolkitFullName">toolkitFullName</a></li><li><a href="global.html#userInfoGetter">userInfoGetter</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: fie-module/lib/online-exist.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * Created by hugo on 16/11/20.
+ */
+
+'use strict';
+
+const npm = require('fie-npm');
+const utils = require('./utils');
+
+/**
+ * 模块是否存在
+ */
+function* onlineExist(name) {
+  name = utils.fullName(name);
+  return yield npm.has(name);
+}
+
+module.exports = onlineExist;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	©2016 FIE-Team   |   旺旺交流群 1455030646
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a>
+	
+		on Wed Nov 23rd 2016
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

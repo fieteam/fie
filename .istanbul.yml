@@ -1,0 +1,7 @@
+reporting:
+    print: summary
+    reports:
+        - lcov
+    dir: ./coverage
+    report-config:
+        lcovonly: {file: lcov.info}

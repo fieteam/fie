@@ -1,0 +1,24 @@
+{
+  "name": "fie-cache",
+  "main": "lib/index.js",
+  "description": "fie数据缓存模块",
+  "version": "1.1.0",
+  "keywords": [
+    "nodejs",
+    "fie-cache",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "fie-home": "^1.1.0",
+    "fs-extra": "^1.0.0"
+  }
+}
