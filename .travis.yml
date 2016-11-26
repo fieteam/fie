@@ -1,0 +1,10 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+  - node_modules
+node_js:
+  - "5.0"
+  - "4.2"
+script:
+  - npm run test
