@@ -6,7 +6,7 @@
 [![npm download][download-image]][download-url]
 
 [travis-image]: https://img.shields.io/travis/fieteam/fie.svg?style=flat-square
-[travis-url]: https://travis-ci.org/fieteam/fie.svg?branch=master
+[travis-url]: https://travis-ci.org/fieteam/fie
 [codecov-image]: https://img.shields.io/codecov/c/github/fieteam/fie/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/fieteam/fie
 [npm-image]: https://img.shields.io/npm/v/fie.svg?style=flat-square

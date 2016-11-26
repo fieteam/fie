@@ -1,9 +1,8 @@
 'use strict';
 
 const path = require('path');
-const jsonfile = require('jsonfile');
 const proxyquire = require('proxyquire');
-const fs = require('fs');
+const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
 
@@ -14,7 +13,7 @@ describe('# remove 删除文件', () => {
   });
 
   before(() => {
-    jsonfile.writeFileSync(beforeDelete, { a: 1 });
+    fs.outputJsonSync(beforeDelete, { a: 1 });
   });
   after(() => {
     if (fs.existsSync(beforeDelete)) {

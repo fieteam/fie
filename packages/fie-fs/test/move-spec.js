@@ -1,9 +1,8 @@
 'use strict';
 
 const path = require('path');
-const jsonfile = require('jsonfile');
 const proxyquire = require('proxyquire');
-const fs = require('fs');
+const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
 
@@ -16,7 +15,7 @@ describe('# move 移动文件', () => {
   });
 
   before(() => {
-    jsonfile.writeFileSync(beforeMove, tmpData);
+    fs.outputJsonSync(beforeMove, tmpData);
   });
   after(() => {
     if (fs.existsSync(beforeMove)) {
@@ -29,6 +28,6 @@ describe('# move 移动文件', () => {
 
   it('# 执行移动', () => {
     move(beforeMove, afterMove);
-    expect(jsonfile.readFileSync(afterMove)).to.be.deep.equals(tmpData);
+    expect(fs.readJsonSync(afterMove)).to.be.deep.equals(tmpData);
   });
 });
