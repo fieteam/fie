@@ -1,6 +1,7 @@
 /**
  * fie-npm 测试，本测试基于信任 cross-spawn 及 npminstall 的基础上，只对自身逻辑代码进行检测
  */
+
 'use strict';
 
 const path = require('path');
@@ -8,13 +9,12 @@ const fs = require('fs-extra');
 const proxyquire = require('proxyquire');
 
 const testRoot = path.join(__dirname, 'helper');
-const installer = path.join(__dirname, '../node_modules/.bin/npminstall');
 
 
 describe('# fie-npm', () => {
   const spawn = sinon.stub();
   const fieNpm = proxyquire('../lib/index', {
-    'cross-spawn'(iter, args, opts) {
+    'cross-spawn': function (iter, args, opts) {
       const evnMap = {};
       const retObj = {
         on(evn, fn) {
@@ -25,10 +25,10 @@ describe('# fie-npm', () => {
       setTimeout(() => {
         spawn.apply(this, [iter, args, opts]);
         // 下面测试用例中存在的包都有 co 来测试
-        if ( args[0] === 'co' ||  args.filter(item => item.indexOf('-') !== 0).length === 0  ) {
-          evnMap['exit'] && evnMap['exit']();
+        if (args[0] === 'co' || args.filter(item => item.indexOf('-') !== 0).length === 0) {
+          evnMap.exit && evnMap.exit();
         } else {
-          evnMap['error'] && evnMap['error'](new Error('testError'));
+          evnMap.error && evnMap.error(new Error('testError'));
         }
       }, 10);
       return retObj;
@@ -65,8 +65,8 @@ describe('# fie-npm', () => {
         save: true
       });
       let matchSave = false;
-      spawn.args[0][1].forEach( item => {
-        if(item === '--save') {
+      spawn.args[0][1].forEach((item) => {
+        if (item === '--save') {
           matchSave = true;
         }
       });
@@ -84,12 +84,11 @@ describe('# fie-npm', () => {
   });
 
   describe('# installDependencies()', () => {
-    
     it('# 安装 package.json', function* () {
       yield fieNpm.installDependencies();
       // 判断到当前全部是选项，无模块名无报错即算通过
       let modCount = 0;
-      spawn.args[0][1].forEach(item => {
+      spawn.args[0][1].forEach((item) => {
         if (item.indexOf('-') !== 0) {
           modCount += 1;
         }

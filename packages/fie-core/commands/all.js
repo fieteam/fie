@@ -20,7 +20,6 @@ let fieObject;
  * 运行插件命令
  * @param name
  * @param cliArgs
- * @param next
  */
 function* runPlugin(name, cliArgs) {
   name = fieModule.pluginFullName(name);
@@ -39,7 +38,10 @@ function* runPlugin(name, cliArgs) {
     log.debug(' 插件信息 %o', plugin);
     yield fieTask.runFunction({
       method: plugin.mod,
-      args: [fieObject, { clientArgs: cliArgs }]
+      args: [fieObject, {
+        clientArgs: cliArgs,
+        clientOptions: argv
+      }]
     });
   } else {
     log.error(`${name} 插件不存在`);
@@ -65,7 +67,8 @@ module.exports = function* (command, cliArgs) {
     yield fieTask.run({
       tasks: tasks[command],
       args: [api.getApi(), {
-        clientArgs: argv
+        clientArgs: cliArgs,
+        clientOptions: argv
       }],
       when: 'before',
       command
@@ -90,7 +93,8 @@ module.exports = function* (command, cliArgs) {
     yield fieTask.runFunction({
       method: toolkit.mod[command],
       args: [fieObject, {
-        clientArgs: cliArgs
+        clientArgs: cliArgs,
+        clientOptions: argv
       }],
       next() {
         // -------------- 执行后置任务 ---------------

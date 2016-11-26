@@ -40,7 +40,7 @@ describe('# rewrite 重写文件', () => {
       src,
       dist,
       hook: 'hook',
-      insertLines: [`  attr1: 'value1',`, `  attr2: 'value2',`]
+      insertLines: ['  attr1: \'value1\',', '  attr2: \'value2\',']
     });
     const afterDistContent = fs.readFileSync(afterDist).toString();
     const distContent = fs.readFileSync(dist).toString();
@@ -54,7 +54,7 @@ describe('# rewrite 重写文件', () => {
     const content = rewriteFile({
       src,
       hook: 'hook',
-      insertLines: [`  attr1: 'value1',`, `  attr2: 'value2',`],
+      insertLines: ['  attr1: \'value1\',', '  attr2: \'value2\','],
       place: 'before'
     });
 
@@ -66,7 +66,7 @@ describe('# rewrite 重写文件', () => {
     const content = rewriteFile({
       src: fs.readFileSync(src),
       hook: 'hook',
-      insertLines: [`  attr1: 'value1',`, `  attr2: 'value2',`],
+      insertLines: ['  attr1: \'value1\',', '  attr2: \'value2\','],
       srcMode: 1
     });
 

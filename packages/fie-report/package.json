@@ -30,6 +30,7 @@
   "dependencies": {
     "fie-home": "^1.1.0",
     "fie-user": "^1.1.0",
-    "fie-env": "^1.1.0"
+    "fie-env": "^1.1.0",
+    "fie-cache": "^1.1.0"
   }
 }

@@ -12,7 +12,11 @@ const utils = require('./utils');
  */
 function* onlineExist(name) {
   name = utils.fullName(name);
-  return yield npm.has(name);
+  const latest = yield npm.latest(name);
+  if (latest && latest.description !== 'delete') {
+    return true;
+  }
+  return false;
 }
 
 module.exports = onlineExist;

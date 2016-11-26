@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 const path = require('path');
@@ -46,7 +47,6 @@ describe('# fie 模块操作', () => {
       // const modInfo = yield fieModule.get('@ali/fie-toolkit-next');
       // console.log(modInfo.options);
     });
-
   });
 
   describe('# 外网环境', () => {
@@ -56,3 +56,4 @@ describe('# fie 模块操作', () => {
   describe('# 断网环境', () => {
   });
 });
+*/

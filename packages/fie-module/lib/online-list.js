@@ -40,7 +40,8 @@ function* onlineList(options) {
       const body = JSON.parse(res.body);
 
       body.packages.forEach((item) => {
-        if (regx.test(item.name)) {
+        // 名字不符合规则 或 已删除的包不再显示
+        if (item.description !== 'delete' && regx.test(item.name)) {
           moduleList.push(item);
         }
       });

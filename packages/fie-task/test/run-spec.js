@@ -5,6 +5,7 @@ const emptyLog = require('../../../test/fixtures/empty-log');
 
 describe('# run 执行任务', () => {
   let tmpString = '';
+  let envYyy = '';
   const spy1 = sinon.spy((arg1, next) => {
     tmpString += 'a';
     next();
@@ -15,6 +16,7 @@ describe('# run 执行任务', () => {
     next();
   });
   const spawnStub = function () {
+    envYyy = process.env.yyy;
     return {
       on(event, cb) {
         if (event === 'close') {
@@ -206,5 +208,20 @@ describe('# run 执行任务', () => {
     });
 
     spawn.should.calledWith('yoo', ['sss', '--port', '8888']);
+  });
+
+  it('# 运行命令行时环境变量可以正常设置且正常 restore', function* () {
+    const beforeEnv = 'beforeEnv';
+    const testEnv = 'testEnv';
+    process.env.yyy = beforeEnv;
+    yield run({
+      tasks: [{
+        command: `yyy=${testEnv} echo xxx`
+      }],
+      command: 'start'
+    });
+
+    expect(envYyy).to.be.equals(testEnv);
+    expect(process.env.yyy).to.be.equals(beforeEnv);
   });
 });

@@ -11,6 +11,7 @@ const path = require('path');
 const os = require('os');
 const fieUser = require('fie-user');
 const fieEnv = require('fie-env');
+const cache = require('fie-cache');
 
 const __WPO = require('./retcode/log-node');
 
@@ -98,13 +99,19 @@ const getProjectEnv = () => {
  */
 const getCommonData = (force) => {
   const commonDataStr = [];
-  const commonData = Object.assign({}, getNetEnv(), getProjectEnv());
+  let commonData = Object.assign({}, getNetEnv(), getProjectEnv());
+  let globalCacheEnv = cache.get('reportEnvCache');
 
-  if (force) {
+  if (!globalCacheEnv || force) {
+    globalCacheEnv = {};
     Object.keys(cacheEnvGetter).forEach((item) => {
       commonData[item] = cacheEnvGetter[item]();
-      cacheEnvGetter[item] = () => commonData[item];
+      cacheEnv[item] = commonData[item];
     });
+    // 缓存三天
+    cache.set('reportEnvCache', globalCacheEnv, 259200000);
+  } else {
+    commonData = Object.assign({}, commonData, globalCacheEnv);
   }
 
   Object.keys(commonData).forEach((key) => {

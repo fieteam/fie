@@ -16,32 +16,42 @@ const COMMAND_PARAM_HOOK = '$$';
  * @return {boolean} 是否继续往下执行, 为 false 的话,不继续执行,后面进程直接退出
  */
 function* oneTask(task, args, hookParam) {
-  // 设置环境变量
-  const env = task.env || {};
-  const oldEnv = {};
-  Object.keys(env).forEach((item) => {
-    oldEnv.item = process.env[item];
-    process.env[item] = env[item];
-  });
-
-  const resetEnv = () => {
-    Object.keys(oldEnv).forEach((item) => {
-      process.env[item] = oldEnv[item];
-    });
-  };
-
   // task是一个function时,执行function
   if (task.func) {
     const res = yield runFunction({
       method: task.func,
       args
     });
-    resetEnv();
     return res;
   } else if (task.command) {
     return yield new Promise((resolve, reject) => {
       const command = task.command.replace(COMMAND_PARAM_HOOK, hookParam).split(' ');
+      const env = {};
+      // 缓存旧环境变量
+      const oldEnv = {};
+      const resetEnv = () => {
+        // 这里一定要用 oldEnv 的key ,否则任务体里面添加新的环境变量会被变成 undefined 的
+        Object.keys(oldEnv).forEach((item) => {
+          process.env[item] = oldEnv[item];
+        });
+      };
 
+      for (let i = 0; i < command.length; i += 1) {
+        if (/^\w+=.+$/.test(command[i])) {
+          command[i] = command[i].split('=');
+          env[command[i][0]] = command[i][1];
+        } else {
+          if (i !== 0) {
+            command.splice(0, i);
+          }
+          break;
+        }
+      }
+
+      Object.keys(env).forEach((item) => {
+        oldEnv[item] = process.env[item];
+        process.env[item] = env[item];
+      });
       const child = spawn(command.splice(0, 1).pop(), command, {
         cwd: process.cwd(),
         env: process.env,
@@ -74,7 +84,6 @@ function* oneTask(task, args, hookParam) {
       });
     });
   }
-  resetEnv();
   return true;
 }
 
