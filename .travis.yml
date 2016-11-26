@@ -6,8 +6,6 @@ cache:
 node_js:
   - "5.0"
   - "4.2"
-install:
-  - npm install -g codecov
 script:
   - npm run ci-test
 after_success:
