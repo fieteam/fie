@@ -5,9 +5,9 @@
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
-[travis-image]: https://img.shields.io/travis/fieteam/fie.svg
+[travis-image]: https://img.shields.io/travis/fieteam/fie.svg?style=flat-square
 [travis-url]: https://travis-ci.org/fieteam/fie.svg?branch=master
-[codecov-image]: https://img.shields.io/codecov/c/github/fieteam/fie/master.svg
+[codecov-image]: https://img.shields.io/codecov/c/github/fieteam/fie/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/fieteam/fie
 [npm-image]: https://img.shields.io/npm/v/fie.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/fie
