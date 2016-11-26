@@ -49,3 +49,4 @@ coverage
 # eslint reports
 eslint.json
 out
+mocha.json

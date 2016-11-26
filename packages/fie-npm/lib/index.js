@@ -110,9 +110,12 @@ module.exports = {
    * @param name
    */
   * has(name, options) {
+
     options = Object.assign({}, {
       registry
     }, options);
+    const url = `${options.registry}${encodeURIComponent(name)}/latest`;
+    debug('check module has =%s',url);
     const res = yield request({
       url: `${options.registry}${encodeURIComponent(name)}/latest`,
       method: 'HEAD'

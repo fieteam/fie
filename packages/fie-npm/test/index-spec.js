@@ -10,29 +10,35 @@ const proxyquire = require('proxyquire');
 
 const testRoot = path.join(__dirname, 'helper');
 
+let fieNpm;
+let spawn;
 
 describe('# fie-npm', () => {
-  const spawn = sinon.stub();
-  const fieNpm = proxyquire('../lib/index', {
-    'cross-spawn': function (iter, args, opts) {
-      const evnMap = {};
-      const retObj = {
-        on(evn, fn) {
-          evnMap[evn] = fn;
-          return retObj;
-        }
-      };
-      setTimeout(() => {
-        spawn.apply(this, [iter, args, opts]);
-        // 下面测试用例中存在的包都有 co 来测试
-        if (args[0] === 'co' || args.filter(item => item.indexOf('-') !== 0).length === 0) {
-          evnMap.exit && evnMap.exit();
-        } else {
-          evnMap.error && evnMap.error(new Error('testError'));
-        }
-      }, 10);
-      return retObj;
-    }
+
+  before( ()=> {
+    spawn = sinon.stub();
+    fieNpm = proxyquire('../lib/index', {
+      'cross-spawn': function (iter, args, opts) {
+        const evnMap = {};
+        const retObj = {
+          on(evn, fn) {
+            evnMap[evn] = fn;
+            return retObj;
+          }
+        };
+        setTimeout(() => {
+          spawn.apply(this, [iter, args, opts]);
+          // 下面测试用例中存在的包都有 co 来测试
+          if (args[0] === 'co' || args.filter(item => item.indexOf('-') !== 0).length === 0) {
+            evnMap.exit && evnMap.exit();
+          } else {
+            evnMap.error && evnMap.error(new Error('testError'));
+          }
+        }, 10);
+        return retObj;
+      }
+  } );
+
   });
 
   after(() => {

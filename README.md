@@ -1,9 +1,14 @@
 # FIE
 
-
+[![travis status][travis-image]][travis-url]
+[![codecov status][codecov-image]][codecov-url]
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
+[travis-image]: https://img.shields.io/travis/fieteam/fie.svg
+[travis-url]: https://travis-ci.org/fieteam/fie.svg?branch=master
+[codecov-image]: https://img.shields.io/codecov/c/github/fieteam/fie/master.svg
+[codecov-url]: https://codecov.io/gh/fieteam/fie
 [npm-image]: https://img.shields.io/npm/v/fie.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/fie
 [download-image]: https://img.shields.io/npm/dm/fie.svg?style=flat-square
