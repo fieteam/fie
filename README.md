@@ -27,6 +27,24 @@ $ npm install fie -g --registry=https://registry.npm.taobao.org
 
 注意：fie依赖 nodejs > 4.x 、 npm 环境，在安装fie时，请确保本机已安装了nodejs和npm
 
+## 文档
+
+* [使用者文档](docs/use-summary.md)
+	* [安装FIE](docs/use-install.md)
+	* [FIE命令详解](docs/use-cli.md)
+	* [使用FIE套件](docs/use-toolkit.md)
+	* [使用FIE插件](docs/use-plugin.md)
+* 开发者文档
+	* 开发环境安装
+	* FIE API
+	* 套件开发指南
+	* 插件开发指南
+* 参与FIE开发
+	* 开发环境安装
+	* FIE开发规范
+	* FIE代码规范
+* 常见问题
+
 ## 使用
 
 可在终端输入`$ fie -h` 查看fie使用帮助
