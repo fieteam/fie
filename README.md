@@ -1,5 +1,20 @@
 # FIE
 
+
+[![NPM version][npm-image]][npm-url]
+[![David deps][david-image]][david-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: https://img.shields.io/npm/v/fie.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/fie
+[david-image]: https://img.shields.io/david/fieteam/fie.svg?style=flat-square
+[david-url]: https://david-dm.org/fieteam/fie
+[snyk-image]: https://snyk.io/test/npm/fie/badge.svg?style=flat-square
+[snyk-url]: https://snyk.io/test/npm/fie
+[download-image]: https://img.shields.io/npm/dm/fie.svg?style=flat-square
+[download-url]: https://npmjs.org/package/fie
+
 > FIE 是由国际UED体验技术部开发的一款前端工程化工具，提供类似于yeoman的脚手架功能及插件体系。全方位覆盖前端开发过程中各个环节，让你开发更简单，过程更流畅,项目更可持续维护。
 
 

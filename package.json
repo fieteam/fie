@@ -10,11 +10,13 @@
     "ci-log:eslint": "ci-log -r eslint -p ./eslint.json",
     "lint": "./node_modules/eslint/bin/eslint.js --fix ./",
     "doc": "jsdoc -c conf.json  ./node_modules/ink-docstrap/template -R README.md -r",
+    "contributors" : "contributors",
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "co-mocha": "^1.1.3",
+    "contributors": "^0.5.1",
     "eslint": "^3.8.1",
     "eslint-config-ais": "0.0.16",
     "eslint-plugin-import": "^1.12.0",
