@@ -49,3 +49,4 @@ mods/.sass-cache/
 coverage
 # eslint reports
 eslint.json
+out
