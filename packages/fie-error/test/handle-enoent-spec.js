@@ -2,7 +2,6 @@
 
 const spawn = require('cross-spawn');
 const proxyquire = require('proxyquire');
-// const emptyLog = require('../../../test/fixtures/empty-log');
 
 
 let fieError;
@@ -17,14 +16,12 @@ const handleEnoent = proxyquire('../lib/handle-enoent', {
 });
 
 
-describe('#处理 ENOENT 的异常', (done) => {
-  it('#全局命令 fieoo 不存在', () => {
-    const result = spawn('fieoo', ['eee']);
-    result.on('error', (e) => {
-      handleEnoent(e);
-      expect(fieError).to.be.contain('tnpm install -g fieoo');
-      done();
-    });
+describe('#处理 ENOENT 的异常', () => {
+  it('#全局命令 fieoo 不存在', function*() {
+    const result = spawn.sync('fieoo', ['eee']);
+    yield handleEnoent(result.error);
+    expect(fieError).to.be.contain('tnpm install -g fieoo');
+
   });
 
   it('# ENOENT 本地文件相对路径', function* () {

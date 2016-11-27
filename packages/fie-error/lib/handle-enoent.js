@@ -12,7 +12,8 @@ module.exports = function* (e) {
   if (e.code !== 'ENOENT') {
     return false;
   }
-  const match = e.message.match(/spawn(.*)ENOENT/);
+  //目前可能的值有spawn xx ENOENT;spawnSync xx ENOENT
+  const match = e.message.match(/\s(.*)ENOENT/);
   if (match && match[0]) {
     const module = match[1].trim();
     const isIntranet = fieEnv.isIntranet();

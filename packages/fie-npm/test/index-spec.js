@@ -62,7 +62,7 @@ describe('# fie-npm', () => {
     it('# 安装多个包', function* () {
       yield fieNpm.install(['co', 'co-thread']);
       expect(spawn.args[0][1][0]).to.be.equals('co');
-      expect(spawn.args[0][1][1]).to.be.equals('co-thr2ead');
+      expect(spawn.args[0][1][1]).to.be.equals('co-thread');
       expect(spawn.callCount).to.be.equals(1);
     });
 

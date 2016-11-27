@@ -31,7 +31,7 @@ $ npm install fie -g --registry=https://registry.npm.taobao.org
 
 * [使用者文档](docs/use-summary.md)
 	* [安装FIE](docs/use-install.md)
-	* [FIE命令详解](docs/use-cli.md)
+	* [FIE基础命令详解](docs/use-cli.md)
 	* [使用FIE套件](docs/use-toolkit.md)
 	* [使用FIE插件](docs/use-plugin.md)
 * 开发者文档

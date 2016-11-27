@@ -30,7 +30,7 @@ $ npm install fie -g
 $ npm install fie -g --registry=https://registry.npm.taobao.org
 ```
 
-如果提示没有权限，请在前面加上 `sudo` 命令。
+注意：如果提示没有权限，请在前面加上 `sudo` 命令。
 
 验证是否安装成功，可以在命令行中执行以下命令，查看 FIE 的版本：
 
