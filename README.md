@@ -14,10 +14,10 @@
 [download-image]: https://img.shields.io/npm/dm/fie.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie
 
-> FIE 是由国际UED体验技术部开发的一款前端工程化工具，提供类似于yeoman的脚手架功能及插件体系。全方位覆盖前端开发过程中各个环节，让你开发更简单，过程更流畅,项目更可持续维护。
+> FIE 是由 国际UED-体验技术部开发 的一款前端工程化工具，提供类似于yeoman的脚手架功能及插件体系。全方位覆盖前端开发过程中各个环节，让你开发更简单，过程更流畅,项目更可持续维护。
 
 
-## 安装
+## Installation
 
 ```bash
 $ npm install fie -g --registry=https://registry.npm.taobao.org
@@ -27,13 +27,15 @@ $ npm install fie -g --registry=https://registry.npm.taobao.org
 
 注意：fie依赖 nodejs > 4.x 、 npm 环境，在安装fie时，请确保本机已安装了nodejs和npm
 
-## 文档
+## Docs
 
-* [使用者文档](docs/use-summary.md)
+* 使用者文档
+	* [FIE介绍](docs/use-summary.md)
 	* [安装FIE](docs/use-install.md)
 	* [FIE基础命令详解](docs/use-cli.md)
 	* [使用FIE套件](docs/use-toolkit.md)
 	* [使用FIE插件](docs/use-plugin.md)
+	* [FIE配置文件](docs/use-config.md)
 * 开发者文档
 	* 开发环境安装
 	* FIE API
@@ -45,7 +47,7 @@ $ npm install fie -g --registry=https://registry.npm.taobao.org
 	* FIE代码规范
 * 常见问题
 
-## 使用
+## Usage
 
 可在终端输入`$ fie -h` 查看fie使用帮助
 
@@ -69,7 +71,7 @@ fie 使用帮助:  $ fie [command] [options]
    -v, --version             显示fie版本
 ```
 
-### 快速开始
+### Quick start
 
 以[fie-toolkit-blue](https://www.npmjs.com/package/fie-toolkit-blue)套件为例，讲解开发流程。
 
@@ -102,10 +104,12 @@ fie 使用帮助:  $ fie [command] [options]
 	$ fie build
 	```	
 
-## 技术支持
+## Support
+
 1. 使用过程中遇到的相关问题，可在github上提相关的issues : https://github.com/fieteam/fie/issues/new
 2. 也可通过钉钉或旺旺联系：@擎空、@宇果
 
+## License
 
-
+[GNU GPLv3](LICENSE)
 

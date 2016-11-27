@@ -26,7 +26,7 @@ $ tnpm test
 // 测试通过后，提交代码，message 见下面的规范
 
 $ git add . // git add -u 删除文件
-$ git commit -m "修复fie start 时提示不正确的问题"
+$ git commit -m "fix: 修复fie start 时提示不正确的问题"
 $ git push origin branch-name
 ```
 

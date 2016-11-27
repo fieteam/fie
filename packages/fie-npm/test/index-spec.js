@@ -14,8 +14,7 @@ let fieNpm;
 let spawn;
 
 describe('# fie-npm', () => {
-
-  before( ()=> {
+  before(() => {
     spawn = sinon.stub();
     fieNpm = proxyquire('../lib/index', {
       'cross-spawn': function (iter, args, opts) {
@@ -37,8 +36,7 @@ describe('# fie-npm', () => {
         }, 10);
         return retObj;
       }
-  } );
-
+    });
   });
 
   after(() => {
@@ -105,7 +103,7 @@ describe('# fie-npm', () => {
   });
 
   // TODO citest跑不动
-  //describe('# has()', () => {
+  // describe('# has()', () => {
   //  it('# 存在该模块', function* () {
   //    const result = yield fieNpm.has('co');
   //    expect(result).to.be.equals(true);
@@ -115,5 +113,5 @@ describe('# fie-npm', () => {
   //    const result = yield fieNpm.has('this-is-a-not-exist-module');
   //    expect(result).to.be.equals(false);
   //  });
-  //});
+  // });
 });
