@@ -1,189 +1,70 @@
-# FIE基础命令详解
+# 使用FIE插件
 
-FIE提供了三类命令：
 
-0. FIE基础命令
-1. FIE套件固定命令
-2. FIE插件扩展命令
+## FIE插件介绍
 
-本文主要讲解FIE提供的基础命令，[FIE套件固定命令](docs/use-toolkit.md)及[FIE插件命令](docs/use-plugin.md)请跳转至对应的文档查看。
+FIE插件，是符合一定规则的 npm 模块，插件主要是用来扩展命令行，可以通过插件来增加 FIE 命令行的命令。**插件专注于某个比较单一的功能**，解决工作中零散、重复的任务。
 
-## 基础命令一览
+插件是对套件的一个补充，套件解决的是前端工作的主要生命周期，而套件无法覆盖到的地方，将由插件来补充。
 
-可在终端输入`$ fie -h` 查看fie使用帮助
+比如：在套件的源码打包与构建阶段(`fie build`)，套件的主要任务是将src目录的源码进行压缩、编译到build目录。而在这个过程中，可以同时使用一些辅助插件：
 
-```bash
-$ fie -h
+0. fie eslint 插件，可以在build的过程中做代码规范检测
+1. fie console 插件，可以检测源码中是否包含有console信息
+2. fie check 插件，可以检测dependencies中的依赖是否有新版本
 
-fie 使用帮助:  $ fie [command] [options]
+这些细小的功能点，本身具有业务通用性，不需要每个套件去实现一遍，将这些插件穿插在套件的生命周期中一起使用，相互配合，最终提高开发效率，改善开发体验。
 
-  $  fie                     # 显示fie帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
-  $  fie install [name]      # 安装fie模块
-  $  fie init [toolkitName]  # 初始化fie模块
-  $  fie update [name]       # 更新fie模块
-  $  fie uninstall [name]    # 安装删除fie模块
-  $  fie list [type]         # fie模块列表
-  $  fie ii                  # npm模块安装
-  $  fie clear               # 清空 fie 的本地缓存
-  $  fie switch              # 切换 fie 的开发环境
-  $  fie help                # 显示套件帮助信息
-  $  fie [name]              # 其他调用插件命令
+## 安装插件
 
- Options:
-
-   -h, --help                显示fie帮助信息
-   -v, --version             显示fie版本
-```
-
-## fie install [name]
-
-安装fie模块(套件及插件)。
+可以使用`fie install plugin-[pluginName]`命令进行插件的安装。当然，fie本身也会自动判断本地是否存在该插件，若不存在也会自动进行安装。
 
 ```bash
-$ fie install [name]
+# 安装console检测插件
+$ fie install plugin-console
 ```
 
-其中`name`表示fie的模块名称。套件名称格式为：`fie-{toolkit-name}`，插件名称格式为：`fie-{plugin-name}`，输入对应的名字即可安装。
 
-### 例子
+## 在命令行中使用
+
+插件的使用基本格式是：` fie [pluginName] [command]`
+
+其中：
+
+* `pluginName`为插件的名字，如`fie-plugin-console`插件，`pluginName`则是`console`
+* `command`为插件的具体命令，每个插件的命令可能不一样，需要看插件文档。
 
 ```bash
-# 安装聚星台套件
-$ fie install toolkit-blue
+# 使用console插件的detect命令
+$ fie console detect
 
-# 安装git操作插件
-$ fie install plugin-git
+# 使用console插件的strip命令
+$ fie console strip
 ```
 
-![](http://img3.tbcdn.cn/5476e8b07b923/TB19WHcOpXXXXbXaFXXXXXXXXXX)
+## 在配置文件中使用
 
+fie的插件可以在`fie.config.js`配置文件中使用。
 
+如下面的例子，在`fie build`命令中进行使用，执行`fie build`后，会先执行`fie console detect`命令的功能，再执行套件本身的`build`任务。
 
-## fie init [toolkitName]
+```js
+//fie.config.js
 
-初始化套件
+module.exports = {
 
-```bash
-$ fie init [toolkitName]
+  tasks : {
+    //省略其他配置...
+    build : [
+      {
+        // console检测
+        command : 'fie console detect'
+      }
+    ]
+  }
+};
 ```
 
-其中`toolkitName`表示套件的名字。一般的套件名格式为：`fie-toolkit-{toolkitName}`。如聚星台业务套件：[fie-toolkit-blue](https://github.com/fieteam/fie-toolkit-blue)，若要使用该套件可直接初始化：
-
-```bash
-$ fie init blue
-```
-
-执行该命令后，会自动判断本地是否已安装了该套件，若已安装则直接初始化；若未安装，则自动在电脑中进行安装，安装完后再进行初始化操作。
-
-### 例子
-
-```bash
-# 创建一个叫toolkit-demo的空文件夹，并进入该文件夹
-$ mkdir toolkit-demo && cd $_
-# 初始化聚星台套件
-$ fie init blue
-```
-
-[![](http://img3.tbcdn.cn/5476e8b07b923/TB1YRrIOpXXXXXIXVXXXXXXXXXX)](http://img3.tbcdn.cn/5476e8b07b923/TB1YRrIOpXXXXXIXVXXXXXXXXXX)
-
-## fie update [name]
-
-更新fie模块到最新版本。
-
-### 例子
-
-```bash
-# 更新聚星台套件到最新版本
-$ fie update toolkit-blue
-
-# 更新git操作插件到最新版本
-$ fie update plugin-git
-```
-
-## fie uninstall [name]
-
-删除fie模块。
-
-### 例子
-
-```bash
-# 删除聚星台套件
-$ fie uninstall toolkit-blue
-
-# 删除git操作插件
-$ fie uninstall plugin-git
-```
-
-## fie list [type]
-
-显示fie可用的模块列表。也可直接在npm上搜索 [fie-toolkit](https://www.npmjs.com/search?q=fie-toolkit) 和 [fie-plugin](https://www.npmjs.com/search?q=fie-plugin)
-
-其中 `type` 值为 `toolkit` 和 `plugin`。
-
-### 例子
-
-```bash
-# 显示fie所有模块
-$ fie list
-
-# 显示fie所有套件
-$ fie list toolkit
-
-# 显示fie所有插件
-$ fie list plugin
-```
-
-## fie ii
-
-npm模块安装，用于代替`npm install`命令，其用法与`npm install`一致。**强烈建议用`fie ii`代替`npm install`**。
-
-ii命令实际调用的是[npminstall](https://www.npmjs.com/package/npminstall)模块，主要是为了解决 `npm install`在国内安装速度过慢的问题。
-
-### 例子
-
-```bash
-# 在项目根目录执行，安装package.json中的模块依赖
-$ fie ii
-
-# 保存 co模块 到package.json中的dependencies字段
-$ fie ii co --save
-
-# 安装 4.2.0版本的 co模块
-$ fie ii co@4.2.0
-```
-
-更多用法可参考：[https://github.com/cnpm/npminstall/blob/master/README.md#npminstall-1](https://github.com/cnpm/npminstall/blob/master/README.md#npminstall-1)
-
-## fie clear
-
-清空fie本地缓存。
-
-当fie模块安装出现异常时，可使用该命令将fie的缓存目录进行初始化。初始化之后，**会清空fie安装过的所有fie模块，fie内外网配置文件**
-
-### 例子
-
-```bash
-# 清空fie本地缓存
-$ fie clear
-```
-
-## fie switch
-
-fie内外网切换。
-
-fie支持内网及外网两套开发环境。fie在外网环境下，只能安装开源且发布到npm上的模块；在内网环境下，只能安装和使用内网@ali 命名空间的fie模块。**两套环境相互隔离，无法相互调用。**
-
-输入`fie switch`命令后，会让其选择对应的环境。其中
-
-* **阿里内网环境**：阿里员工/可使用VPN登录阿里内网的用户
-* **外网环境**：ISV/无法访问阿里内网的用户
-
-```bash
-# 切换fie内外网环境
-$ fie switch
-```
-
-![](http://img3.tbcdn.cn/5476e8b07b923/TB154HrOpXXXXXKapXXXXXXXXXX)
 
 
 
