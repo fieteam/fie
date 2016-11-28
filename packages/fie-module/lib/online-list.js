@@ -22,11 +22,11 @@ function* onlineList(options) {
   options = Object.assign({}, {
     cache: true
   }, options);
+  const cacheKey = isIntranet ? utils.ONLINE_MODULE_CACHE_KEY_IN : utils.ONLINE_MODULE_CACHE_KEY_OUT;
 
+  log.debug('get online list from cache %o', cache.get(cacheKey));
 
-  log.debug('get online list from cache %o', cache.get(utils.ONLINE_MODULE_CACHE_KEY));
-
-  let moduleList = options.cache && cache.get(utils.ONLINE_MODULE_CACHE_KEY);
+  let moduleList = options.cache && cache.get(cacheKey);
   if (!moduleList) {
     moduleList = [];
   }
@@ -45,7 +45,7 @@ function* onlineList(options) {
           moduleList.push(item);
         }
       });
-      cache.set(utils.ONLINE_MODULE_CACHE_KEY, moduleList, {
+      cache.set(cacheKey, moduleList, {
         expries: 3600000
       });
     }

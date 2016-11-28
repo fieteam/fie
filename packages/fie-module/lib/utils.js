@@ -61,7 +61,8 @@ const utils = {
   pluginFullName,
   toolkitFullName,
   UPDATE_CHECK_PRE: 'fieModuleCheck_',
-  ONLINE_MODULE_CACHE_KEY: 'onlineModuleList'
+  ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
+  ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
 };
 
 module.exports = utils;
