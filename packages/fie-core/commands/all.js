@@ -78,9 +78,13 @@ module.exports = function* (command, cliArgs) {
 
   // -------------- 执行套件任务 ---------------
   let toolkitName = fieConfig.exist() ? (fieConfig.get('toolkit') || fieConfig.get('toolkitName')) : '';
-  toolkitName = fieModule.toolkitFullName(toolkitName);
-  const toolkitExist = toolkitName ? (fieModule.localExist(toolkitName) || fieModule.onlineExist(toolkitName)) : false;
-  const toolkit = toolkitExist ? yield fieModule.get(toolkitName) : null;
+  let toolkitExist;
+  let toolkit;
+  if (toolkitName) {
+    toolkitName = fieModule.toolkitFullName(toolkitName);
+    toolkitExist = toolkitName ? (fieModule.localExist(toolkitName) || fieModule.onlineExist(toolkitName)) : false;
+    toolkit = toolkitExist ? yield fieModule.get(toolkitName) : null;
+  }
 
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
   if (toolkit && toolkit.mod && toolkit.mod[command]) {

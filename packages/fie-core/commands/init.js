@@ -37,7 +37,6 @@ function* getName() {
     });
   };
 
-  console.log(localList, onlineList);
   onlineList.forEach((item) => {
     addChoice(item);
     onlineMap[item.name] = true;
@@ -80,7 +79,7 @@ module.exports = function* (args) {
   }
 
   // 排除那些以点开头的文件
-  const files = fs.readdirSync(cwd).filter(file => file.indexOf('.') !== 0);
+  const files = fs.readdirSync(cwd).filter(file => file !== '.' && file !== '..');
 
   if (files.length > 0) {
     log.warn('当前目录下已存在文件,继续执行初始化会覆盖已存在的同名文件');

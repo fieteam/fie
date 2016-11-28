@@ -108,7 +108,7 @@ describe('# fie-npm', () => {
   //    const result = yield fieNpm.has('co');
   //    expect(result).to.be.equals(true);
   //  });
-	//
+  //
   //  it('# 不存在该模块', function* () {
   //    const result = yield fieNpm.has('this-is-a-not-exist-module');
   //    expect(result).to.be.equals(false);
