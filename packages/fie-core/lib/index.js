@@ -10,6 +10,7 @@ const log = require('fie-log')('fie-core');
 const fieError = require('fie-error');
 const compatible = require('./compatible');
 const initEnv = require('./init-env');
+const core = require('./core')();
 
 /**
  *
@@ -19,9 +20,6 @@ const initEnv = require('./init-env');
  */
 function run(command, args) {
   co(function* () {
-    // fie核心命令
-    const core = ['init', 'list', 'install', 'uninstall', 'update', 'version', 'help', 'clear', 'ii', 'switch'];
-
     // fie 家目录存在性检查
     home.initHomeDir();
 

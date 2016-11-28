@@ -5,6 +5,8 @@ const argv = require('yargs').argv;
 const chalk = require('chalk');
 const log = require('fie-log')('fie-core');
 const fie = require('../lib/index');
+const core = require('../lib/core')();
+
 const effectiveUser = process.env.USER;
 const actualUser = process.env.SUDO_USER || process.env.USER;
 
@@ -22,7 +24,7 @@ if (!argv._.concat().pop() && (argv.v || argv.version)) {
   // 没有传入任何参数, 且有 -v 或 --version
   command = 'version';
 } else if (argv.help || argv.h) {
-  if (argv._.length === 1) {
+  if (argv._.length === 1 && core.indexOf(argv._[0]) === -1) {
     // 显示插件帮助信息
     command = argv._[0];
     newArgv = ['help'];

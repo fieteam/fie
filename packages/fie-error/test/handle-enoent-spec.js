@@ -20,7 +20,7 @@ describe('#处理 ENOENT 的异常', () => {
   it('#全局命令 fieoo 不存在', function* () {
     const result = spawn.sync('fieoo', ['eee']);
     yield handleEnoent(result.error);
-    expect(fieError).to.be.contain('tnpm install -g fieoo');
+    expect(fieError).to.be.contain('npm install -g fieoo');
   });
 
   it('# ENOENT 本地文件相对路径', function* () {
@@ -29,7 +29,7 @@ describe('#处理 ENOENT 的异常', () => {
       message: 'spawn node_modules/module/add.js ENOENT'
     });
 
-    expect(fieError).to.be.contain('tnpm install module');
+    expect(fieError).to.be.contain('npm install module');
   });
 
   it('# ENOENT 本地文件带点相对路径', function* () {
@@ -37,7 +37,7 @@ describe('#处理 ENOENT 的异常', () => {
       code: 'ENOENT',
       message: 'spawn ./node_modules/module/add.js ENOENT'
     });
-    expect(fieError).to.be.contain('tnpm install module');
+    expect(fieError).to.be.contain('npm install module');
   });
 
   it('# ENOENT 本地@ali文件 ', function* () {
@@ -45,7 +45,7 @@ describe('#处理 ENOENT 的异常', () => {
       code: 'ENOENT',
       message: 'spawn node_modules/@ali/module/cccccc.js ENOENT'
     });
-    expect(fieError).to.be.contain('tnpm install @ali/module');
+    expect(fieError).to.be.contain('npm install @ali/module');
   });
 
   it('# ENOENT 本地带点@ali文件 ', function* () {
@@ -53,7 +53,7 @@ describe('#处理 ENOENT 的异常', () => {
       code: 'ENOENT',
       message: 'spawn ./node_modules/@ali/module/cccccc.js ENOENT'
     });
-    expect(fieError).to.be.contain('tnpm install @ali/module');
+    expect(fieError).to.be.contain('npm install @ali/module');
   });
 
   it('# ENOENT 本地@alife文件 ', function* () {
@@ -61,7 +61,7 @@ describe('#处理 ENOENT 的异常', () => {
       code: 'ENOENT',
       message: 'spawn ./node_modules/@alife/module/cccccc.js ENOENT'
     });
-    expect(fieError).to.be.contain('tnpm install @alife/module');
+    expect(fieError).to.be.contain('npm install @alife/module');
   });
 
   it('# ENOENT 全局文件 ', function* () {
@@ -70,7 +70,7 @@ describe('#处理 ENOENT 的异常', () => {
       message: 'spawn module ENOENT'
     });
 
-    expect(fieError).to.be.contain('tnpm install -g module');
+    expect(fieError).to.be.contain('npm install -g module');
   });
 });
 
