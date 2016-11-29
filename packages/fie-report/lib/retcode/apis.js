@@ -8,6 +8,7 @@
 
 'use strict';
 
+
 module.exports = function (wpo, undef) {
   let startTime,
     scriptStart;

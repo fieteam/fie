@@ -15,6 +15,7 @@ const path = require('path');
 const FILE_ENV = 'fie.env.json';
 let cacheEnv = null;
 
+
 /**
  * 设置FIE的运行环境,设置成功后写入到FILE_ENV文件里
  * @param {('extranet'|'intranet')} env - 内外网环境变量,枚举可选的值有:extranet / intranet

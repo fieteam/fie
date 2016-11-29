@@ -13,6 +13,7 @@ const actualUser = process.env.SUDO_USER || process.env.USER;
 let command;
 let newArgv = [];
 
+
 // 禁止 sudo 执行 fie 命令
 if (effectiveUser === 'root' && actualUser !== 'root') {
   log.error('请勿使用 sudo 执行 fie ，以免污染文件权限。fie 将退出！');

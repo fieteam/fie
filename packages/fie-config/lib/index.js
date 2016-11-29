@@ -15,6 +15,7 @@ const astAnalyze = require('./ast-analyze');
 const CONFIG_FILE = 'fie.config.js';
 const CWD = process.cwd();
 
+
 const fieConfig = {
 
   /**

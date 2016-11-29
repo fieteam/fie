@@ -13,6 +13,7 @@ const home = require('fie-home');
 
 const cacheFile = path.resolve(home.getHomePath(), 'cache.json');
 
+
 /**
  * @exports fie-cache
  */
