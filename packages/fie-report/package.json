@@ -2,7 +2,7 @@
   "name": "fie-report",
   "main": "lib/index.js",
   "description": "fie report to retcode",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "keywords": [
     "nodejs",
     "fie-report",
@@ -28,9 +28,9 @@
   ],
   "readmeFilename": "README.md",
   "dependencies": {
-    "fie-home": "^1.2.0",
-    "fie-user": "^1.2.0",
-    "fie-env": "^1.2.0",
-    "fie-cache": "^1.2.0"
+    "fie-home": "^1.3.0",
+    "fie-user": "^1.3.0",
+    "fie-env": "^1.3.0",
+    "fie-cache": "^1.3.0"
   }
 }
