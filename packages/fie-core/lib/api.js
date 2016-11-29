@@ -31,8 +31,9 @@ const apiList = {
   getFieModule(name, cb) {
     return new Promise((resolve, reject) => {
       co(function* () {
-        const moduleInfo = yield fieModule.get(name);
-        typeof cb === 'function' && cb(null, moduleInfo.mod, moduleInfo.options);
+        const mod = yield fieModule.get(name);
+        const pkg = yield fieModule.get(`${name}/package.json`);
+        typeof cb === 'function' && cb(null, mod, pkg);
         resolve(moduleInfo);
       }).catch((err) => {
         reject(err);

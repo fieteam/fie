@@ -37,7 +37,7 @@ function* runPlugin(name, cliArgs) {
     const plugin = yield fieModule.get(name);
     log.debug(' 插件信息 %o', plugin);
     yield fieTask.runFunction({
-      method: plugin.mod,
+      method: plugin,
       args: [fieObject, {
         clientArgs: cliArgs,
         clientOptions: argv
@@ -87,7 +87,7 @@ module.exports = function* (command, cliArgs) {
   }
 
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
-  if (toolkit && toolkit.mod && toolkit.mod[command]) {
+  if (toolkit && toolkit[command]) {
     log.debug(`找到套件 ${toolkitName} 对应的 ${command} 方法`);
     fieObject = api.getApi(toolkitName);
     if (command === 'add') {
@@ -95,7 +95,7 @@ module.exports = function* (command, cliArgs) {
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';
     }
     yield fieTask.runFunction({
-      method: toolkit.mod[command],
+      method: toolkit[command],
       args: [fieObject, {
         clientArgs: cliArgs,
         clientOptions: argv
