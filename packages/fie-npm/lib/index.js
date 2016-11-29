@@ -9,7 +9,6 @@ const request = require('co-request');
 const fieEnv = require('fie-env');
 
 
-
 const isIntranet = fieEnv.isIntranet();
 const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
 
