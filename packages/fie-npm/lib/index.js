@@ -63,7 +63,7 @@ module.exports = {
    * @param options
    */
   * install(pkg, options) {
-    const installer = path.resolve(__dirname, '../node_modules/.bin/npminstall');
+    const installer = require.resolve('npminstall/bin/install.js');
     yield runInstall(installer, pkg, options);
   },
 
@@ -71,7 +71,7 @@ module.exports = {
    * 移除npm包
    */
   * unInstall(pkg, options) {
-    const installer = path.resolve(__dirname, '../node_modules/.bin/npmuninstall');
+    const installer = require.resolve('npminstall/bin/uninstall.js');
     yield runInstall(installer, pkg, options);
   },
 
@@ -79,7 +79,7 @@ module.exports = {
    * 安装package.json 中的依赖
    */
   * installDependencies(options) {
-    const installer = path.resolve(__dirname, '../node_modules/.bin/npminstall');
+    const installer = require.resolve('npminstall/bin/install.js');
     yield runInstall(installer, [], options);
   },
 
