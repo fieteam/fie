@@ -18,7 +18,7 @@ const cwd = process.cwd();
 function* runInit(name) {
   const moduleInfo = yield fieModule.get(name);
   yield task.runFunction({
-    method: moduleInfo.mod.init,
+    method: moduleInfo.init,
     args: [api.getApi(name), {}]
   });
 }
