@@ -1,60 +1,84 @@
 'use strict';
 
 const debug = require('debug')('fie-npm');
+const spawn = require('cross-spawn');
 const _ = require('lodash');
+const dargs = require('dargs');
 const request = require('co-request');
 const fieEnv = require('fie-env');
-const npminstall = require('npminstall');
 
 
 const isIntranet = fieEnv.isIntranet();
 const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
 
-/**
- * 安装包
- * @param pkg {array} 需要安装的包列表, [{name: 'foo', version: '~1.0.0' }], 为空则安装 package.json 依赖
- * @param options
- */
-function* runInstall(options) {
-  debug('options = %o', options);
-  options.root = options.cwd;
-  options = _.defaults(options || {}, {
-    registry,
-    root: process.cwd()
-  });
 
-  yield npminstall(options);
+function* runInstall(installer, paths, options) {
+  debug('installer = %s', installer);
+  // npm默认值
+  const option = _.defaults(options || {}, {
+    registry,
+    china: true,
+    stdio: 'inherit',
+    cwd: process.cwd()
+  });
+  // 将pkg进行扁平化
+  if (!Array.isArray(paths) && paths) {
+    paths = paths.split(' ') || [];
+  }
+
+
+  // TODO 确认一下是不是这样用法
+  const args = paths.concat(dargs(option, {
+    aliases: {
+      S: '-save',
+      D: '-save-dev',
+      O: '-save-optional',
+      E: '-save-exact'
+    }
+  }));
+  debug('args = %o', args);
+  debug('options = %o', option);
+  return new Promise((resolve, reject) => {
+    spawn(installer, args, option)
+      .on('error', (e) => {
+        reject(e);
+      })
+      .on('exit', (err) => {
+        if (err) {
+          reject(new Error(`install ${paths} error`));
+        } else {
+          resolve();
+        }
+      });
+  });
 }
 
 module.exports = {
 
   /**
    * 安装npm 包
-   * @param pkg {string}
+   * @param pkg
    * @param options
    */
   * install(pkg, options) {
-    options.pkgs = [{
-      name: pkg
-    }];
-    yield runInstall(options);
+    const installer = require.resolve('npminstall/bin/install.js');
+    yield runInstall(installer, pkg, options);
   },
 
   /**
    * 移除npm包
    */
   * unInstall(pkg, options) {
-    options.pkgs = [{
-      name: pkg
-    }];
-    yield runInstall(options);
+    const installer = require.resolve('npminstall/bin/uninstall.js');
+    yield runInstall(installer, pkg, options);
   },
 
   /**
    * 安装package.json 中的依赖
    */
   * installDependencies(options) {
-    yield runInstall(options);
+    const installer = require.resolve('npminstall/bin/install.js');
+    yield runInstall(installer, [], options);
   },
 
   /**
