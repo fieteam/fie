@@ -12,6 +12,11 @@ const utils = require('./utils');
 
 
 function* get(name) {
+  let returnPkg = false;
+  if (/\/package\.json$/.test(name)){
+    name = name.replace('/package.json', '');
+    returnPkg = true;
+  }
   name = utils.fullName(name);
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
@@ -46,12 +51,8 @@ function* get(name) {
     yield installOne(name);
   }
   const pkg = fs.readJsonSync(pkgPath);
-  const fieOptions = Object.assign({}, { version: pkg.version }, pkg.fieOption);
   const mod = require(modulePath);
-  return {
-    mod,
-    options: fieOptions
-  };
+  return returnPkg? pkg: mod;
 }
 
 module.exports = get;
