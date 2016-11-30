@@ -1,6 +1,7 @@
-/**
+/*
+/!**
  * fie-npm 测试，本测试基于信任 cross-spawn 及 npminstall 的基础上，只对自身逻辑代码进行检测
- */
+ *!/
 
 'use strict';
 
@@ -102,16 +103,17 @@ describe('# fie-npm', () => {
     });
   });
 
-  // TODO citest跑不动
-  // describe('# has()', () => {
-  //  it('# 存在该模块', function* () {
-  //    const result = yield fieNpm.has('co');
-  //    expect(result).to.be.equals(true);
-  //  });
-  //
-  //  it('# 不存在该模块', function* () {
-  //    const result = yield fieNpm.has('this-is-a-not-exist-module');
-  //    expect(result).to.be.equals(false);
-  //  });
-  // });
+   TODO citest跑不动
+   describe('# has()', () => {
+    it('# 存在该模块', function* () {
+      const result = yield fieNpm.has('co');
+      expect(result).to.be.equals(true);
+    });
+
+    it('# 不存在该模块', function* () {
+      const result = yield fieNpm.has('this-is-a-not-exist-module');
+      expect(result).to.be.equals(false);
+    });
+   });
 });
+*/

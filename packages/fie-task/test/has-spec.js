@@ -1,6 +1,5 @@
 'use strict';
 
-const proxyquire = require('proxyquire');
 const has = require('../lib/has');
 
 describe('# has 判断是否有任务', () => {
@@ -32,7 +31,7 @@ describe('# has 判断是否有任务', () => {
     const tasks1 = [{
       command: 'echo 1'
     }];
-    
+
     const res1 = has(tasks1, 'before');
     const res2 = has(tasks1, 'after');
 

@@ -11,7 +11,6 @@ const installOne = require('./install-one');
 const utils = require('./utils');
 
 
-
 function* get(name) {
   name = utils.fullName(name);
   const modulePath = path.resolve(home.getModulesPath(), name);

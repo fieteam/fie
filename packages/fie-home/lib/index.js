@@ -12,7 +12,6 @@ const fs = require('fs-extra');
 const userHome = require('os-homedir')();
 
 
-
 /**
  * @exports fie-home
  */

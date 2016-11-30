@@ -33,10 +33,12 @@ function run(command, args) {
       // node环境判断, 小于4.x 就退出
       compatible.checkNode();
 
+      log.debug('进入套件,插件分支');
       const runner = require('../commands/all');
 
       yield runner.apply(this, [command, args]);
     } else {
+      log.debug('进入核心命令分支');
       // init, install, install, uninstall, update ,version 等命令
       // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
       yield require(`../commands/${command}`).apply(null, [args]);
