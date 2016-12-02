@@ -16,7 +16,7 @@
 
 fie 数据缓存模块, 可以用来存储用户常用数据,支持有效期设置
 
-## 安装
+## Installation
 
 ```
 npm install fie-cache --save
@@ -40,10 +40,15 @@ npm install fie-cache --save
 - options `{object}`
 - options.expries `{number}` 缓存时间,毫秒为单位,如: 1小时 => 3600000
 
-## 支持
+### clear
+
+> 清除所有缓存
+
+
+## Support
 
 使用过程中遇到的相关问题，及BUG反馈，可联系: 擎空 <zernmal@foxmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)
 
-## 证书
+## License
 
 [GNU GPLv3](LICENSE)

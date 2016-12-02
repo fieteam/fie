@@ -13,7 +13,7 @@ const utils = require('./utils');
 
 function* get(name) {
   let returnPkg = false;
-  if (/\/package\.json$/.test(name)){
+  if (/\/package\.json$/.test(name)) {
     name = name.replace('/package.json', '');
     returnPkg = true;
   }
@@ -52,7 +52,7 @@ function* get(name) {
   }
   const pkg = fs.readJsonSync(pkgPath);
   const mod = require(modulePath);
-  return returnPkg? pkg: mod;
+  return returnPkg ? pkg : mod;
 }
 
 module.exports = get;

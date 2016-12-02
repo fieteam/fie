@@ -70,5 +70,12 @@ module.exports = {
 
     fs.outputJsonSync(cacheFile, data);
     return true;
+  },
+
+  /**
+   * 清除所有的缓存
+   */
+  clear() {
+    fs.removeSync(cacheFile);
   }
 };

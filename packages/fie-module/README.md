@@ -28,17 +28,20 @@ npm install fie-module --save
 
 > `异步方法`, 获取 fie 模块, 需要运行插件和套件都用这个方法来先获取, 如果本地尚示安装, 会自动进行安装,然后返回模块
 
-- name `{string}` 模块名
+- name `{string}` 模块名, 若需要获取 package.json 信息可以直接在模块名后面跟上  `/package.json`
 - return: `{object}` modInfo 模块对象, modInfo.mod 模块对象, modInfo.options 模块的设置项.
 
 ```
 // 名字会自动补齐
-const modInfo = yield fieModule.get('toolkit-blue');
-// fieObj 为向下兼容的 
-// modInfo.mod 获取插件时是一个函数 ，获取套件时是一个对象，下面挂载几个命令对应的函数
-yield modInfo.mod.build(fieObj, {
+const blue = yield fieModule.get('toolkit-blue');
+// blue 为blue套件时是一个对象，下面挂载几个命令对应的函数
+yield blue.build(fieObj, {
   clientArgs: ['index']
 });
+
+// 获取模块手 package.json 信息
+const pkg = yield fieModule.get('toolkit-blue/package.json');
+console.log(pkg.fieOptions);
 ```
 
 ### localList([type])
