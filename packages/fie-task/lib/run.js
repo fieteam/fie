@@ -106,12 +106,9 @@ function getHookParam(command) {
  */
 function* run(options) {
   // 筛选出对应的任务
-  const noop = () => {
-  };
   const tasks = options.tasks || [];              // 任务流
   const when = options.when || 'before';          // 前置任务还是后置,默认是前置任务
   const args = options.args || [];                // 任务流传进来的参数
-  const next = options.next || noop;              // 进入下一个task
   const command = options.command || '';          // 运行的命令
   const newTasks = utils.classify(tasks)[when];
   const hookParam = getHookParam(command);
@@ -135,7 +132,6 @@ function* run(options) {
   }
 
   log.success(`${command}${(when === 'after' ? '后置' : '前置')}任务执行成功`);
-  next();
 }
 
 module.exports = run;

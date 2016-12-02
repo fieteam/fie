@@ -3,34 +3,34 @@
 const proxyquire = require('proxyquire');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-describe('# run 执行任务', () => {
-  let tmpString = '';
-  let envYyy = '';
-  const spy1 = sinon.spy((arg1, next) => {
-    tmpString += 'a';
-    next();
-  });
-  const spy2 = sinon.spy();
-  const spy3 = sinon.spy((next) => {
-    tmpString += 'c';
-    next();
-  });
-  const spawnStub = function () {
-    envYyy = process.env.yyy;
-    return {
-      on(event, cb) {
-        if (event === 'close') {
-          cb(0);
-        }
+let tmpString = '';
+let envYyy = '';
+const spy1 = sinon.spy((arg1, next) => {
+  tmpString += 'a';
+  next();
+});
+const spy2 = sinon.spy();
+const spy3 = sinon.spy((next) => {
+  tmpString += 'c';
+  next();
+});
+const spawnStub = function () {
+  envYyy = process.env.yyy;
+  return {
+    on(event, cb) {
+      if (event === 'close') {
+        cb(0);
       }
-    };
+    }
   };
-  const spawn = sinon.spy(spawnStub);
-  const run = proxyquire('../lib/run', {
-    'fie-log': emptyLog,
-    'cross-spawn': spawn
-  });
+};
+const spawn = sinon.spy(spawnStub);
+const run = proxyquire('../lib/run', {
+  'fie-log': emptyLog,
+  'cross-spawn': spawn
+});
 
+describe('# run 执行任务', () => {
   afterEach(() => {
     spy1.reset();
     spy2.reset();
@@ -62,11 +62,9 @@ describe('# run 执行任务', () => {
       }, {
         command: 'testCommand2'
       }],
-      next() {
-        tmpString += 'c';
-      },
       args: ['testArg']
     });
+    tmpString += 'c';
 
     expect(spy1.callCount).to.be.equal(1);
     spy1.should.calledWith('testArg');
@@ -102,12 +100,10 @@ describe('# run 执行任务', () => {
       }, {
         command: 'testCommand1'
       }],
-      next() {
-        tmpString += 'c';
-      },
       args: ['testArg'],
       when: 'after'
     });
+    tmpString += 'c';
 
     expect(spy1.callCount).to.be.equal(1);
     expect(spy1.calledWith('testArg')).to.be.equal(true);
@@ -127,11 +123,9 @@ describe('# run 执行任务', () => {
       }, {
         command: 'testCommand1'
       }],
-      next() {
-        tmpString += 'c';
-      },
       args: ['testArg']
     });
+    tmpString += 'c';
 
     expect(spy1.callCount).to.be.equal(1);
     expect(spy1.calledWith('testArg')).to.be.equal(true);
@@ -158,11 +152,9 @@ describe('# run 执行任务', () => {
           tmpString += 'b';
           next();
         }
-      }],
-      next() {
-        tmpString += 'c';
-      }
+      }]
     });
+    tmpString += 'c';
 
     // 异步测试写法
     return new Promise((resolve) => {
