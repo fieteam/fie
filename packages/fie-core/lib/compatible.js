@@ -33,8 +33,8 @@ function* updateTip() {
   console.log('\n');
   log.warn(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   升级提示  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
   log.warn(`FIE推荐的版本是 ${chalk.green.bold(latest.version)} , 本地版本是 ${current.version}, 建议升级后再使用,保证功能的稳定性`);
-  log.warn(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(` tnpm install ${current.name} -g `)} 来升级FIE`);
-  log.warn(`如果提示没有权限，请尝试 sudo tnpm install ${current.name} -g`);
+  log.warn(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(` npm install ${current.name} -g `)} 来升级FIE`);
+  log.warn(`如果提示没有权限，请尝试 sudo npm install ${current.name} -g`);
   log.warn(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
   console.log('\n');
 }
