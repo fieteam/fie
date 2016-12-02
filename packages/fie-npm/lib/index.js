@@ -11,7 +11,12 @@ const fieEnv = require('fie-env');
 const isIntranet = fieEnv.isIntranet();
 const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
 
-
+/**
+ * 安装 npm 包
+ * @param installer {string} 安装工具路径
+ * @param paths {string|array} 需要安装的包或包列表,需要带版本号直接在包名后面 @ 版本号即可, 留空安装当前目录下的 package.json 依赖
+ * @param options
+ */
 function* runInstall(installer, paths, options) {
   debug('installer = %s', installer);
   // npm默认值
@@ -54,10 +59,9 @@ function* runInstall(installer, paths, options) {
 }
 
 module.exports = {
-
   /**
-   * 安装npm 包
-   * @param pkg
+   * 安装 npm 包
+   * @param pkg {string|array} 需要安装的包或包列表, 需要带版本号直接在包名后面 @ 版本号即可
    * @param options
    */
   * install(pkg, options) {
@@ -100,7 +104,6 @@ module.exports = {
       // 返回数据出错
       body = null;
     }
-
     return body;
   },
 
@@ -120,6 +123,4 @@ module.exports = {
     });
     return /4\d\d/.test(res.statusCode) === false;
   }
-
-
 };

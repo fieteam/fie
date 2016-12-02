@@ -10,6 +10,11 @@ function* installOne(name, options) {
     type: 'install'
   }, options);
   name = utils.fullName(name);
+  if (!/^.+@.+$/.test(name)) {
+    // 没事版本号
+    name += '@latest';
+  }
+  log.debug(`开始安装 ${name}`);
   yield npm.install(name, {
     cwd: home.getHomePath()
   });

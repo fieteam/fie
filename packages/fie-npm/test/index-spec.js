@@ -1,7 +1,6 @@
-/*
-/!**
+/**
  * fie-npm 测试，本测试基于信任 cross-spawn 及 npminstall 的基础上，只对自身逻辑代码进行检测
- *!/
+ */
 
 'use strict';
 
@@ -23,7 +22,7 @@ describe('# fie-npm', () => {
         const retObj = {
           on(evn, fn) {
             evnMap[evn] = fn;
-            return retObj;
+            return this;
           }
         };
         setTimeout(() => {
@@ -80,7 +79,6 @@ describe('# fie-npm', () => {
   });
 
   describe('# uninstall()', () => {
-    // todo 这里没有完整测试
     it('# 成功删除一个存在的包', function* () {
       yield fieNpm.unInstall('co');
       expect(spawn.args[0][1][0]).to.be.equals('co');
@@ -103,8 +101,8 @@ describe('# fie-npm', () => {
     });
   });
 
-   TODO citest跑不动
-   describe('# has()', () => {
+   // TODO citest跑不动
+   /* describe('# has()', () => {
     it('# 存在该模块', function* () {
       const result = yield fieNpm.has('co');
       expect(result).to.be.equals(true);
@@ -114,6 +112,5 @@ describe('# fie-npm', () => {
       const result = yield fieNpm.has('this-is-a-not-exist-module');
       expect(result).to.be.equals(false);
     });
-   });
+   });*/
 });
-*/
