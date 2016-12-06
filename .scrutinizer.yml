@@ -1,0 +1,9 @@
+checks:
+    javascript:
+        no_var: true
+        no_implicit_undefined_return: true
+        no_else_return: true
+        eqeqeq: true
+        no_param_assign: true
+
+build: true
