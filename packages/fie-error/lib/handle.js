@@ -25,6 +25,7 @@ const innerList = [
 function handle(e) {
   co(function* () {
     log.debug('error code = %s', e.code);
+    log.debug('error message = %o',e);
 
     const handList = utils.getHandleList().concat(innerList);
 
