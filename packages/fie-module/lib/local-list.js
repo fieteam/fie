@@ -18,8 +18,7 @@ const fieModulesPath = home.getModulesPath();
 function localList(options) {
   options = options || {};
   const moduleCwd = isIntranet ? path.resolve(fieModulesPath, '@ali') : fieModulesPath;
-
-  let modules = globby.sync([
+  const modules = globby.sync([
     'fie-plugin-*',
     'fie-plugin-*',
     'fie-toolkit-*',
@@ -29,20 +28,24 @@ function localList(options) {
   ], {
     cwd: moduleCwd
   });
+  let modulePkgs = [];
 
-  modules = modules.map((item) => {
-    const modPkg = fs.readJsonSync(path.resolve(moduleCwd, item, 'package.json'));
-    return {
-      name: modPkg.name,
-      description: modPkg.description
-    };
+  modules.forEach((item) => {
+    const pkgPath = path.resolve(moduleCwd, item, 'package.json');
+    if (fs.existsSync(pkgPath)) {
+      const modPkg = fs.readJsonSync(pkgPath);
+      modulePkgs.push({
+        name: modPkg.name,
+        description: modPkg.description
+      });
+    }
   });
 
-  modules = options.type ? utils.moduleFilter(modules, options.type) : modules;
+  modulePkgs = options.type ? utils.moduleFilter(modulePkgs, options.type) : modulePkgs;
 
-  log.debug('所有本地模块: %o', modules);
+  log.debug('所有本地模块: %o', modulePkgs);
 
-  return modules;
+  return modulePkgs;
 }
 
 

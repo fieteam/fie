@@ -28,6 +28,10 @@ _.templateSettings = utils.templateSettings;
  * @param {string} options.dist 绝对路径
  * @param {string} options.data
  * @param {array} options.ignore 数组, 类似 gitignore 的写法
+ * @param {object} options.templateSettings, 默认是 { evaluate: /<{%([\s\S]+?)%}>/g,
+ *                                                   interpolate: /<{%=([\s\S]+?)%}>/g,
+*                                                    escape: /<{%-([\s\S]+?)%}>/g
+*                                                  }
  * @example
  * options.src 绝对路径
  * options.dist 绝对路径
@@ -105,7 +109,7 @@ function copyDirectory(options) {
 
   // 开发者可以自定义模板标签类型
   if (options.templateSettings) {
-    _.templateSettings = _.extend(_.templateSettings, options.templateSettings);
+    _.templateSettings = Object.assign({}, _.templateSettings, options.templateSettings);
   }
 
   recursiveDir(options.src, options.dist);

@@ -15,6 +15,7 @@ const config = require('fie-config');
 const npm = require('fie-npm');
 const report = require('fie-report');
 const fs = require('fie-fs');
+const user = require('fie-user');
 const argv = require('yargs').argv;
 
 
@@ -65,7 +66,9 @@ const apiList = {
 
   getModuleConfig(key) {
     key = key || 'toolkitConfig';
-    return Object.assign({}, argv, config.get(key));
+    const u = user.getUser();
+    u.author = u.name;
+    return Object.assign({}, argv, config.get(key), u);
   },
 
   setModuleConfig: config.set,

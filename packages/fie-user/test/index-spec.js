@@ -57,7 +57,7 @@ describe('fie-user获取用户信息', () => {
     expect(userInfo.email).to.be.equals('');
   });
 
-  it('正常获得user获取用户信息:', () => {
+  it('正常获得user获取用户信息', () => {
     const userInfo = fieUser4.getUser();
     expect(userInfo).to.be.an('object');
     expect(userInfo.name).to.be.equal('fie.test.user');
