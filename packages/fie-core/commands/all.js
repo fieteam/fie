@@ -46,6 +46,8 @@ function* runPlugin(name, cliArgs) {
         if (typeof plugin[pluginCmd] === 'function') {
           method = plugin[pluginCmd];
         }
+      } else if (typeof plugin.default === 'function') {
+        method = plugin.default;
       }
     }
     if (!method) {
