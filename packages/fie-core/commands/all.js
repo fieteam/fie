@@ -35,9 +35,25 @@ function* runPlugin(name, cliArgs) {
 
   if (exist) {
     const plugin = yield fieModule.get(name);
+    let method;
+    let pluginCmd = '';
     log.debug(' 插件信息 %o', plugin);
+    if (typeof plugin === 'function') {
+      method = plugin;
+    } else if (typeof plugin === 'object') {
+      if (cliArgs.length) {
+        pluginCmd = cliArgs.shift();
+        if (typeof plugin[pluginCmd] === 'function') {
+          method = plugin[pluginCmd];
+        }
+      }
+    }
+    if (!method) {
+      log.error(`未找到 ${name} 插件对应的命令 ${pluginCmd}`);
+      return;
+    }
     yield fieTask.runFunction({
-      method: plugin,
+      method,
       args: [fieObject, {
         clientArgs: cliArgs,
         clientOptions: argv
