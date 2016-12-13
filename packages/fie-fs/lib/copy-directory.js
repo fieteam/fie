@@ -30,20 +30,8 @@ _.templateSettings = utils.templateSettings;
  * @param {array} options.ignore 数组, 类似 gitignore 的写法
  * @param {object} options.templateSettings, 默认是 { evaluate: /<{%([\s\S]+?)%}>/g,
  *                                                   interpolate: /<{%=([\s\S]+?)%}>/g,
-*                                                    escape: /<{%-([\s\S]+?)%}>/g
-*                                                  }
- * @example
- * options.src 绝对路径
- * options.dist 绝对路径
- * options.data
- * options.ignore 数组, 类似 gitignore 的写法
- * options.stringReplace 数组 , 将文件里面匹配到的字符串替换掉,如 [ { placeholder: 'PLACEHOLDER', value: 'theReplaceValue' } ]
- * options.filenameTransformer 函数, 文件名转换函数列表
- * options.templateSettings   详细使用请查看 underscore 的templateSettings, 默认为: {
- *                                                                     evaluate: /<{%([\s\S]+?)%}>/g,
- *                                                                      interpolate: /<{%=([\s\S]+?)%}>/g,
- *                                                                      escape: /<{%-([\s\S]+?)%}>/g                                                         }
- * options.encoding   默认 utf-8
+ *                                                    escape: /<{%-([\s\S]+?)%}>/g
+ *                                                  }
  */
 
 function copyDirectory(options) {

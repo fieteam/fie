@@ -73,7 +73,20 @@ const apiList = {
 
   setModuleConfig: config.set,
 
-  dirCopy: fs.copyDirectory,
+  dirCopy(options) {
+    // 向下兼容一些错误的写法
+    const oldStringReplace = options.sstrReplace || options.sstrRpelace;
+    if (oldStringReplace && oldStringReplace.length) {
+      options.stringReplace = [];
+      oldStringReplace.forEach((item) => {
+        options.stringReplace.push({
+          placeholder: item.str,
+          value: item.replacer
+        });
+      });
+    }
+    fs.copyDirectory(options);
+  },
 
   fileCopy: fs.copyTpl,
 
