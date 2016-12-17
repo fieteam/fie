@@ -80,12 +80,12 @@ const rewriteFile = (options) => {
     srcMode: 0 // 0 src是文件路径, 1 src 是文件内容
   }, options);
 
+  log.debug('options = %o',options);
+
   if (options.src === '') {
     log.error('文件路径不能为空');
     return content;
   }
-
-  log.debug('关键点debug');
 
   if (options.srcMode === 0) {
     if (!fs.statSync(options.src).isFile()) {
