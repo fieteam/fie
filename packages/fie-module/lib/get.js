@@ -36,12 +36,19 @@ function* get(name) {
             // 自动更新
             log.info(`${name} 设置了自动更新,正在执行更新操作...`);
             yield installOne(name, {
-              type: 'update'
+              type: 'update',
+              localPkg,
+              lastPkg
             });
           } else {
             // 更新提示
             const shortName = name.replace('@ali/', '').replace('fie-', '');
             log.warn(`${name} 的最新版本为 ${lastPkg.version}, 您可以执行 fie install ${shortName} 进行更新`);
+            utils.updateLog(name, {
+              localPkg,
+              lastPkg,
+              level: 'warn'
+            });
           }
         }
       }

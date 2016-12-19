@@ -1,6 +1,8 @@
 'use strict';
 
+const semver = require('semver');
 const env = require('fie-env');
+const log = require('fie-log')('fie-module');
 
 const isIntranet = env.isIntranet();
 
@@ -40,6 +42,51 @@ function pluginFullName(name) {
   return isIntranet ? `@ali/${full}` : full;
 }
 
+/**
+ * 版本更新日志打印
+ * @param name
+ * @param opt
+ * @param opt.localPkg
+ * @param opt.lastPkg
+ * @param opt.level
+ */
+function updateLog(name, opt) {
+  const ulog = log[opt.level || 'success'];
+  let pre = '';
+  let localVersion = '';
+  const lastVersion = opt.lastPkg.version;
+
+  if (opt.localPkg && opt.localPkg.version !== lastVersion) {
+    localVersion = opt.localPkg.version;
+    pre = `从 ${localVersion} 升级至 ${lastVersion}`;
+  } else {
+    pre = `${lastVersion} 版本`;
+    localVersion = lastVersion;
+  }
+
+  if (opt.lastPkg.changeLog) {
+    const changeLog = opt.lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
+    ulog(`${name} ${pre}包含以下更新:`);
+    changeLog.forEach(item => {
+      if (!item.log || !item.log.length) {
+        return;
+      }
+      if (lastVersion === localVersion) {
+        if (item.version !== lastVersion) {
+          return;
+        }
+      } else if (!semver.lte(item.version, lastVersion) || !semver.gt(item.version, localVersion)) {
+        return;
+      }
+
+      // 显示未更新的这几个版本log
+      item.log.forEach(itemLog => {
+        ulog(` --${itemLog}`);
+      });
+    });
+  }
+}
+
 
 const utils = {
   moduleFilter(list, type) {
@@ -63,6 +110,7 @@ const utils = {
   UPDATE_CHECK_PRE: 'fieModuleCheck_',
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
+  updateLog
 };
 
 module.exports = utils;

@@ -4,7 +4,10 @@ const localList = require('./local-list');
 const installOne = require('./install-one');
 const log = require('fie-log')('fie-module');
 
-
+/**
+ * 更新模块
+ * @param name
+ */
 function* update(name) {
   const options = {
     type: 'update'

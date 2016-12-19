@@ -90,12 +90,13 @@ module.exports = {
    */
   * latest(name, options) {
     options = Object.assign({}, {
-      registry
+      registry,
+      version: 'latest'
     }, options);
 
     let body = null;
     try {
-      const res = yield request(`${options.registry}${encodeURIComponent(name)}/latest`);
+      const res = yield request(`${options.registry}${encodeURIComponent(name)}/${options.version}`);
       body = JSON.parse(res.body);
       if (body.error) {
         body = null;
