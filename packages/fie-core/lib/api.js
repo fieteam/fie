@@ -85,7 +85,7 @@ const apiList = {
         });
       });
     }
-    fs.copyDirectory(options);
+    return fs.copyDirectory(options);
   },
 
   fileCopy: fs.copyTpl,
@@ -93,7 +93,7 @@ const apiList = {
   fileRewrite(options) {
     options.src = options.content;
     options.srcMode = 1;
-    fs.rewriteFile(options);
+    return fs.rewriteFile(options);
   },
 
   getFieModulesPath: home.getModulesPath,

@@ -66,6 +66,7 @@ const hookMatchStr = (content, hookOptions) => {
  * @param {string} options.place   before / after(默认)
  * @param {string} options.noMatchActive   top / bottom / null(默认)
  * @param {number} options.srcMode 0:src是文件路径(默认), 1:src 是文件内容
+ * @param {number} options.dist 目标路径, 如果有目标路径的话,会自动将文件写入目标路径
  * @return {string}
  */
 const rewriteFile = (options) => {
