@@ -12,7 +12,6 @@ module.exports = function* (cliArgs) {
 
   if (name) {
     yield fieModule.install(name);
-    log.success(`${name} 安装成功`);
   } else {
     log.warn('请输入需要安装的fie模块名!');
   }
