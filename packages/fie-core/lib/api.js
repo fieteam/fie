@@ -90,7 +90,11 @@ const apiList = {
 
   fileCopy: fs.copyTpl,
 
-  fileRewrite: fs.rewriteFile,
+  fileRewrite(options) {
+    options.src = options.content;
+    options.srcMode = 1;
+    fs.rewriteFile(options);
+  },
 
   getFieModulesPath: home.getModulesPath,
 
