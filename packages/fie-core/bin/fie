@@ -23,6 +23,7 @@ if (effectiveUser === 'root' && actualUser !== 'root') {
 //特殊处理一下传入的参数
 if (!argv._.concat().pop() && (argv.v || argv.version)) {
   // 没有传入任何参数, 且有 -v 或 --version
+  // 如果有传了参数,说明希望看到套件插件的版本,套件插件版本在 all.js 里面进行处理
   command = 'version';
 } else if (argv.help || argv.h) {
   if (argv._.length === 1 && core.indexOf(argv._[0]) === -1) {

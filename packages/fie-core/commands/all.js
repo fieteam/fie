@@ -11,8 +11,13 @@ const fieTask = require('fie-task');
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
 const fieError = require('fie-error');
+const fieNpm = require('fie-npm');
 const api = require('../lib/api');
+const fieHome = require('fie-home');
 const argv = require('yargs').argv;
+const fs = require('fs-extra');
+const path = require('path');
+const chalk = require('chalk');
 
 let fieObject;
 
@@ -67,6 +72,37 @@ function* runPlugin(name, cliArgs) {
 }
 
 /**
+ * 展示版本号
+ */
+function* showVersion(name) {
+  let existsOne = false;
+  const logOne = function* (n){
+    n = fieModule.fullName(n);
+    const localExist = fieModule.localExist(n);
+    let mod = '';
+    if (localExist) {
+      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'));
+    } else {
+      mod = fieNpm.latest(n);
+    }
+    if (mod && mod.version) {
+      existsOne = true;
+      console.log(chalk.magenta(`\n${n} 对应版本为 ${mod.version}\n`));
+    }
+  };
+  if (name.indexOf('toolkit-') > -1 || name.indexOf('plugin-') > -1) {
+    return yield logOne(name);
+  }
+
+  yield logOne(`toolkit-${name}`);
+  yield logOne(`plugin-${name}`);
+
+  if (!existsOne) {
+    log.error(`未找到 toolkit-${name} 或 plugin-${name} 模块`);
+  }
+}
+
+/**
  * 执行命令, 调用优先级是 core > task > toolkit > plugin
  * @param command
  * @param cliArgs
@@ -79,6 +115,11 @@ module.exports = function* (command, cliArgs) {
 
   log.debug(' tasks = %o , command = %s', tasks, command);
   log.debug(`before task ${hasBeforeTask}`);
+
+  // ------------- 展示版本号, 并中止后面的任务 ---------------
+  if (cliArgs.length === 0 && (argv.v || argv.version)) {
+    return yield showVersion(command);
+  }
 
   // ------------- 执行前置任务 ---------------
   if (hasBeforeTask) {

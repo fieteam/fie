@@ -30,7 +30,7 @@ function getPackagesVersion() {
 }
 
 module.exports = function* () {
-  log.info(`${fiePkg.name} current version is v${fiePkg.version}`);
+  console.log(chalk.magenta(`v${fiePkg.version}`));
 
   if (argv.d || argv.debug) {
     // 其依赖的核心包

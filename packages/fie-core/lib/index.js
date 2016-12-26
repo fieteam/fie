@@ -13,8 +13,6 @@ const initEnv = require('./init-env');
 const core = require('./core')();
 
 /**
- *
- * @param argv tj/commandar.js 实例
  * @param command fie所需的命令
  * @param args 数组 fie命令所需的参数
  */
@@ -55,7 +53,7 @@ function run(command, args) {
     fieError.handle(err);
   });
 }
-
+1
 module.exports = {
   run
 };
