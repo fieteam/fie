@@ -51,9 +51,9 @@ module.exports = function* () {
   const toolkit = fieConfig.getToolkitName();
   // 套件存在,则优先输出套件帮助信息
   if (toolkit) {
-    const moduleInfo = yield fieModule.get(fieModule.toolkitFullName(toolkit));
-    if (moduleInfo && moduleInfo.mod && moduleInfo.mod.help) {
-      moduleInfo.mod.help();
+    const mod = yield fieModule.get(fieModule.toolkitFullName(toolkit));
+    if (mod && mod.help) {
+      mod.help();
       console.log(chalk.cyan(' ------- 以下是 fie 自身的命令 ------- '));
     }
     outFieHelpInfo();
