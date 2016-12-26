@@ -76,14 +76,14 @@ function* runPlugin(name, cliArgs) {
  */
 function* showVersion(name) {
   let existsOne = false;
-  const logOne = function* (n){
+  const logOne = function* (n) {
     n = fieModule.fullName(n);
     const localExist = fieModule.localExist(n);
     let mod = '';
     if (localExist) {
       mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'));
     } else {
-      mod = fieNpm.latest(n);
+      mod = yield fieNpm.latest(n);
     }
     if (mod && mod.version) {
       existsOne = true;
@@ -91,7 +91,8 @@ function* showVersion(name) {
     }
   };
   if (name.indexOf('toolkit-') > -1 || name.indexOf('plugin-') > -1) {
-    return yield logOne(name);
+    yield logOne(name);
+    return;
   }
 
   yield logOne(`toolkit-${name}`);
@@ -118,7 +119,8 @@ module.exports = function* (command, cliArgs) {
 
   // ------------- 展示版本号, 并中止后面的任务 ---------------
   if (cliArgs.length === 0 && (argv.v || argv.version)) {
-    return yield showVersion(command);
+    yield showVersion(command);
+    return;
   }
 
   // ------------- 执行前置任务 ---------------

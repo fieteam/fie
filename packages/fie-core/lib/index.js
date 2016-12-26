@@ -53,7 +53,7 @@ function run(command, args) {
     fieError.handle(err);
   });
 }
-1
+
 module.exports = {
   run
 };

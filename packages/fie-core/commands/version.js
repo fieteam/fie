@@ -5,7 +5,6 @@
  */
 
 const fiePkg = require('../package.json');
-const log = require('fie-log')('fie-core');
 const path = require('path');
 const argv = require('yargs').argv;
 const chalk = require('chalk');
