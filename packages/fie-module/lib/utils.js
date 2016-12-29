@@ -67,7 +67,7 @@ function updateLog(name, opt) {
   if (opt.lastPkg.changeLog) {
     const changeLog = opt.lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
     ulog(`${name} ${pre}包含以下更新:`);
-    changeLog.forEach(item => {
+    changeLog.forEach((item) => {
       if (!item.log || !item.log.length) {
         return;
       }
@@ -80,7 +80,7 @@ function updateLog(name, opt) {
       }
 
       // 显示未更新的这几个版本log
-      item.log.forEach(itemLog => {
+      item.log.forEach((itemLog) => {
         ulog(` --${itemLog}`);
       });
     });
