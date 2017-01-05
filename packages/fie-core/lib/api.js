@@ -29,6 +29,12 @@ const apiList = {
     return this.moduleName === fieModule.fullName(currentModule);
   },
 
+  /**
+   * 获取 fie 套件或 fie 插件
+   * @param name
+   * @param cb
+   * @returns {Promise}
+     */
   getFieModule(name, cb) {
     return new Promise((resolve, reject) => {
       co(function* () {
@@ -45,6 +51,12 @@ const apiList = {
     });
   },
 
+  /**
+   * 执行 tnpm 模块安装 或 当前项目的依赖安装
+   * @param options
+   * @param cb
+   * @returns {Promise}
+     */
   tnpmInstall(options, cb) {
     return new Promise((resolve, reject) => {
       co(function* () {
@@ -53,8 +65,21 @@ const apiList = {
           options = {};
         }
         options = options || {};
+        // 旧版本的有通过 options 直接传 name 或 version 进来的
+        // 这里向下兼容一下, 别传给 fie-npm 的 options 需要去掉无用的 key,以免被当成参数
         if (options.name) {
-          yield npm.install(options.name, options);
+          let pkgName = options.name;
+          if (options.version) {
+            pkgName = `${pkgName}@${options.version}`;
+          }
+          const newOption = {};
+          Object.keys(options).forEach((key) => {
+            if (key === 'name' || key === 'version') {
+              return;
+            }
+            newOption[key] = options[key];
+          });
+          yield npm.install(pkgName, newOption);
         } else {
           yield npm.installDependencies(options);
         }
@@ -64,6 +89,11 @@ const apiList = {
     });
   },
 
+  /**
+   * 获取 fie.config.js 里面的配置,另外还会 merge 控制台里面的参数
+   * @param key
+   * @returns {*}
+     */
   getModuleConfig(key) {
     key = key || 'toolkitConfig';
     const u = user.getUser();
@@ -71,8 +101,16 @@ const apiList = {
     return Object.assign({}, argv, config.get(key), u);
   },
 
+  /**
+   * 设置 fie.config.js 里面的参数
+   */
   setModuleConfig: config.set,
 
+  /**
+   * 复制目录,并且可以进行变量替换
+   * @param options
+   * @returns {*}
+     */
   dirCopy(options) {
     // 向下兼容一些错误的写法
     const oldStringReplace = options.sstrReplace || options.sstrRpelace;
@@ -88,14 +126,25 @@ const apiList = {
     return fs.copyDirectory(options);
   },
 
+  /**
+   * 复制文件,并进行变量替换
+   */
   fileCopy: fs.copyTpl,
 
+  /**
+   * 文件内容重写, 可以根据hook注入内容
+   * @param options
+   * @returns {*}
+     */
   fileRewrite(options) {
     options.src = options.content;
     options.srcMode = 1;
     return fs.rewriteFile(options);
   },
 
+  /**
+   * 获取 fie 模块路径
+   */
   getFieModulesPath: home.getModulesPath,
 
   report,
