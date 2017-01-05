@@ -3,8 +3,6 @@
 const proxyquire = require('proxyquire');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-const install = sinon.spy();
-
 const handleNpmNotFound = proxyquire('../lib/handle-npm-not-found', {
   'fie-log': emptyLog
 });
