@@ -13,6 +13,7 @@ const log = require('fie-log')('fie-error');
 const utils = require('./utils');
 
 const innerList = [
+  require('./handle-npm-not-found'),
   require('./handle-module-not-found'),
   require('./handle-enoent'),
   require('./handle-default')
