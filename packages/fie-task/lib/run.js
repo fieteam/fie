@@ -65,7 +65,6 @@ function* oneTask(task, args, hookParam) {
 
 
       child.on('close', (status) => {
-
         // 插件自己要退出,则不抛出异常
         // TODO 找潕量的插件验证一下, 还要考虑 eslint 等情况
         if (status === 10) {
@@ -75,8 +74,8 @@ function* oneTask(task, args, hookParam) {
           const message = `${task.command} 命令执行行失败`;
           log.error(message);
           resetEnv();
-          //执行失败后，退出终端，不再继续执行
-					process.exit(status);
+          // 执行失败后，退出终端，不再继续执行
+          process.exit(status);
           // 这里抛出的错误和全局扑获的错误重复了,先不执行reject吧
           // 看图:http://img3.tbcdn.cn/5476e8b07b923/TB1rrl.OpXXXXb4XFXXXXXXXXXX
           // reject(new Error(message));
