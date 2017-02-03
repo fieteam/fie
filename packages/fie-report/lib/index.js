@@ -135,6 +135,7 @@ module.exports = {
   coreCommand(command) {
     __WPO.setConfig({ spmId: 'fie-core-command' });
     const logMsg = `command=${command}&${getCommonData()}`;
+		log.debug(`发送日志(coreCommand): %s`,logMsg);
     __WPO.log(logMsg, 1);
     return {
       success: true,
@@ -148,8 +149,8 @@ module.exports = {
    */
   moduleUsage(name) {
     __WPO.setConfig({ spmId: 'fie-module-use' });
-    log.debug(`发送日志: %s`,logMsg);
     const logMsg = `moduleName=${name}&${getCommonData()}`;
+		log.debug(`发送日志(moduleUsage): %s`,logMsg);
     __WPO.log(logMsg, 1);
     return {
       success: true,
@@ -170,6 +171,7 @@ module.exports = {
     }
     __WPO.setConfig({ spmId: 'fie-error' });
     const logMsg = `type=${type}&err=${err}&${getCommonData(true)}`;
+		log.debug(`发送日志(error): %s`,logMsg);
     __WPO.log(logMsg, 1);
     return {
       success: true,
