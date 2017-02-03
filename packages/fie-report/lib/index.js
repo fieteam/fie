@@ -7,6 +7,7 @@
 'use strict';
 
 const execSync = require('child_process').execSync;
+const log = require('fie-log')('fie-report');
 const path = require('path');
 const os = require('os');
 const fieUser = require('fie-user');
@@ -147,7 +148,7 @@ module.exports = {
    */
   moduleUsage(name) {
     __WPO.setConfig({ spmId: 'fie-module-use' });
-
+    log.debug(`发送日志: %s`,logMsg);
     const logMsg = `moduleName=${name}&${getCommonData()}`;
     __WPO.log(logMsg, 1);
     return {

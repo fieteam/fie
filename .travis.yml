@@ -10,3 +10,5 @@ script:
   - npm run ci-test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+notifications:
+   webhooks: https://oapi.dingtalk.com/robot/send?access_token=2ae09848a156b106179cfd393ad744fe23193daddc0cc62e54e1037d1a14d2e0
