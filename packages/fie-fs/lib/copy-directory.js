@@ -81,12 +81,12 @@ function copyDirectory(options) {
   options = options || {};
 
   if (!options.src || !options.dist) {
-    log.error('请传入源文件目录路径 和 目标目录路径');
+    log.error('请传入源文件目录路径(src) 和 目标目录路径(dist)');
     return;
   }
 
   if (!fs.existsSync(options.src)) {
-    log.error('源文件目录不存在');
+    log.error(`源文件目录不存在， src = ${options.src} 不存在这个目录或文件`);
     return;
   }
 
