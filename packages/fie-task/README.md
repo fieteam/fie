@@ -33,7 +33,7 @@ npm install fie-task --save
 
 ### run(options)
 
-> 执行一串任务流, 直接传一对应指令的任务流,并指定进行时机
+> `异步方法`,执行一串任务流, 直接传一对应指令的任务流,并指定进行时机
 
 - options `{object}` 选项
 - options.tasks `{array}` 任务流数组, 如果需要传入函数,仅支持 generator 函数
@@ -87,7 +87,7 @@ yield run({
 
 ### runFunction();
 
-> 执行一个函数, 支持 generator 及普通函数
+> `异步方法`,执行一个函数, 支持 generator 及普通函数
 
 - options `{object}`
 - options.method `{function}` 需要被执行的函数

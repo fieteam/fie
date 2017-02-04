@@ -44,21 +44,87 @@ const pkg = yield fieModule.get('toolkit-blue/package.json');
 console.log(pkg.fieOptions);
 ```
 
-### localList([type])
+### install(name)
 
-> 获取本地已安装的 fie 插件和套件列表
+> `异步方法`, 安装 FIE 模块
 
-- type `{string}` 类型，可以是 plugin 或 toolkit， 不传获取全部列表
+- name `{string}` 模块名, 若需要指定版本号直接在名字后面跟上即可,如: gulp@1.0.0
+
+### unInstall(name)
+
+> `异步方法`, 卸载 FIE 模块
+
+- name `{string}` 模块名
+
+
+
+### update(name)
+
+> `异步方法`, 更新 FIE 模块
+
+- name `{string}` 模块名
+
+
+
+### localList(options)
+
+> 获取本地已安装的 FIE 插件和套件列表
+
+- options `{object}` 可选项
+- options.type `{string}` 类型，可以是 plugin 或 toolkit， 不传获取全部列表
 - return: `{array}` 模块列表
 
 
 
-### onlineList([type])
+### onlineList(options)
 
-> `异步方法`, 获取线上的 fie 插件和套件列表
+> `异步方法`, 获取线上的 FIE 插件和套件列表
 
-- type `{string}` 类型，可以是 plugin 或 toolkit， 不传获取全部列表
+- options `{object}` 可选项
+- options.type `{string}` 类型，可以是 plugin 或 toolkit， 不传获取全部列表
 - return: `{array}` 模块列表
+
+
+
+### localExist(name)
+
+> 判断本地是否已安装对应的 FIE 模块了
+
+- name `{string}` 模块名
+- return: `{boolean}` 是否存在
+
+
+
+### onlineExist([type])
+
+> `异步方法`, 判断线上是否已存在对应的 FIE 模块了
+
+- name `{string}` 模块名
+- return: `{boolean}` 模块列表
+
+### fullName(name)
+
+> 根据传入的插件或套件名称缩写,生成对应的全称
+
+- name `{string}` 缩写的名称
+- return: `{string}` 全称
+
+
+### pluginFullName(name)
+
+> 根据传入插件名称缩写,生成对应的插件全称
+
+- name `{string}` 缩写的名称
+- return: `{string}` 全称
+
+
+### toolkitFullName(name)
+
+> 根据传入套件名称缩写,生成对应套件全称
+
+- name `{string}` 缩写的名称
+- return: `{string}` 全称
+
 
 
 ## 支持

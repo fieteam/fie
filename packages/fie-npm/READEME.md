@@ -26,7 +26,7 @@ npm install fie-npm --save
 
 ### install(pkg, options)
 
-> 安装一个 npm 包
+> `异步方法`,安装一个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
@@ -38,7 +38,7 @@ npm install fie-npm --save
 
 ### uninstall(pkg, options)
 
-> 卸载一个 npm 包
+> `异步方法`,卸载一个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
@@ -49,7 +49,7 @@ npm install fie-npm --save
 
 ### installDependencies(options)
 
-> 安装当前目录的 package.json 对应的依赖包
+> `异步方法`,安装当前目录的 package.json 对应的依赖包
 
 - options `{object}` 可选项
 - options.registry `{string}` 包对应的源,默认会根据当前用户选择的网络切换
@@ -58,7 +58,7 @@ npm install fie-npm --save
 
 ### latest(pkg, options)
 
-> 获取最新的 npm 包信息
+> `异步方法`,获取最新的 npm 包信息
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
@@ -69,7 +69,7 @@ npm install fie-npm --save
 
 ### has(pkg, options)
 
-> 判断是否存在某个 npm 包
+> `异步方法`,判断是否存在某个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
