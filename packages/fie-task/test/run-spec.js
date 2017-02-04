@@ -27,7 +27,9 @@ const spawnStub = function () {
 const spawn = sinon.spy(spawnStub);
 const run = proxyquire('../lib/run', {
   'fie-log': emptyLog,
-  'cross-spawn': spawn
+  'npm-run': {
+    spawn
+  }
 });
 
 describe('# run 执行任务', () => {
