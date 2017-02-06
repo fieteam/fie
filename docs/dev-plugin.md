@@ -7,8 +7,8 @@
 
 ### 命名
 
-- 在 gitlab 的 fie 项目组下建的套件仓库必须以 fie-plugin-xxx 的格式命名
-- package.json 里面的 name 字段命名方式必须以 @ali/fie-plugin-xxx 格式书写
+- 在 github 的 [fieteam 项目组](https://github.com/fieteam)下建的套件仓库必须以 fie-plugin-xxx 的格式命名
+- package.json 里面的 name 字段命名方式必须以 fie-plugin-xxx 格式书写
 
 ### 版本号
 
