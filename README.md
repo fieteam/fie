@@ -45,10 +45,8 @@ $ npm install fie -g --registry=https://registry.npm.taobao.org
 	* [套件开发指南](docs/dev-toolkit.md)
 	* [插件开发指南](docs/dev-plugin.md)
 * 参与FIE开发
-	* 开发环境安装
-	* FIE开发规范
-	* FIE代码规范
-* 常见问题
+	* [开发环境安装及代码组织](docs/dev-env.md)
+	* [FIE开发规范](docs/dev-rules.md)
 
 ## Usage
 
@@ -76,7 +74,7 @@ fie 使用帮助:  $ fie [command] [options]
 
 ### Quick start
 
-以[fie-toolkit-blue](https://www.npmjs.com/package/fie-toolkit-blue)套件为例，讲解开发流程。
+以 [fie-toolkit-blue](https://www.npmjs.com/package/fie-toolkit-blue) 套件为例，讲解开发流程。
 
 1. 安装fie到npm全局环境中
 
