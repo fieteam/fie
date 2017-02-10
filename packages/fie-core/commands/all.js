@@ -21,6 +21,9 @@ const chalk = require('chalk');
 
 let fieObject;
 
+function setEntryModule(name) {
+  process.env[fieHome.getEntryModuleEnvName()] = name.replace('@ali/', '');
+}
 /**
  * 运行插件命令
  * @param name
@@ -59,6 +62,7 @@ function* runPlugin(name, cliArgs) {
       log.error(`未找到 ${name} 插件对应的命令 ${pluginCmd}`);
       return;
     }
+    setEntryModule(name);
     yield fieTask.runFunction({
       method,
       args: [fieObject, {
@@ -155,6 +159,7 @@ module.exports = function* (command, cliArgs) {
       cliArgs.type = cliArgs.length > 0 ? cliArgs[0] : '';
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';
     }
+    setEntryModule(toolkitName);
     yield fieTask.runFunction({
       method: toolkit[command],
       args: [fieObject, {

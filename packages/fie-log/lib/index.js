@@ -9,33 +9,38 @@
 
 const chalk = require('chalk');
 const debug = require('debug');
+const fieHome = require('fie-home');
 
 
 /**
  * @exports fie-log
  */
 module.exports = (moduleName) => {
-  const message = (content, color) => {
+  const message = (content, color, entryOnly) => {
     let _content = '';
 
     if (moduleName) {
       _content += chalk[color](`[${moduleName}] `);
     }
     _content += chalk[color](content);
+    console.log(moduleName, fieHome.getEntryModuleEnvName(), process.env[fieHome.getEntryModuleEnvName()])
+    if (entryOnly && process.env[fieHome.getEntryModuleEnvName()] !== moduleName) {
+      return;
+    }
     console.log(_content);
   };
   return {
-    info(content) {
-      message(content, 'magenta');
+    info(content, entryOnly) {
+      message(content, 'magenta', entryOnly);
     },
-    success(content) {
-      message(content, 'green');
+    success(content, entryOnly) {
+      message(content, 'green', entryOnly);
     },
-    warn(content) {
-      message(content, 'yellow');
+    warn(content, entryOnly) {
+      message(content, 'yellow', entryOnly);
     },
-    error(content) {
-      message(content, 'red');
+    error(content, entryOnly) {
+      message(content, 'red', entryOnly);
     },
     debug: debug(moduleName)
   };
