@@ -15,7 +15,7 @@ const fieEnv = require('fie-env');
 const cache = require('fie-cache');
 
 const __WPO = require('./retcode/log-node');
-
+const flowLog = require('./flowlog');
 
 let UserInfo = null;
 const cacheEnv = {};
