@@ -16,31 +16,37 @@ const fieHome = require('fie-home');
  * @exports fie-log
  */
 module.exports = (moduleName) => {
-  const message = (content, color, entryOnly) => {
+  const message = (content, color, entryType) => {
+    const isEntry = process.env[fieHome.getEntryModuleEnvName()] === moduleName;
     let _content = '';
 
+    entryType = entryType || 0;
     if (moduleName) {
       _content += chalk[color](`[${moduleName}] `);
     }
     _content += chalk[color](content);
-    console.log(moduleName, fieHome.getEntryModuleEnvName(), process.env[fieHome.getEntryModuleEnvName()])
-    if (entryOnly && process.env[fieHome.getEntryModuleEnvName()] !== moduleName) {
-      return;
+
+    // entryType 为 1 代表只有当前模块做为入口模块时才打印
+    // entryType 为 2 代表只有当前模块不是入口模块时才打印
+    if ((entryType === 1 && !isEntry) || (entryType === 2 && isEntry)) {
+      // 返回布尔值,主要是留个勾子写单测
+      return false;
     }
     console.log(_content);
+    return true;
   };
   return {
-    info(content, entryOnly) {
-      message(content, 'magenta', entryOnly);
+    info(content, entryType) {
+      return message(content, 'magenta', entryType);
     },
-    success(content, entryOnly) {
-      message(content, 'green', entryOnly);
+    success(content, entryType) {
+      return message(content, 'green', entryType);
     },
-    warn(content, entryOnly) {
-      message(content, 'yellow', entryOnly);
+    warn(content, entryType) {
+      return message(content, 'yellow', entryType);
     },
-    error(content, entryOnly) {
-      message(content, 'red', entryOnly);
+    error(content, entryType) {
+      return message(content, 'red', entryType);
     },
     debug: debug(moduleName)
   };

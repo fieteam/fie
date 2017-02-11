@@ -242,32 +242,35 @@ log.info('啦啦啦'); // 将以品红色打印:  [test]啦啦啦
 
 该对象具体有以下方法:
 
-### info(msg)
+### info(msg, entryType)
 
 > 以品红色打印
 
 - msg `{string}` 需要打印的内容
+- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
-
-### success(msg)
+### success(msg, entryType)
 
 > 以品绿色打印
 
 - msg `{string}` 需要打印的内容
+- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
 
-### warn(msg)
+### warn(msg, entryType)
 
 > 以品黄色打印
 
 - msg `{string}` 需要打印的内容
+- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
 
-### error(msg)
+### error(msg, entryType)
 
 > 以品红色打印
 
 - msg `{string}` 需要打印的内容
+- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
 
 ### debug(msg)
@@ -275,6 +278,7 @@ log.info('啦啦啦'); // 将以品红色打印:  [test]啦啦啦
 > 只有在环境变量 DEBUG 匹配到传入 fie-log 函数时的那个参数时才打印出来, 可参见 [debug](https://www.npmjs.com/package/debug)
 
 - msg `{string}` 需要打印的内容
+
 
 ## module
 
