@@ -1,17 +1,57 @@
 # fie-home
 
+[![NPM version][npm-image]][npm-url]
+[![David deps][david-image]][david-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![npm download][download-image]][download-url]
 
----
+[npm-image]: https://img.shields.io/npm/v/fie-home.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/fie-home
+[david-image]: https://img.shields.io/david/cnpm/npminstall.svg?style=flat-square
+[david-url]: https://david-dm.org/fieteam/fie-home
+[snyk-image]: https://snyk.io/test/npm/fie-home/badge.svg?style=flat-square
+[snyk-url]: https://snyk.io/test/npm/fie-home
+[download-image]: https://img.shields.io/npm/dm/fie-home.svg?style=flat-square
+[download-url]: https://npmjs.org/package/fie-home
 
-retcode 获取fie及模块的相关路径，不建议插件直接对 fie 家目录里面的内容直接进行操作
+获取 FIE 及模块的相关路径，不建议插件直接对 fie 家目录里面的内容直接进行操作
+
+
+## Installation
+
+```
+npm install fie-home --save
+```
 
 ## API
 
+### getHomePath()
 
-| 成员        | 说明           | 类型               | 默认值       |
-|-------------|----------------|--------------------|--------------|
-|getHomePath      | 获取FIE的home路径   | Method |       |
-|getModulesPath      | 获取FIE模块的安装路径  | Method |       |
-|initHomeDir      | 初始化FIE的home目录   | Method |       |
-|cleanHomeDir      | 清理Home目录内容   | Method |       |
-|getGlobalConfig      | 自定义retcode发送日志   | Method |       |
+> 获取 FIE 的 home 路径
+
+- return: `{string}` 路径字符串
+
+### getModulesPath()
+
+> 获取 FIE 的模块安装路径
+
+- return: `{string}` 路径字符串
+
+
+### initHomeDir()
+
+> 初始化 FIE 的 home 路径
+
+
+### cleanHomeDir()
+
+> 清空 FIE 的 home 路径
+
+
+## Support
+
+使用过程中遇到的相关问题，及BUG反馈，可联系: 擎空 <zernmal@foxmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)
+
+## License
+
+[GNU GPLv3](LICENSE)
