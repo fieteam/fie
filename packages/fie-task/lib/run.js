@@ -2,11 +2,13 @@
 
 const log = require('fie-log')('fie-task');
 const runFunction = require('./run-function');
-const spawn = require('cross-spawn');
+const npmRun = require('npm-run');
 const co = require('co');
 const utils = require('./utils');
 
 const COMMAND_PARAM_HOOK = '$$';
+const spawn = npmRun.spawn;
+
 
 /**
  * 运行单个任务
@@ -60,6 +62,7 @@ function* oneTask(task, args, hookParam) {
         env: process.env,
         stdio: 'inherit'
       });
+
       // 任务流执行失败
       child.on('error', (err) => {
         resetEnv();
