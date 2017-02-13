@@ -16,38 +16,56 @@ const fieHome = require('fie-home');
  * @exports fie-log
  */
 module.exports = (moduleName) => {
-  const message = (content, color, entryType) => {
+  /**
+   * 根据颜色打印
+   * @param content
+   * @param color
+   * @param entryType
+   * @returns {boolean}
+   */
+  function message() {
     const isEntry = process.env[fieHome.getEntryModuleEnvName()] === moduleName;
+    const color = this.color;
+    const content = arguments[0];
     let _content = '';
 
-    entryType = entryType || 0;
     if (moduleName) {
       _content += chalk[color](`[${moduleName}] `);
     }
     _content += chalk[color](content);
 
-    // entryType 为 1 代表只有当前模块做为入口模块时才打印
-    // entryType 为 2 代表只有当前模块不是入口模块时才打印
-    if ((entryType === 1 && !isEntry) || (entryType === 2 && isEntry)) {
+    // entryType 为 cli 代表只有当前模块做为入口模块时才打印
+    // entryType 为 func 代表只有当前模块不是入口模块时才打印
+    if ((this.entryType === 'cli' && !isEntry) || (this.entryType === 'func' && isEntry)) {
       // 返回布尔值,主要是留个勾子写单测
       return false;
     }
+
     console.log(_content);
     return true;
-  };
-  return {
-    info(content, entryType) {
-      return message(content, 'magenta', entryType);
-    },
-    success(content, entryType) {
-      return message(content, 'green', entryType);
-    },
-    warn(content, entryType) {
-      return message(content, 'yellow', entryType);
-    },
-    error(content, entryType) {
-      return message(content, 'red', entryType);
-    },
+  }
+
+  function getLeaves(entryType) {
+    const methods = { info: 'magenta', success: 'green', warn: 'yellow', error: 'red' };
+    const leaves = {};
+
+    Object.keys(methods).forEach((key) => {
+      function leafFunc() {
+        const color = methods[key];
+        const args = Array.prototype.slice.call(arguments);
+        return message.apply({
+          entryType,
+          color
+        }, args);
+      }
+      leaves[key] = leafFunc;
+    });
+    return leaves;
+  }
+
+  return Object.assign({}, {
+    cli: getLeaves('cli'),
+    func: getLeaves('func'),
     debug: debug(moduleName)
-  };
+  }, getLeaves('all'));
 };
