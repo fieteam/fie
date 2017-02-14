@@ -30,41 +30,52 @@ fie-log 返回的是一个方法, 调用该方法可以直接返回一个对象,
 ```
 const log = require('fie-log')('test');
 
-log.info('啦啦啦'); // 将以品红色打印:  [test]啦啦啦
+// 普通字符串
+log.info('啦啦啦'); // 将以品红色打印:  [test] 啦啦啦
+log.cli.info('啦啦啦'); // 仅当前插件或套件做为入口模块时,才以品红色打印:  [test] 啦啦啦
+log.func.info('啦啦啦'); // 仅当前插件或套件不是入口模块时,才以品红色打印:  [test] 啦啦啦
 
+// 使用占位符
+log.info('字符串:%s 数字:%d ', 'ssss', 33); // 会打印: [test] 字符串:ssss 数字:33
+log.info('对象:%o', {a: 1}); // 打打印: [test] 对象:{a: 1}
 ```
 
-该对象具体有以下方法:
+以下提供的 `info` `success` `warn` `error` `debug` 方法均支持了 [printf-style](https://wikipedia.org/wiki/Printf_format_string) 格式化. 支持的格式化方式有: 
 
-### info(msg, entryType)
+| Formatter | Representation |
+|-----------|----------------|
+| `%O`      | 多行打印对象 |
+| `%o`      | 单行打印对象 |
+| `%s`      | 字符串 |
+| `%d`      | 数字 |
+| `%j`      | JSON |
+| `%%`      | 打印 ('%'). 并不代表任何占位符 |
+
+
+### info(msg)
 
 > 以品红色打印
 
 - msg `{string}` 需要打印的内容
-- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
-### success(msg, entryType)
+### success(msg)
 
 > 以品绿色打印
 
 - msg `{string}` 需要打印的内容
-- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
 
-### warn(msg, entryType)
+### warn(msg)
 
 > 以品黄色打印
 
 - msg `{string}` 需要打印的内容
-- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
-
-### error(msg, entryType)
+### error(msg)
 
 > 以品红色打印
 
 - msg `{string}` 需要打印的内容
-- entryType `{boolean}` 入口类型, 为 1 时只有在当前模块为入口模块时才打印, 为 2 时只有在当前模块为非入口模块时才打印, 不传时任何时候都打印
 
 
 ### debug(msg)
@@ -72,6 +83,36 @@ log.info('啦啦啦'); // 将以品红色打印:  [test]啦啦啦
 > 只有在环境变量 DEBUG 匹配到传入 fie-log 函数时的那个参数时才打印出来, 可参见 [debug](https://www.npmjs.com/package/debug)
 
 - msg `{string}` 需要打印的内容
+
+
+### cli
+
+> cli 为一个对象, 该对象具用跟上面声明的 `info` `success` `warn` `error` 用法一样的方法
+> 唯一不同的就是 cli 下面的方法调用后只有当前插件或套件`做为入口模块时` , 才打印对应的内容
+
+```
+const log = require('fie-log')('test');
+
+log.cli.info('啦啦啦');
+log.cli.error('啦啦啦');
+log.cli.warn('啦啦啦');
+log.cli.success('啦啦啦');
+```
+
+### func
+
+> func 为一个对象, 该对象具用跟上面声明的 `info` `success` `warn` `error` 用法一样的方法
+> 唯一不同的就是 func 下面的方法调用后只有当前插件或套件`不是入口模块时` , 才打印对应的内容
+
+```
+const log = require('fie-log')('test');
+
+log.func.info('啦啦啦');
+log.func.error('啦啦啦');
+log.func.warn('啦啦啦');
+log.func.success('啦啦啦');
+```
+
 
 ## Support
 

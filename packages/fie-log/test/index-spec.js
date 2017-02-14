@@ -10,12 +10,15 @@ const testStringHook = '__fieLogTestHook__';
 const setModuleEnv = (moduleName) => {
   process.env[ENTRY_MODULE_ENV_NAME] = moduleName;
 };
+const logSpy = sinon.spy();
 
 
 function mockLog() {
   const args = Array.prototype.slice.call(arguments);
   if (args[0].indexOf(testStringHook) === -1) {
     originLog.apply(console, args);
+  } else {
+    logSpy.apply(this, args);
   }
 }
 
@@ -26,9 +29,9 @@ describe('# fie-log 日志打印', () => {
 
   afterEach(() => {
     console.log = originLog;
+    logSpy.reset();
     setModuleEnv(originEnvModule);
   });
-
 
   it('# entryType 不传时, 任何时候都打印', function* () {
     setModuleEnv('abc');
@@ -45,8 +48,8 @@ describe('# fie-log 日志打印', () => {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const log2 = fieLog('xyz');
-    const result1 = log1.info(testStringHook, 1);
-    const result2 = log2.info(testStringHook, 1);
+    const result1 = log1.cli.info(testStringHook);
+    const result2 = log2.cli.info(testStringHook);
     expect(result1).to.be.equal(true);
     expect(result2).to.be.equal(false);
   });
@@ -56,9 +59,19 @@ describe('# fie-log 日志打印', () => {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const log2 = fieLog('xyz');
-    const result1 = log1.info(testStringHook, 2);
-    const result2 = log2.info(testStringHook, 2);
+    const result1 = log1.func.info(testStringHook);
+    const result2 = log2.func.info(testStringHook);
     expect(result1).to.be.equal(false);
     expect(result2).to.be.equal(true);
+  });
+
+
+  it('# 能正常打印占位符字符串', function* () {
+    setModuleEnv('abc');
+    const log1 = fieLog('abc');
+    const result1 = log1.info(`${testStringHook} %o`, { a: 'b' });
+    const matched = !!logSpy.getCall(0).args[0].match(/__fieLogTestHook__ { a: ['"]b['"] }/);
+    expect(result1).to.be.equal(true);
+    expect(matched).to.be.equal(true);
   });
 });
