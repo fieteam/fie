@@ -35,13 +35,11 @@ describe('# fie-report 上报recode/包括 fieFlow 信息', () => {
 });
 
 describe('# 外网测试-fie-report ,不上报fieFlow 信息', () => {
-  before((done)=>{
+  before(()=>{
     process.env.FIE_ENV = 'extranet'; 
-    done();
   })
-  after((done)=>{
+  after(()=>{
     delete process.env.FIE_ENV;
-    done();
   })
 
   it('外网测试提交fieReport.flowLog.log,不上报日志', () => {
@@ -52,14 +50,12 @@ describe('# 外网测试-fie-report ,不上报fieFlow 信息', () => {
 });
 
 
-describe.only('# 内网测试-fie-report,上报fieFlow 信息', () => {
-  before((done)=>{
+describe('# 内网测试-fie-report,上报fieFlow 信息', () => {
+  before(()=>{
     process.env.FIE_ENV = 'intranet'; 
-    done();
   })
-  after((done)=>{
+  after(()=>{
     delete process.env.FIE_ENV;
-    done();
   })
 
   it('内网测试提交:fieReport.flowLog.log', () => {
