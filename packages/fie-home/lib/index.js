@@ -58,8 +58,14 @@ const fieHome = {
       debug('remove fie modules path = %s', fieModulesPath);
       fs.removeSync(fieModulesPath);
     }
-  }
+  },
 
+  /**
+   *
+   */
+  getEntryModuleEnvName() {
+    return 'FIE_ENTRY_MODULE';
+  }
 };
 
 module.exports = fieHome;
