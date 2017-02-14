@@ -64,7 +64,6 @@ describe('# 内网测试-fie-report,上报fieFlow 信息', () => {
 
   it('内网测试提交:fieReport.flowLog.log', () => {
       const result = fieReport.flowLog.log({command: "fietest", message: "测试用例代码"});
-      console.log(result);
       expect(result.success).to.be.equals(true);
       expect(result.msg).to.be.a('string');
   });
