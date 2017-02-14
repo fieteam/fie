@@ -2,7 +2,7 @@
 
 const fieReport = require('../lib/index');
 
-describe('fie-report 上报recode信息', () => {
+describe('# fie-report 上报recode/ fieFlow 信息', () => {
   it('根据核心命令发送日志', () => {
     const result = fieReport.coreCommand('fie start --mocha --test');
     expect(result.success).to.be.equals(true);
@@ -33,3 +33,4 @@ describe('fie-report 上报recode信息', () => {
     expect(result3.logMsg).to.be.a('string');
   });
 });
+

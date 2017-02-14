@@ -32,5 +32,8 @@
   },
   "engine": {
     "node": ">4.2.1"
+  },
+  "dependencies": {
+    "@ali/fie-auth": "^0.1.1"
   }
 }
