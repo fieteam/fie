@@ -30,7 +30,8 @@ const fieConfig = {
 
   /**
    * 根据key获取fie.config.js的单个对象
-   * @param key
+   * @param key 配置的键名
+   * @param dir 配置文件的路径
    * @return object
    */
   get(key, dir) {
@@ -62,6 +63,7 @@ const fieConfig = {
    * 设置fie.config.js的属性值,写入相关内容
    * @param key fie.config.js中的key
    * @param value key对应的value
+   * @param dir 配置文件路径
    */
   set(key, value, dir) {
     const cwd = dir || CWD;
