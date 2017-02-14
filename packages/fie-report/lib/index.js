@@ -95,11 +95,16 @@ const getProjectEnv = () => {
   }
 
   if(!projectData.repository){
-      var regRem = /remote\.origin\.url=([^\n]+)/;
-      var matchRem =  execSync('git info').toString().match(regRem);
-      if (matchRem && matchRem.length > 1) {
-          projectData.repository = matchRem[1];
-      } 
+      try{
+        var regRem = /remote\.origin\.url=([^\n]+)/;
+        var matchRem =  execSync('git config -l').toString().match(regRem);
+        if (matchRem && matchRem.length > 1) {
+            projectData.repository = matchRem[1];
+        }
+      }
+      catch(ex){
+        console.log("git config -l 命令不存在",ex);
+      }
   }
 
   try{
