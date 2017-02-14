@@ -1,7 +1,7 @@
 'use strict';
 const request = require('request');
 const HOST = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-api pro: http://127.0.0.1:6001/flowlog.do
-
+const fieEnv = require('fie-env');
 
 /**
  * 发送fie流程日志
@@ -17,6 +17,12 @@ const HOST = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-ap
  * @returns {object} object, object.sucess 是否成功, object.msg 消息
  */
 let sendFlowLog = function(flowLog){
+    if(!fieEnv.isIntranet()){
+        return {
+            success: false,
+            msg: "外网版本暂时不发流程日志!"
+        }
+    }
     let data = Object.assign({
         git: "git",
         branch: "the branch",
@@ -36,9 +42,12 @@ let sendFlowLog = function(flowLog){
         qs: data
     }, (err, result) => {
         if(err){
-            console.log(err, "fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
+            //请求是否成功暂时不做处理
+            //console.log("外网请忽略：fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
         }
     });
+  
+
 
     return {
         success: true,

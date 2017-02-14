@@ -52,7 +52,7 @@ describe('# 外网测试-fie-report ,不上报fieFlow 信息', () => {
 });
 
 
-describe('# 内网测试-fie-report,上报fieFlow 信息', () => {
+describe.only('# 内网测试-fie-report,上报fieFlow 信息', () => {
   before((done)=>{
     process.env.FIE_ENV = 'intranet'; 
     done();
