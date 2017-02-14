@@ -159,7 +159,21 @@ const getCommonData = (force, getJsonFormat) => {
  * @param {number} flowlog.status 操作状态
 */
 const generateEntityAndSend = (type, flowlog) => {
-  //todo:字段验证判断
+
+  if(!fieEnv.isIntranet()){
+    return {
+        success: false,
+        msg: "外网版本暂时不发流程日志!"
+    }
+  }
+         
+  if(!flowlog || !flowlog.command){
+    return {
+      success: false,
+      msg: "flowlog.command 命令串或工具名 不能为空!"
+    }
+  }
+
   let commonData = getCommonData(false, true);
   let flowLogEntiy = {
       git: commonData.repository,
@@ -173,19 +187,20 @@ const generateEntityAndSend = (type, flowlog) => {
       message: flowlog.message,
       type: type //操作类型： 1为info，2为warn，3为error
   }
+
   return fieFlowLog.send(flowLogEntiy);
 }
 
 
 const flowLog = {
   log: (logEntity) => {
-    generateEntityAndSend(1, logEntity);
+    return generateEntityAndSend(1, logEntity);
   },
   warn: (logEntity) => {
-    generateEntityAndSend(2, logEntity);
+    return generateEntityAndSend(2, logEntity);
   },
   error: (logEntity) => {
-    generateEntityAndSend(3, logEntity);
+    return generateEntityAndSend(3, logEntity);
   }
 }
 
