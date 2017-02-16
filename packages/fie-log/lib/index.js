@@ -84,7 +84,7 @@ module.exports = (moduleName) => {
     // 将所有字符串加上颜色
     args = args.map((val, idx) => {
       if (idx === 0 || idx > originFormatCount) {
-        return chalk[color](idx === 0 ? `${moduleName}${val}` : val);
+        return chalk[color](idx === 0 ? `[${moduleName}] ${val}` : val);
       }
       return val;
     });
