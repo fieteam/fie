@@ -21,6 +21,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "fs-extra": "^1.0.0",
+    "globby": "^6.1.0",
     "os-homedir": "^1.0.2"
   }
 }
