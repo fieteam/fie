@@ -10,11 +10,11 @@ describe('fie-home获取fie及模块的相关路径', () => {
     process.env.FIE_HOME = path.join(__dirname, 'helpers');
     fs.mkdirsSync(process.env.FIE_HOME);
     home = path.join(process.env.FIE_HOME, '.fie');
-    //创建几个测试文件
-		fs.outputFileSync(path.join(home,'fie.user.json'), 'hello!');
-		fs.outputFileSync(path.join(home,'fie.aaa.json'), 'hello!');
-		fs.outputFileSync(path.join(home,'fie.bbb.json'), 'hello!')
-		fs.outputFileSync(path.join(home,'fie-user.json'), 'hello!')
+    // 创建几个测试文件
+    fs.outputFileSync(path.join(home, 'fie.user.json'), 'hello!');
+    fs.outputFileSync(path.join(home, 'fie.aaa.json'), 'hello!');
+    fs.outputFileSync(path.join(home, 'fie.bbb.json'), 'hello!');
+    fs.outputFileSync(path.join(home, 'fie-user.json'), 'hello!');
   });
 
   after(() => {
@@ -28,7 +28,7 @@ describe('fie-home获取fie及模块的相关路径', () => {
     expect(result).to.be.equals(true);
   });
 
-  it.only('cleanHomeDir 删除 ~/.fie/node_modules 目录', () => {
+  it('cleanHomeDir 删除 ~/.fie/node_modules 目录', () => {
     const modulePath = path.join(home, 'node_modules');
     fs.mkdirsSync(modulePath);
     const result = fs.existsSync(modulePath);
@@ -36,8 +36,8 @@ describe('fie-home获取fie及模块的相关路径', () => {
     fieHome.cleanHomeDir();
     const result2 = fs.existsSync(modulePath);
     expect(result2).to.be.equals(false);
-		const result3 = fs.existsSync(path.join(home,'fie.user.json'));
-		expect(result3).to.be.equals(false);
+    const result3 = fs.existsSync(path.join(home, 'fie.user.json'));
+    expect(result3).to.be.equals(false);
   });
 
   it('getHomePath 获取 ~/.fie/ 绝对路径', () => {

@@ -58,15 +58,15 @@ const fieHome = {
     const fieModulesPath = fieHome.getModulesPath();
     if (fs.existsSync(fieModulesPath)) {
       debug('remove fie modules path = %s', fieModulesPath);
-      //TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
-			fs.removeSync(fieModulesPath);
-      //清除fie.*.json的配置文件
-			const paths = globby.sync([
-				fieHomePath + '/fie.*.json'
-			]);
-			debug('clear fie.*.json = %o',paths);
-			paths.forEach( item => {
-				fs.removeSync(item);
+      // TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
+      fs.removeSync(fieModulesPath);
+      // 清除fie.*.json的配置文件
+      const paths = globby.sync([
+        `${fieHomePath}/fie.*.json`
+      ]);
+      debug('clear fie.*.json = %o', paths);
+      paths.forEach((item) => {
+        fs.removeSync(item);
       });
     }
   },
