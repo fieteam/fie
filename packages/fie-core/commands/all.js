@@ -118,8 +118,22 @@ module.exports = function* (command, cliArgs) {
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
 
-  log.debug(' tasks = %o , command = %s', tasks, command);
+  log.debug(' tasks = %o , command = %s, cliArgs = %o', tasks, command, cliArgs);
   log.debug(`before task ${hasBeforeTask}`);
+
+
+  // 如果第一个参数为 plugin, 强制执行某个插件, 并且忽略所有的前置,后置任务
+  if (command === 'plugin') {
+    if (cliArgs.length < 1) {
+      log.error('请输入您要运行的插件名');
+      return ;
+    }
+    command = cliArgs.splice(0, 1)[0];
+
+    log.debug('new tasks = %o , command = %s, cliArgs = %o', tasks, command, cliArgs);
+    yield runPlugin(command, cliArgs);
+    return;
+  }
 
   // ------------- 展示版本号, 并中止后面的任务 ---------------
   if (cliArgs.length === 0 && (argv.v || argv.version)) {
