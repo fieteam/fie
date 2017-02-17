@@ -9,6 +9,7 @@
 const debug = require('debug')('fie-home');
 const path = require('path');
 const fs = require('fs-extra');
+const globby = require('globby');
 const userHome = require('os-homedir')();
 
 
@@ -53,10 +54,20 @@ const fieHome = {
    * 用户手工删除是没影响的，fie 会验证并初始化
    */
   cleanHomeDir: () => {
+    const fieHomePath = fieHome.getHomePath();
     const fieModulesPath = fieHome.getModulesPath();
     if (fs.existsSync(fieModulesPath)) {
       debug('remove fie modules path = %s', fieModulesPath);
+      // TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
       fs.removeSync(fieModulesPath);
+      // 清除fie.*.json的配置文件
+      const paths = globby.sync([
+        `${fieHomePath}/fie.*.json`
+      ]);
+      debug('clear fie.*.json = %o', paths);
+      paths.forEach((item) => {
+        fs.removeSync(item);
+      });
     }
   },
 
