@@ -2,7 +2,7 @@
 
 const fieReport = require('../lib/index');
 
-describe('# fie-report 上报recode/包括 fieFlow 信息', () => {
+describe('# fie-report 外网上报recode， 外网上报 fieFlow 信息', () => {
   it('根据核心命令发送日志', () => {
     const result = fieReport.coreCommand('fie start --mocha --test');
     expect(result.success).to.be.equals(true);
@@ -64,13 +64,13 @@ describe('# 内网测试-fie-report,上报fieFlow 信息', () => {
       expect(result.msg).to.be.a('string');
   });
 
-  it('内网测试提交:fieReport.flowLog.log-不传参数', () => {
+  it('内网测试提交:fieReport.flowLog.log-不传参数, 不上报日志!', () => {
       const result = fieReport.flowLog.log();
       expect(result.success).to.be.equals(false);
       expect(result.msg).to.be.a('string');
   });
 
-  it('内网测试提交:fieReport.flowLog.log-不传{command}', () => {
+  it('内网测试提交:fieReport.flowLog.log-不传{command} 不上报日志!', () => {
       const result = fieReport.flowLog.log({message: "不传command"});
       expect(result.success).to.be.equals(false);
       expect(result.msg).to.be.a('string');
