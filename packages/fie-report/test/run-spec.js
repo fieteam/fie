@@ -35,15 +35,15 @@ describe('# fie-report 外网上报recode， 外网上报 fieFlow 信息', () =>
 });
 
 describe('# 外网测试-fie-report ,不上报fieFlow 信息', () => {
-  before(()=>{
-    process.env.FIE_ENV = 'extranet'; 
-  })
-  after(()=>{
+  before(() => {
+    process.env.FIE_ENV = 'extranet';
+  });
+  after(() => {
     delete process.env.FIE_ENV;
-  })
+  });
 
   it('外网测试提交fieReport.flowLog.log,不上报日志', () => {
-    const result4 = fieReport.flowLog.log({command: "fie test case", message: "测试用例代码"});
+    const result4 = fieReport.flowLog.log({ command: 'fie test case', message: '测试用例代码' });
     expect(result4.success).to.be.equals(false);
     expect(result4.msg).to.be.a('string');
   });
@@ -51,41 +51,41 @@ describe('# 外网测试-fie-report ,不上报fieFlow 信息', () => {
 
 
 describe('# 内网测试-fie-report,上报fieFlow 信息', () => {
-  before(()=>{
-    process.env.FIE_ENV = 'intranet'; 
-  })
-  after(()=>{
+  before(() => {
+    process.env.FIE_ENV = 'intranet';
+  });
+  after(() => {
     delete process.env.FIE_ENV;
-  })
+  });
 
   it('内网测试提交:fieReport.flowLog.log', () => {
-      const result = fieReport.flowLog.log({command: "fietest", message: "测试用例代码"});
-      expect(result.success).to.be.equals(true);
-      expect(result.msg).to.be.a('string');
+    const result = fieReport.flowLog.log({ command: 'fietest', message: '测试用例代码' });
+    expect(result.success).to.be.equals(true);
+    expect(result.msg).to.be.a('string');
   });
 
   it('内网测试提交:fieReport.flowLog.log-不传参数, 不上报日志!', () => {
-      const result = fieReport.flowLog.log();
-      expect(result.success).to.be.equals(false);
-      expect(result.msg).to.be.a('string');
+    const result = fieReport.flowLog.log();
+    expect(result.success).to.be.equals(false);
+    expect(result.msg).to.be.a('string');
   });
 
   it('内网测试提交:fieReport.flowLog.log-不传{command} 不上报日志!', () => {
-      const result = fieReport.flowLog.log({message: "不传command"});
-      expect(result.success).to.be.equals(false);
-      expect(result.msg).to.be.a('string');
+    const result = fieReport.flowLog.log({ message: '不传command' });
+    expect(result.success).to.be.equals(false);
+    expect(result.msg).to.be.a('string');
   });
 
   it('内网测试提交:fieReport.flowLog.warn', () => {
-      const result = fieReport.flowLog.warn({command: "fietest", message: "测试用例代码"});
-      expect(result.success).to.be.equals(true);
-      expect(result.msg).to.be.a('string');
+    const result = fieReport.flowLog.warn({ command: 'fietest', message: '测试用例代码' });
+    expect(result.success).to.be.equals(true);
+    expect(result.msg).to.be.a('string');
   });
 
   it('内网测试提交:fieReport.flowLog.error', () => {
-      const result = fieReport.flowLog.error({command: "fietest", message: "异常处理"});
-      expect(result.success).to.be.equals(true);
-      expect(result.msg).to.be.a('string');
+    const result = fieReport.flowLog.error({ command: 'fietest', message: '异常处理' });
+    expect(result.success).to.be.equals(true);
+    expect(result.msg).to.be.a('string');
   });
 });
 

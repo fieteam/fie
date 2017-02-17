@@ -77,7 +77,7 @@ const getProjectEnv = () => {
   const projectData = {
     cwd: process.cwd(),
     argv: encodeURIComponent(process.argv.join(' ')),
-    branch: ""
+    branch: ''
   };
 
   try {
@@ -88,27 +88,25 @@ const getProjectEnv = () => {
     // no package.json
   }
 
-  if(!projectData.repository){
-      try{
-        var regRem = /remote\.origin\.url=([^\n]+)/;
-        var matchRem =  execSync('git config -l').toString().match(regRem);
-        if (matchRem && matchRem.length > 1) {
-            projectData.repository = matchRem[1];
-        }
+  if (!projectData.repository) {
+    try {
+      const regRem = /remote\.origin\.url=([^\n]+)/;
+      const matchRem = execSync('git config -l').toString().match(regRem);
+      if (matchRem && matchRem.length > 1) {
+        projectData.repository = matchRem[1];
       }
-      catch(ex){
-        console.log("git config -l 命令不存在",ex);
-      }
-  }
-
-  try{
-    const branchArray = execSync('git branch').toString().match(/\*\s+(.*)/);
-    if(branchArray && branchArray.length > 1){
-      projectData.branch = branchArray[1];
+    } catch (ex) {
+      console.log('git config -l 命令不存在', ex);
     }
   }
-  catch(ex){
-    console.log("get git branch err",ex);
+
+  try {
+    const branchArray = execSync('git branch').toString().match(/\*\s+(.*)/);
+    if (branchArray && branchArray.length > 1) {
+      projectData.branch = branchArray[1];
+    }
+  } catch (ex) {
+    console.log('get git branch err', ex);
   }
   return projectData;
 };
@@ -141,12 +139,11 @@ const getCommonData = (force, getJsonFormat) => {
     commonDataStr.push(`${key}=${commonData[key]}`);
   });
 
-  if(getJsonFormat){
+  if (getJsonFormat) {
     return commonData;
   }
-  else{
-    return commonDataStr.join('&');
-  }
+
+  return commonDataStr.join('&');
 };
 
 /**
@@ -155,62 +152,55 @@ const getCommonData = (force, getJsonFormat) => {
  * @param {object} flowlog
  * @param {string} flowlog.command 命令串或工具名
  * @param {string} flowlog.message 消息
- * @param {number} flowlog.beginTime 执行开始, 格式Date.now() 
- * @param {number} flowlog.endTime 执行结束时间, 格式Date.now() 
+ * @param {number} flowlog.beginTime 执行开始, 格式Date.now()
+ * @param {number} flowlog.endTime 执行结束时间, 格式Date.now()
  * @param {number} flowlog.status 操作状态
 */
 const generateEntityAndSend = (type, flowlog) => {
-
-  if(!fieEnv.isIntranet()){
-    return {
-        success: false,
-        msg: "外网版本暂时不发流程日志!"
-    }
-  }
-  
-  if(!flowlog || !flowlog.command){
+  if (!fieEnv.isIntranet()) {
     return {
       success: false,
-      msg: "flowlog.command 命令串或工具名 不能为空!"
-    }
+      msg: '外网版本暂时不发流程日志!'
+    };
   }
 
-  let commonData = getCommonData(false, true);
-  let flowLogEntiy = {
-      git: commonData.repository,
-      branch: commonData.branch,
-      tool: flowlog.command.split(' ')[0],
-      beginTime: flowlog.beginTime || Date.now(),
-      endTime: flowlog.endTime || Date.now(),
-      operator: commonData.name,
-      status: flowlog.status || 1,// 1为操作成功 0 为操作失败
-      command: flowlog.command,
-      message: flowlog.message,
-      type: type //操作类型： 1为info，2为warn，3为error
+  if (!flowlog || !flowlog.command) {
+    return {
+      success: false,
+      msg: 'flowlog.command 命令串或工具名 不能为空!'
+    };
   }
+
+  const commonData = getCommonData(false, true);
+  const flowLogEntiy = {
+    git: commonData.repository,
+    branch: commonData.branch,
+    tool: flowlog.command.split(' ')[0],
+    beginTime: flowlog.beginTime || Date.now(),
+    endTime: flowlog.endTime || Date.now(),
+    operator: commonData.name,
+    status: flowlog.status || 1, // 1为操作成功 0 为操作失败
+    command: flowlog.command,
+    message: flowlog.message,
+    type // 操作类型： 1为info，2为warn，3为error
+  };
 
   return fieFlowLog.send(flowLogEntiy);
-}
+};
 
 
 const flowLog = {
-  log: (logEntity) => {
-    return generateEntityAndSend(1, logEntity);
-  },
-  warn: (logEntity) => {
-    return generateEntityAndSend(2, logEntity);
-  },
-  error: (logEntity) => {
-    return generateEntityAndSend(3, logEntity);
-  }
-}
+  log: logEntity => generateEntityAndSend(1, logEntity),
+  warn: logEntity => generateEntityAndSend(2, logEntity),
+  error: logEntity => generateEntityAndSend(3, logEntity)
+};
 
 /**
  * @exports fie-report
  */
 module.exports = {
   /* 向外暴露flowLog.log,flowLog.warn,flowLog.error 接口 */
-  flowLog: flowLog,
+  flowLog,
 
   /**
    * 根据核心命令发送日志(spmId: fie-core-command)
@@ -219,11 +209,10 @@ module.exports = {
   coreCommand(command) {
     const logMsg = `command=${command}&${getCommonData()}`;
 
-    if(fieEnv.isIntranet()) {
-      //内网发流程日志，外网发retcode
-      flowLog.log({ command: command, message: logMsg });
-    }
-    else{
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
+      flowLog.log({ command, message: logMsg });
+    } else {
       __WPO.setConfig({ spmId: 'fie-core-command' });
       log.debug('发送日志(coreCommand): %s', logMsg);
       __WPO.log(logMsg, 1);
@@ -242,11 +231,10 @@ module.exports = {
   moduleUsage(name) {
     const logMsg = `moduleName=${name}&${getCommonData()}`;
 
-    if(fieEnv.isIntranet()) {
-      //内网发流程日志，外网发retcode
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
       flowLog.log({ command: name, message: logMsg });
-    }
-    else{
+    } else {
       __WPO.setConfig({ spmId: 'fie-module-use' });
       log.debug('发送日志(moduleUsage): %s', logMsg);
       __WPO.log(logMsg, 1);
@@ -271,11 +259,10 @@ module.exports = {
     }
     const logMsg = `type=${type}&err=${err}&${getCommonData(true)}`;
 
-    if(fieEnv.isIntranet()) {
-      //内网发流程日志，外网发retcode
-      flowLog.error({ command: type, message: logMsg});
-    }
-    else{
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
+      flowLog.error({ command: type, message: logMsg });
+    } else {
       __WPO.setConfig({ spmId: 'fie-error' });
       log.debug('发送日志(error): %s', logMsg);
       __WPO.log(logMsg, 1);

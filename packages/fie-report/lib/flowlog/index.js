@@ -1,7 +1,9 @@
 'use strict';
+
 const request = require('request');
-const HOST = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-api pro: http://127.0.0.1:6001/flowlog.do
 const fieEnv = require('fie-env');
+
+const HOST = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-api pro: http://127.0.0.1:6001/flowlog.do
 
 /**
  * 发送fie流程日志
@@ -16,45 +18,44 @@ const fieEnv = require('fie-env');
  * @param {number} flowlog.status 操作状态(可选参数)
  * @returns {object} object, object.sucess 是否成功, object.msg 消息
  */
-let sendFlowLog = function(flowLog){
-    if(!fieEnv.isIntranet()){
-        return {
-            success: false,
-            msg: "外网版本暂时不发流程日志!"
-        }
-    }
-    let data = Object.assign({
-        git: "git",
-        branch: "the branch",
-        tool: "fie|tookit|plugin|",
-        beginTime: Date.now(),
-        endTime: Date.now(),
-        operator: "@fie",
-        status: 1, // 1为操作成功 0 为操作失败
-        command: "the command",
-        message: "msg",
-        type: 1 //操作类型： 1为info，2为warn，3为error
-    },flowLog);
-
-    request.get({
-        url: HOST,
-        json: true,
-        qs: data
-    }, (err, result) => {
-        if(err){
-            //请求是否成功暂时不做处理
-            //console.log("外网请忽略：fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
-        }
-    });
-  
-
-
+const sendFlowLog = function (flowLog) {
+  if (!fieEnv.isIntranet()) {
     return {
-        success: true,
-        msg: "成功"
-    }
-}
+      success: false,
+      msg: '外网版本暂时不发流程日志!'
+    };
+  }
+  const data = Object.assign({
+    git: 'git',
+    branch: 'the branch',
+    tool: 'fie|tookit|plugin|',
+    beginTime: Date.now(),
+    endTime: Date.now(),
+    operator: '@fie',
+    status: 1, // 1为操作成功 0 为操作失败
+    command: 'the command',
+    message: 'msg',
+    type: 1 // 操作类型： 1为info，2为warn，3为error
+  }, flowLog);
+
+  setTimeout(() => {
+    request.get({
+      url: HOST,
+      json: true,
+      qs: data
+    }, () => {
+        // (err, result)
+        // 请求是否成功暂时不做处理
+        // console.log("外网请忽略：fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
+    });
+  }, 200);
+
+  return {
+    success: true,
+    msg: '成功'
+  };
+};
 
 module.exports = {
-    send: sendFlowLog
-}
+  send: sendFlowLog
+};

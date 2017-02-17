@@ -128,7 +128,7 @@ module.exports = function* (command, cliArgs) {
   if (command === 'plugin') {
     if (cliArgs.length < 1) {
       log.error('请输入您要运行的插件名');
-      return ;
+      return;
     }
     command = cliArgs.splice(0, 1)[0];
 
@@ -193,7 +193,7 @@ module.exports = function* (command, cliArgs) {
             when: 'after',
             command
           });
-        }).catch(err => {
+        }).catch((err) => {
           fieError.handle(err);
           report.error('task', err);
         });
