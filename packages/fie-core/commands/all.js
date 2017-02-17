@@ -18,6 +18,7 @@ const argv = require('yargs').argv;
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const report = require('fie-report');
 
 let fieObject;
 
@@ -63,6 +64,7 @@ function* runPlugin(name, cliArgs) {
       return;
     }
     setEntryModule(name);
+    report.moduleUsage(fieModule.fullName(name));
     yield fieTask.runFunction({
       method,
       args: [fieObject, {
@@ -159,6 +161,7 @@ module.exports = function* (command, cliArgs) {
       cliArgs.type = cliArgs.length > 0 ? cliArgs[0] : '';
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';
     }
+    report.moduleUsage(fieModule.fullName(toolkitName));
     setEntryModule(toolkitName);
     yield fieTask.runFunction({
       method: toolkit[command],
@@ -176,7 +179,10 @@ module.exports = function* (command, cliArgs) {
             when: 'after',
             command
           });
-        }).catch(err => fieError.handle(err));
+        }).catch(err => {
+          fieError.handle(err);
+          report.error('task', err);
+        });
       }
     });
     return;
