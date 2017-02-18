@@ -15,11 +15,10 @@ const fieEnv = require('fie-env');
 const cache = require('fie-cache');
 
 const __WPO = require('./retcode/log-node');
-
+const fieFlowLog = require('./flowlog');
 
 let UserInfo = null;
 const cacheEnv = {};
-
 
 /**
  * 调用时再用git 生成用户信息,尽量减少无用执行
@@ -70,9 +69,6 @@ const cacheEnvGetter = {
   }
 };
 
-const getNetEnv = () => ({
-  netEnv: fieEnv.isIntranet() ? 'intranet' : 'extranet'
-});
 
 /**
  * 获取项目相关环境
@@ -80,7 +76,8 @@ const getNetEnv = () => ({
 const getProjectEnv = () => {
   const projectData = {
     cwd: process.cwd(),
-    argv: encodeURIComponent(process.argv.join(' '))
+    argv: encodeURIComponent(process.argv.join(' ')),
+    branch: ''
   };
 
   try {
@@ -90,6 +87,27 @@ const getProjectEnv = () => {
   } catch (e) {
     // no package.json
   }
+
+  if (!projectData.repository) {
+    try {
+      const regRem = /remote\.origin\.url=([^\n]+)/;
+      const matchRem = execSync('git config -l').toString().match(regRem);
+      if (matchRem && matchRem.length > 1) {
+        projectData.repository = matchRem[1];
+      }
+    } catch (ex) {
+      console.log('git config -l 命令不存在', ex);
+    }
+  }
+
+  try {
+    const branchArray = execSync('git branch').toString().match(/\*\s+(.*)/);
+    if (branchArray && branchArray.length > 1) {
+      projectData.branch = branchArray[1];
+    }
+  } catch (ex) {
+    console.log('get git branch err', ex);
+  }
   return projectData;
 };
 
@@ -98,9 +116,11 @@ const getProjectEnv = () => {
  * @param force 为 true时, 对 tnpm, node 版本等重新获取,一般在报错的时候才传入 true
  * @returns {string}
  */
-const getCommonData = (force) => {
+const getCommonData = (force, getJsonFormat) => {
   const commonDataStr = [];
-  let commonData = Object.assign({}, getNetEnv(), getProjectEnv());
+  let commonData = Object.assign({}, {
+    netEnv: fieEnv.isIntranet() ? 'intranet' : 'extranet'
+  }, getProjectEnv());
   let globalCacheEnv = cache.get('reportEnvCache');
 
   if (!globalCacheEnv || force) {
@@ -119,27 +139,88 @@ const getCommonData = (force) => {
     commonDataStr.push(`${key}=${commonData[key]}`);
   });
 
+  if (getJsonFormat) {
+    return commonData;
+  }
+
   return commonDataStr.join('&');
+};
+
+/**
+ *  发送流程日志到FIE平台
+ * @param {number} type 操作类型： 1为info，2为warn，3为error
+ * @param {object} flowlog
+ * @param {string} flowlog.command 命令串或工具名
+ * @param {string} flowlog.message 消息
+ * @param {number} flowlog.beginTime 执行开始, 格式Date.now()
+ * @param {number} flowlog.endTime 执行结束时间, 格式Date.now()
+ * @param {number} flowlog.status 操作状态
+*/
+const generateEntityAndSend = (type, flowlog) => {
+  if (!fieEnv.isIntranet()) {
+    return {
+      success: false,
+      msg: '外网版本暂时不发流程日志!'
+    };
+  }
+
+  if (!flowlog || !flowlog.command) {
+    return {
+      success: false,
+      msg: 'flowlog.command 命令串或工具名 不能为空!'
+    };
+  }
+
+  const commonData = getCommonData(false, true);
+  const flowLogEntiy = {
+    git: commonData.repository,
+    branch: commonData.branch,
+    tool: flowlog.command.split(' ')[0],
+    beginTime: flowlog.beginTime || Date.now(),
+    endTime: flowlog.endTime || Date.now(),
+    operator: commonData.name,
+    status: flowlog.status || 1, // 1为操作成功 0 为操作失败
+    command: flowlog.command,
+    message: flowlog.message,
+    type // 操作类型： 1为info，2为warn，3为error
+  };
+
+  return fieFlowLog.send(flowLogEntiy);
+};
+
+
+const flowLog = {
+  log: logEntity => generateEntityAndSend(1, logEntity),
+  warn: logEntity => generateEntityAndSend(2, logEntity),
+  error: logEntity => generateEntityAndSend(3, logEntity)
 };
 
 /**
  * @exports fie-report
  */
 module.exports = {
+  /* 向外暴露flowLog.log,flowLog.warn,flowLog.error 接口 */
+  flowLog,
 
   /**
    * 根据核心命令发送日志(spmId: fie-core-command)
    * @param {string} command 命令串
    */
-
   coreCommand(command) {
-    __WPO.setConfig({ spmId: 'fie-core-command' });
     const logMsg = `command=${command}&${getCommonData()}`;
-    log.debug('发送日志(coreCommand): %s', logMsg);
-    __WPO.log(logMsg, 1);
+
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
+      flowLog.log({ command, message: logMsg });
+    } else {
+      __WPO.setConfig({ spmId: 'fie-core-command' });
+      log.debug('发送日志(coreCommand): %s', logMsg);
+      __WPO.log(logMsg, 1);
+    }
+
     return {
       success: true,
-      logMsg
+      msg: logMsg
     };
   },
 
@@ -148,13 +229,20 @@ module.exports = {
    * @param {string} command 命令串
    */
   moduleUsage(name) {
-    __WPO.setConfig({ spmId: 'fie-module-use' });
     const logMsg = `moduleName=${name}&${getCommonData()}`;
-    log.debug('发送日志(moduleUsage): %s', logMsg);
-    __WPO.log(logMsg, 1);
+
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
+      flowLog.log({ command: name, message: logMsg });
+    } else {
+      __WPO.setConfig({ spmId: 'fie-module-use' });
+      log.debug('发送日志(moduleUsage): %s', logMsg);
+      __WPO.log(logMsg, 1);
+    }
+
     return {
       success: true,
-      logMsg
+      msg: logMsg
     };
   },
 
@@ -169,13 +257,20 @@ module.exports = {
     } else if (typeof err !== 'string') {
       err = err.toString();
     }
-    __WPO.setConfig({ spmId: 'fie-error' });
     const logMsg = `type=${type}&err=${err}&${getCommonData(true)}`;
-    log.debug('发送日志(error): %s', logMsg);
-    __WPO.log(logMsg, 1);
+
+    if (fieEnv.isIntranet()) {
+      // 内网发流程日志，外网发retcode
+      flowLog.error({ command: type, message: logMsg });
+    } else {
+      __WPO.setConfig({ spmId: 'fie-error' });
+      log.debug('发送日志(error): %s', logMsg);
+      __WPO.log(logMsg, 1);
+    }
+
     return {
       success: true,
-      logMsg
+      msg: logMsg
     };
   }
 };
