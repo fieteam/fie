@@ -12,6 +12,7 @@ const compatible = require('./compatible');
 const initEnv = require('./init-env');
 const core = require('./core')();
 const report = require('fie-report');
+const fiePkg = require('../package.json');
 
 /**
  * @param command fie所需的命令
@@ -27,6 +28,9 @@ function run(command, args) {
 
     // fie版本更新提示
     yield compatible.updateTip();
+
+    // 添加 fie 版本号环境变量
+    process.env.FIE_VERSION = fiePkg.version;
 
     if (core.indexOf(command) === -1) {
       // node环境判断, 小于4.x 就退出
