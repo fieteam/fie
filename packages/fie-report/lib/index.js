@@ -15,40 +15,22 @@ const fieEnv = require('fie-env');
 const cache = require('fie-cache');
 
 const __WPO = require('./retcode/log-node');
-const fieFlowLog = require('./flowlog');
+const fieCliLog = require('./cli-log/index');
 
-let UserInfo = null;
-const cacheEnv = {};
-
-/**
- * 调用时再用git 生成用户信息,尽量减少无用执行
- */
-const userInfoGetter = () => {
-  if (!UserInfo) {
-    UserInfo = fieUser.getUser();
-  }
-};
+// let UserInfo = null;
+// const cacheEnv = {};
 
 /**
  * 环境变量获取
  */
 const cacheEnvGetter = {
   fieVersion() {
-    let fv = cacheEnv.fieVersion;
-    try {
-      fv = execSync('fie -v').toString().replace('\n', '');
-    } catch (e) {
-      fv = '';
-    }
+    let fv = process.env.FIE_VERSION || execSync('npm view fie version').toString().replace('\n', '');
     return fv;
   },
-  name() {
-    userInfoGetter();
-    return UserInfo.name;
-  },
   email() {
-    userInfoGetter();
-    return UserInfo.email;
+		const userInfo = fieUser.getUser();
+    return userInfo.email;
   },
   nodeVersion() {
     return execSync('node -v').toString().replace('\n', '');
@@ -116,16 +98,21 @@ const getProjectEnv = () => {
  * @param force 为 true时, 对 tnpm, node 版本等重新获取,一般在报错的时候才传入 true
  * @returns {string}
  */
-const getCommonData = (force, getJsonFormat) => {
+const getCommonData = (force) => {
   const commonDataStr = [];
   let commonData = Object.assign({}, {
     netEnv: fieEnv.isIntranet() ? 'intranet' : 'extranet'
   }, getProjectEnv());
+
   let globalCacheEnv = cache.get('reportEnvCache');
+
 
   if (!globalCacheEnv || force) {
     globalCacheEnv = {};
-    Object.keys(cacheEnvGetter).forEach((item) => {
+    const cacheEnv = Object.keys(cacheEnvGetter);
+
+		cacheEnv.forEach((item) => {
+
       commonData[item] = cacheEnvGetter[item]();
       cacheEnv[item] = commonData[item];
     });
@@ -135,15 +122,13 @@ const getCommonData = (force, getJsonFormat) => {
     commonData = Object.assign({}, commonData, globalCacheEnv);
   }
 
+
   Object.keys(commonData).forEach((key) => {
     commonDataStr.push(`${key}=${commonData[key]}`);
   });
 
-  if (getJsonFormat) {
-    return commonData;
-  }
+	return commonData;
 
-  return commonDataStr.join('&');
 };
 
 /**
@@ -171,7 +156,10 @@ const generateEntityAndSend = (type, flowlog) => {
     };
   }
 
-  const commonData = getCommonData(false, true);
+  const commonData = getCommonData(false);
+
+  log.debug('上报的通用数据 = %o',commonData);
+
   const flowLogEntiy = {
     git: commonData.repository,
     branch: commonData.branch,
@@ -185,7 +173,7 @@ const generateEntityAndSend = (type, flowlog) => {
     type // 操作类型： 1为info，2为warn，3为error
   };
 
-  return fieFlowLog.send(flowLogEntiy);
+  return fieCliLog.send(flowLogEntiy);
 };
 
 
@@ -208,6 +196,7 @@ module.exports = {
    */
   coreCommand(command) {
     const logMsg = `command=${command}&${getCommonData()}`;
+
 
     if (fieEnv.isIntranet()) {
       // 内网发流程日志，外网发retcode
