@@ -108,7 +108,7 @@ module.exports = {
         fieToolKitVersion: moduleVersion
       };
     }
-    // 判断如果名称一致的话，则不显示入口
+    //TODO 判断如果名称一致的话，则不显示入口
     if (moduleEntry) {
       data.fieModuleEntry = moduleEntry;
     }
