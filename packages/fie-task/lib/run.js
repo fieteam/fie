@@ -1,6 +1,7 @@
 'use strict';
 
 const log = require('fie-log')('fie-task');
+const report = require('fie-report');
 const runFunction = require('./run-function');
 const npmRun = require('npm-run');
 const co = require('co');
@@ -71,6 +72,8 @@ function* oneTask(task, args, hookParam) {
 
 
       child.on('close', (status) => {
+        console.log(status);
+
         // 插件自己要退出,则不抛出异常
         // TODO 找潕量的插件验证一下, 还要考虑 eslint 等情况
         if (status === 10) {
@@ -79,6 +82,7 @@ function* oneTask(task, args, hookParam) {
         } else if (status !== 0) {
           const message = `${task.command} 命令执行行失败`;
           log.error(message);
+					report.error('fie-task',message);
           resetEnv();
           // 执行失败后，退出终端，不再继续执行
           process.exit(status);

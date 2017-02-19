@@ -85,7 +85,7 @@ module.exports = {
    */
   coreCommand() {
 
-		generateEntityAndSend(1)
+		generateEntityAndSend(1,{})
   },
 
   /**

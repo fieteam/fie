@@ -29,12 +29,13 @@ function* updateTip() {
   if (!semver.lt(current.version, latest.version)) {
     return;
   }
+  const installer = current.name.indexOf('@ali') !== -1 ? 'tnpm' : 'npm';
 
   console.log('\n');
   log.warn(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   升级提示  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
   log.warn(`FIE推荐的版本是 ${chalk.green.bold(latest.version)} , 本地版本是 ${current.version}, 建议升级后再使用,保证功能的稳定性`);
-  log.warn(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(` npm install ${current.name} -g `)} 来升级FIE`);
-  log.warn(`如果提示没有权限，请尝试 sudo npm install ${current.name} -g`);
+  log.warn(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(` ${installer} install -g ${current.name} `)} 来升级FIE`);
+  log.warn(`如果提示没有权限，请尝试 ${chalk.red.bold(`sudo ${installer} install -g ${current.name} `)}`);
   log.warn(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
   console.log('\n');
 }
@@ -46,7 +47,7 @@ function checkNode() {
     nodeVersion = String(childProcess.execSync('node -v'));
     if (!semver.gte(nodeVersion, '4.0.0')) {
       log.error('您当前使用的node版本小于4.x,请升级后再使用FIE。');
-      log.error('升级node版本可以参考：');
+      // log.error('升级node版本可以参考：');
       // TODO 新增node版本升级方案
       // log.error('http://node.alibaba-inc.com/env/README.html');
       process.exit(0);

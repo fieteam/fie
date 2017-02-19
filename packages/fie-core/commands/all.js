@@ -109,7 +109,9 @@ function* showVersion(name) {
   yield logOne(`plugin-${name}`);
 
   if (!existsOne) {
-    log.error(`未找到 toolkit-${name} 或 plugin-${name} 模块`);
+    const msg = `未找到 toolkit-${name} 或 plugin-${name} 模块`;
+    log.error(msg);
+    report.error('plugin-not-found',msg);
   }
 }
 
@@ -199,6 +201,7 @@ module.exports = function* (command, cliArgs) {
             when: 'after',
             command
           });
+
         }).catch((err) => {
           fieError.handle(err);
         });
@@ -207,9 +210,10 @@ module.exports = function* (command, cliArgs) {
     return;
   } else if (hasAfterTask) {
     log.debug('未找到对应的套件及方法');
-
     // 只有后置命令, 却没有套件模块的给个提示
-    log.error(`未找到 ${command} 对应的套件命令,后置任务无法执行`);
+    const msg = `未找到 ${command} 对应的套件命令,后置任务无法执行`;
+    log.error(msg);
+    report.error('plugin-not-found',msg);
     return;
   }
 
