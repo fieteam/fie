@@ -82,7 +82,7 @@ function* oneTask(task, args, hookParam) {
         } else if (status !== 0) {
           const message = `${task.command} 命令执行行失败`;
           log.error(message);
-					report.error('fie-task',message);
+          report.error('fie-task', message);
           resetEnv();
           // 执行失败后，退出终端，不再继续执行
           process.exit(status);

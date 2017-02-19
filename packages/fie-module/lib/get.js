@@ -62,11 +62,11 @@ function* get(name) {
   const pkg = fs.readJsonSync(pkgPath);
   const mod = require(modulePath);
 
-  //TODO 发送log记录，由于调用插件时，也会调用到套件，所以这里只有插件调用的时候才发送log
-  //套件调用，在fie-core all.js文件
-  if(!returnPkg && name.indexOf('fie-plugin') !== -1){
+  // TODO 发送log记录，由于调用插件时，也会调用到套件，所以这里只有插件调用的时候才发送log
+  // 套件调用，在fie-core all.js文件
+  if (!returnPkg && name.indexOf('fie-plugin') !== -1) {
     log.debug(`${name} 插件开始发送日志...`);
-		report.moduleUsage(utils.fullName(name));
+    report.moduleUsage(utils.fullName(name));
   }
 
   return returnPkg ? pkg : mod;

@@ -43,7 +43,7 @@ function* runPlugin(name, cliArgs) {
   }
 
   if (exist) {
-		setEntryModule(name);
+    setEntryModule(name);
     const plugin = yield fieModule.get(name);
     let method;
     let pluginCmd = '';
@@ -63,7 +63,7 @@ function* runPlugin(name, cliArgs) {
     if (!method) {
       const msg = `未找到 ${name} 插件对应的命令 ${pluginCmd}`;
       log.error(msg);
-      report.error(name,msg);
+      report.error(name, msg);
       return;
     }
 
@@ -77,7 +77,7 @@ function* runPlugin(name, cliArgs) {
   } else {
     const msg = `${name} 插件不存在`;
     log.error(msg);
-		report.error(name,msg);
+    report.error(name, msg);
   }
 }
 
@@ -111,7 +111,7 @@ function* showVersion(name) {
   if (!existsOne) {
     const msg = `未找到 toolkit-${name} 或 plugin-${name} 模块`;
     log.error(msg);
-    report.error('plugin-not-found',msg);
+    report.error('plugin-not-found', msg);
   }
 }
 
@@ -181,7 +181,7 @@ module.exports = function* (command, cliArgs) {
       cliArgs.type = cliArgs.length > 0 ? cliArgs[0] : '';
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';
     }
-    //套件发送log
+    // 套件发送log
     log.debug(`套件 ${toolkitName} LOG开始发送...`);
     report.moduleUsage(fieModule.fullName(toolkitName));
     setEntryModule(toolkitName);
@@ -201,7 +201,6 @@ module.exports = function* (command, cliArgs) {
             when: 'after',
             command
           });
-
         }).catch((err) => {
           fieError.handle(err);
         });
@@ -213,7 +212,7 @@ module.exports = function* (command, cliArgs) {
     // 只有后置命令, 却没有套件模块的给个提示
     const msg = `未找到 ${command} 对应的套件命令,后置任务无法执行`;
     log.error(msg);
-    report.error('plugin-not-found',msg);
+    report.error('plugin-not-found', msg);
     return;
   }
 
