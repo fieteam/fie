@@ -1,6 +1,13 @@
 {
   "__expries": {
-    "reportEnvCache": null
+    "reportEnvCache": 1487752174696
   },
-  "reportEnvCache": {}
+  "reportEnvCache": {
+    "fieVersion": "1.3.5",
+    "email": "yuguo.hyg@alibaba-inc.com",
+    "nodeVersion": "5.1.1",
+    "npmVersion": "3.3.12",
+    "tnpmVersion": "4.19.1",
+    "system": "darwin 15.6.0"
+  }
 }
