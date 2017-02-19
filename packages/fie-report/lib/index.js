@@ -26,10 +26,10 @@ const cwd = process.cwd();
  * @param {number} flowlog.endTime 执行结束时间, 格式Date.now()
  * @param {number} flowlog.status 操作状态
 */
-const generateEntityAndSend = (type, flowlog) => {
+const generateEntityAndSend = (type, flowlog,foces) => {
 
   const project = utils.getProjectInfo(cwd);
-  const env = utils.getProjectEnv();
+  const env = utils.getProjectEnv(foces);
   const command = utils.getCommand();
   const map = {
     'fie-core-command' : 1,
@@ -122,11 +122,11 @@ module.exports = {
    * @param {string} type 错误类型
    * @param {object|string} err 信息
    */
-  error(type, err) {
+  error(type, err,focus) {
 
   	generateEntityAndSend(3,{
   		errorType : type,
 			error : err
-		})
+		},focus)
   }
 };

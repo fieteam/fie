@@ -2,8 +2,7 @@
 
 const request = require('request');
 const debug = require('debug')('fie-report');
-
-// const API = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-api pro: http://127.0.0.1:6001/flowlog.do
+const __WPO = require('../retcode/log-node');
 let host = 'http://fie-api.alibaba.net';
 if(process.env.NODE_ENV === 'local'){
 	host = 'http://127.0.0.1:6001'
@@ -36,10 +35,17 @@ function send(data) {
 			if(!err && result.body && result.body.code === 200){
 				debug(`日志发送成功`)
 			}else {
-				debug(`日志发送失败`,err || result.body)
+				debug(`日志发送失败`,err || result.body);
+				//发送失败的话，就用retcode发送一下存起来
+				__WPO.setConfig({ spmId: 'fie-api-error' });
+				let logMsg = [];
+				Object.keys(data).forEach(item => {
+					logMsg.push(`${item}=${JSON.stringify(data[item])}`)
+				});
+
+				__WPO.log(logMsg.join('&'), 1);
+
 			}
-			// 请求是否成功暂时不做处理
-			// console.log("外网请忽略：fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
 		});
 	},500)
 }

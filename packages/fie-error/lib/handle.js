@@ -30,9 +30,7 @@ function handle(e) {
     log.debug(e.stack || e);
     const handList = utils.getHandleList().concat(innerList);
     //发送错误日志
-    console.log(111);
-
-    report.error(e.code || 'fie-error',e.stack || e);
+    report.error(e.code || 'fie-error',e.stack || e,true);
 
     for (let i = 0; i < handList.length; i += 1) {
       const res = yield handList[i](e);
