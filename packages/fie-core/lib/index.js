@@ -44,7 +44,7 @@ function run(command, args) {
       log.debug('进入核心命令分支');
       // init, install, install, uninstall, update ,version 等命令
       // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
-      report.coreCommand(command);
+      report.coreCommand();
       yield require(`../commands/${command}`).apply(null, [args]);
     }
 
@@ -55,7 +55,6 @@ function run(command, args) {
     });
   }).catch((err) => {
     fieError.handle(err);
-    report.error('task', err);
   });
 }
 

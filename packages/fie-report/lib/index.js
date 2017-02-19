@@ -6,133 +6,18 @@
 
 'use strict';
 
-const execSync = require('child_process').execSync;
-const log = require('fie-log')('fie-report');
-const path = require('path');
+const debug = require('debug')('fie-report');
 const os = require('os');
-const fieUser = require('fie-user');
+const fieHome = require('fie-home');
 const fieEnv = require('fie-env');
 const cache = require('fie-cache');
-
+const utils = require('./utils');
 const __WPO = require('./retcode/log-node');
 const fieCliLog = require('./cli-log/index');
-
-// let UserInfo = null;
-// const cacheEnv = {};
-
+const isIntranet = fieEnv.isIntranet();
+const cwd = process.cwd();
 /**
- * 环境变量获取
- */
-const cacheEnvGetter = {
-  fieVersion() {
-    let fv = process.env.FIE_VERSION || execSync('npm view fie version').toString().replace('\n', '');
-    return fv;
-  },
-  email() {
-		const userInfo = fieUser.getUser();
-    return userInfo.email;
-  },
-  nodeVersion() {
-    return execSync('node -v').toString().replace('\n', '');
-  },
-  npmVersion() {
-    return execSync('npm -v').toString().replace('\n', '');
-  },
-  tnpmVersion() {
-    try {
-      return execSync('tnpm -v').toString().split('\n')[0].match(/\d+\.\d+\.\d+/)[0];
-    } catch (ex) {
-      // 外网无tnpm
-      return 'tnpm not install';
-    }
-  },
-  system() {
-    return `${os.platform()} ${os.release()}`;
-  }
-};
-
-
-/**
- * 获取项目相关环境
- */
-const getProjectEnv = () => {
-  const projectData = {
-    cwd: process.cwd(),
-    argv: encodeURIComponent(process.argv.join(' ')),
-    branch: ''
-  };
-
-  try {
-    const pkg = require(path.resolve(projectData.cwd, 'package.json'));
-    projectData.project = pkg.name;
-    projectData.repository = pkg.repository.url;
-  } catch (e) {
-    // no package.json
-  }
-
-  if (!projectData.repository) {
-    try {
-      const regRem = /remote\.origin\.url=([^\n]+)/;
-      const matchRem = execSync('git config -l').toString().match(regRem);
-      if (matchRem && matchRem.length > 1) {
-        projectData.repository = matchRem[1];
-      }
-    } catch (ex) {
-      console.log('git config -l 命令不存在', ex);
-    }
-  }
-
-  try {
-    const branchArray = execSync('git branch').toString().match(/\*\s+(.*)/);
-    if (branchArray && branchArray.length > 1) {
-      projectData.branch = branchArray[1];
-    }
-  } catch (ex) {
-    console.log('get git branch err', ex);
-  }
-  return projectData;
-};
-
-/**
- * 获取上报所需的通用参数
- * @param force 为 true时, 对 tnpm, node 版本等重新获取,一般在报错的时候才传入 true
- * @returns {string}
- */
-const getCommonData = (force) => {
-  const commonDataStr = [];
-  let commonData = Object.assign({}, {
-    netEnv: fieEnv.isIntranet() ? 'intranet' : 'extranet'
-  }, getProjectEnv());
-
-  let globalCacheEnv = cache.get('reportEnvCache');
-
-
-  if (!globalCacheEnv || force) {
-    globalCacheEnv = {};
-    const cacheEnv = Object.keys(cacheEnvGetter);
-
-		cacheEnv.forEach((item) => {
-
-      commonData[item] = cacheEnvGetter[item]();
-      cacheEnv[item] = commonData[item];
-    });
-    // 缓存三天
-    cache.set('reportEnvCache', globalCacheEnv, 259200000);
-  } else {
-    commonData = Object.assign({}, commonData, globalCacheEnv);
-  }
-
-
-  Object.keys(commonData).forEach((key) => {
-    commonDataStr.push(`${key}=${commonData[key]}`);
-  });
-
-	return commonData;
-
-};
-
-/**
- *  发送流程日志到FIE平台
+ * 发送流程日志到FIE平台
  * @param {number} type 操作类型： 1为info，2为warn，3为error
  * @param {object} flowlog
  * @param {string} flowlog.command 命令串或工具名
@@ -142,124 +27,106 @@ const getCommonData = (force) => {
  * @param {number} flowlog.status 操作状态
 */
 const generateEntityAndSend = (type, flowlog) => {
-  if (!fieEnv.isIntranet()) {
-    return {
-      success: false,
-      msg: '外网版本暂时不发流程日志!'
-    };
-  }
 
-  if (!flowlog || !flowlog.command) {
-    return {
-      success: false,
-      msg: 'flowlog.command 命令串或工具名 不能为空!'
-    };
-  }
-
-  const commonData = getCommonData(false);
-
-  log.debug('上报的通用数据 = %o',commonData);
-
-  const flowLogEntiy = {
-    git: commonData.repository,
-    branch: commonData.branch,
-    tool: flowlog.command.split(' ')[0],
-    beginTime: flowlog.beginTime || Date.now(),
-    endTime: flowlog.endTime || Date.now(),
-    operator: commonData.name,
-    status: flowlog.status || 1, // 1为操作成功 0 为操作失败
-    command: flowlog.command,
-    message: flowlog.message,
-    type // 操作类型： 1为info，2为warn，3为error
+  const project = utils.getProjectInfo(cwd);
+  const env = utils.getProjectEnv();
+  const command = utils.getCommand();
+  const map = {
+    'fie-core-command' : 1,
+    'fie-module-use' : 2,
+    'fie-error' : 3
   };
 
-  return fieCliLog.send(flowLogEntiy);
+  // log.debug(`当前项目信息 = %o`,project);
+  // log.debug(`当前运行环境信息 = %o`,env);
+
+  const defaultData = {
+		userEmail: env.email,
+		node: env.nodeVersion,
+    fie : env.fieVersion,
+		npm: env.npmVersion,
+		tnpm: env.tnpmVersion,
+		system: env.system,
+		git: project.repository,
+    branch : project.branch,
+		command: command,
+		content: Object.assign({
+			pkg : project.pkg,
+			cwd : project.cwd,
+		},flowlog.content),
+    type // 操作类型
+  };
+
+  const data = Object.assign({},defaultData,flowlog);
+
+  debug('最终发送的数据 = %o',data);
+
+	if (isIntranet) {
+		fieCliLog.send(data);
+	}else {
+	  let logMsg = '';
+		Object.keys(data).forEach((key) => {
+			logMsg += `${key}=${JSON.stringify(data[key])}`;
+		});
+		__WPO.setConfig({ spmId: map[type] });
+		__WPO.log(logMsg, 1);
+  }
+
 };
 
-
-const flowLog = {
-  log: logEntity => generateEntityAndSend(1, logEntity),
-  warn: logEntity => generateEntityAndSend(2, logEntity),
-  error: logEntity => generateEntityAndSend(3, logEntity)
-};
 
 /**
  * @exports fie-report
  */
 module.exports = {
-  /* 向外暴露flowLog.log,flowLog.warn,flowLog.error 接口 */
-  flowLog,
 
   /**
    * 根据核心命令发送日志(spmId: fie-core-command)
-   * @param {string} command 命令串
    */
-  coreCommand(command) {
-    const logMsg = `command=${command}&${getCommonData()}`;
+  coreCommand() {
 
-
-    if (fieEnv.isIntranet()) {
-      // 内网发流程日志，外网发retcode
-      flowLog.log({ command, message: logMsg });
-    } else {
-      __WPO.setConfig({ spmId: 'fie-core-command' });
-      log.debug('发送日志(coreCommand): %s', logMsg);
-      __WPO.log(logMsg, 1);
-    }
-
-    return {
-      success: true,
-      msg: logMsg
-    };
+		generateEntityAndSend(1)
   },
 
   /**
-   * 根据模块名称发送retcode日志(spmId: fie-module-use)
-   * @param {string} command 命令串
+   * 根据模块名称发送日志
+   * @param {string} name 模块名
    */
   moduleUsage(name) {
-    const logMsg = `moduleName=${name}&${getCommonData()}`;
 
-    if (fieEnv.isIntranet()) {
-      // 内网发流程日志，外网发retcode
-      flowLog.log({ command: name, message: logMsg });
-    } else {
-      __WPO.setConfig({ spmId: 'fie-module-use' });
-      log.debug('发送日志(moduleUsage): %s', logMsg);
-      __WPO.log(logMsg, 1);
-    }
+  	const moduleVersion = utils.getFieModuleVersion(name);
+  	const moduleEntry = process.env[fieHome.getEntryModuleEnvName()];
+  	let data;
+  	//是插件
+    if(name.indexOf('fie-plugin') !== -1){
+			data = {
+				fiePluginName : name,
+				fiePluginVersion : moduleVersion
+			}
+		}else if(name.indexOf('fie-toolkit') !== -1){
+    	data = {
+				fieToolkitName : name,
+				fieToolKitVersion : moduleVersion
+			}
+		}
+		//判断如果名称一致的话，则不显示入口
+		if(moduleEntry){
+			data.fieModuleEntry = moduleEntry;
+		}
 
-    return {
-      success: true,
-      msg: logMsg
-    };
+		generateEntityAndSend(2,data);
   },
 
   /**
-   * 自定义retcode发送日志 (spmId: fie-error)
+   * 发送错误日志
    * @param {string} type 错误类型
-   * @param {object|string} error 信息
+   * @param {object|string} err 信息
    */
   error(type, err) {
-    if (typeof err === 'object') {
-      err = JSON.stringify(err);
-    } else if (typeof err !== 'string') {
-      err = err.toString();
-    }
-    const logMsg = `type=${type}&err=${err}&${getCommonData(true)}`;
 
-    if (fieEnv.isIntranet()) {
-      // 内网发流程日志，外网发retcode
-      flowLog.error({ command: type, message: logMsg });
-    } else {
-      __WPO.setConfig({ spmId: 'fie-error' });
-      log.debug('发送日志(error): %s', logMsg);
-      __WPO.log(logMsg, 1);
-    }
-
-    return {
-      success: true,
-      msg: logMsg
-    };
+  	generateEntityAndSend(3,{
+  		errorType : type,
+			error : err
+		})
   }
 };

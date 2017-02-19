@@ -62,6 +62,14 @@ function getUserFromGit() {
 	return userInfo;
 }
 
+function getUser() {
+	let userInfo = getUserFromFile();
+	if(!userInfo.email){
+		userInfo = getUserFromGit()
+	}
+	return userInfo;
+}
+
 /**
  * @exports fie-user
  */
@@ -72,11 +80,24 @@ module.exports = {
      * @returns {string} userInfo.name 用户名
      * @returns {string} userInfo.email 用户Email
      */
-  getUser() {
-    let userInfo = getUserFromFile();
-    if(!userInfo.email){
-      userInfo = getUserFromGit()
-    }
-    return userInfo;
-  }
+  getUser,
+
+	/**
+	 * 获取当前用户的Email
+	 * @returns {user.email|{type, allowNull}}
+	 */
+	getEmail : function () {
+		const user = getUser();
+		return user.email
+	},
+
+	/**
+	 * 获取当前用户的用户名
+	 * 该名称不准确，有可能是花名，也有可能是git的用户名
+	 * @returns {user.name|{type, allowNull}}
+	 */
+	getName : function () {
+		const user = getUser();
+		return user.name;
+	}
 };

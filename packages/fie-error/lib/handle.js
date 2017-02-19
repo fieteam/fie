@@ -10,6 +10,7 @@
 
 const co = require('co');
 const log = require('fie-log')('fie-error');
+const report = require('fie-report');
 const utils = require('./utils');
 
 const innerList = [
@@ -27,8 +28,11 @@ function handle(e) {
   co(function* () {
     log.debug('error code = %s', e.code);
     log.debug(e.stack || e);
-
     const handList = utils.getHandleList().concat(innerList);
+    //发送错误日志
+    console.log(111);
+
+    report.error(e.code || 'fie-error',e.stack || e);
 
     for (let i = 0; i < handList.length; i += 1) {
       const res = yield handList[i](e);

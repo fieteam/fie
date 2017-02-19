@@ -1,8 +1,7 @@
 'use strict';
 
 const request = require('request');
-const fieEnv = require('fie-env');
-const log = require('fie-log')('fie-report');
+const debug = require('debug')('fie-report');
 
 // const API = 'http://fie-api.alibaba.net/flowlog.do';// fie start fieteam/fie-api pro: http://127.0.0.1:6001/flowlog.do
 let host = 'http://fie-api.alibaba.net';
@@ -26,17 +25,23 @@ if(process.env.NODE_ENV === 'local'){
  */
 function send(data) {
 
-	log.debug('send log for api = %s', host);
+	debug('send log for api = %s', host);
 	setTimeout(function () {
 		request.post({
 			url: `${host}/log/cli`,
 			json: true,
 			form: data
 		}, (err,result) => {
+
+			if(!err && result.body && result.body.code === 200){
+				debug(`日志发送成功`)
+			}else {
+				debug(`日志发送失败`,err || result.body)
+			}
 			// 请求是否成功暂时不做处理
 			// console.log("外网请忽略：fie日志发送失败,fie-api.alibaba.net/flowlog.do接口导常! 请联系@六韬");
 		});
-	},200)
+	},500)
 }
 
 module.exports = {
