@@ -34,6 +34,7 @@
     "fs-extra": "^2.0.0"
   },
   "devDependencies": {
+    "fs-extra": "^2.0.0",
     "proxyquire": "^1.7.11"
   }
 }
