@@ -24,7 +24,6 @@ function* get(name) {
   const pkgPath = path.resolve(modulePath, 'package.json');
 
 
-
   if (fs.existsSync(pkgPath)) {
     log.debug(`存在本地模块 ${pkgPath}`);
 
@@ -51,7 +50,7 @@ function* get(name) {
             if (lastPkg.changeLog) {
               // 在 changeLog 里面检测是否有末位更新的版本
               lastPkg.changeLog = lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
-              for (let j = 0; j < lastPkg.changeLog.length; j++) {
+              for (let j = 0; j < lastPkg.changeLog.length; j += 1) {
                 if (semver.satisfies(lastPkg.changeLog[j].version, `~${localPkg.version}`)
                   && lastPkg.changeLog[j].version !== localPkg.version) {
                   autoZVersion = lastPkg.changeLog[j].version;

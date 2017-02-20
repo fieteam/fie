@@ -14,7 +14,7 @@ const searchApi = () => {
   const listApi = isIntranet ? 'http://fie-api.alibaba.net/modules' : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
-  //return isIntranet ? `http://web.npm.alibaba-inc.com/${end}` : `https://npm.taobao.org/${end}`;
+  // return isIntranet ? `http://web.npm.alibaba-inc.com/${end}` : `https://npm.taobao.org/${end}`;
 };
 
 /**
