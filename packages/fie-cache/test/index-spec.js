@@ -15,6 +15,11 @@ const cache = proxyquire('../lib/index', {
 });
 
 describe('# fie-cache', () => {
+  after(() => {
+    if (fs.existsSync(cacheFile)) {
+      fs.unlinkSync(cacheFile);
+    }
+  });
   describe('# cache.json 不存在的情况下', () => {
     before(() => {
       if (fs.existsSync(cacheFile)) {
