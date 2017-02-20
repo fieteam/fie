@@ -11,7 +11,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const home = require('fie-home');
 
-const cacheFile = path.resolve(home.getHomePath(), 'cache.json');
+const cacheFile = path.resolve(home.getHomePath(), 'fie.cache.json');
 
 
 /**

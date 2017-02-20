@@ -7,7 +7,7 @@ const fs = require('fs-extra');
 
 describe('# fie-cache', () => {
   const mockPath = path.resolve(__dirname, 'fixtures');
-  const cacheFile = path.resolve(mockPath, 'cache.json');
+  const cacheFile = path.resolve(mockPath, 'fie.cache.json');
   const cache = proxyquire('../lib/index', {
     'fie-home': {
       getHomePath() {
