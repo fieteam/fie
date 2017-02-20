@@ -3,6 +3,8 @@
 const semver = require('semver');
 const env = require('fie-env');
 const log = require('fie-log')('fie-module');
+const chalk = require('chalk');
+const emoji = require('node-emoji');
 
 const isIntranet = env.isIntranet();
 
@@ -66,6 +68,19 @@ function updateLog(name, opt) {
 
   if (opt.lastPkg.changeLog) {
     const changeLog = opt.lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
+
+
+    // 在警告模式下加重提示样式
+    if (opt.level === 'warn') {
+      const localVTip = localVersion ? ` , 本地版本是 ${localVersion} ` : '';
+      const installTip = `fie install ${opt.lastPkg.name.replace(/^(@ali\/)?fie\-/, '')}`;
+
+      console.log('\n');
+      ulog(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   升级提示  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
+      ulog(`${name} 推荐的版本是 ${chalk.green(lastVersion)}${localVTip}`);
+      ulog(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(installTip)} 来升级模块`);
+    }
+
     ulog(`${name} ${pre}包含以下更新:`);
     changeLog.forEach((item) => {
       if (!item.log || !item.log.length) {
@@ -84,6 +99,12 @@ function updateLog(name, opt) {
         ulog(` --${itemLog}`);
       });
     });
+
+    // 在警告模式下加重提示样式
+    if (opt.level === 'warn') {
+      ulog(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
+      console.log('\n');
+    }
   }
 }
 

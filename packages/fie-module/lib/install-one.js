@@ -15,7 +15,11 @@ function* installOne(name, options) {
   if (!/^(@ali\/)?.+@.+$/.test(name)) {
     // 没带版本号
     pureName = name;
-    name += '@latest';
+    if (options.lastPkg && options.lastPkg.version) {
+      name += `@${options.lastPkg.version}`;
+    } else {
+      name += '@latest';
+    }
   } else {
     pureName = name.split('@');
     pureName.pop();
