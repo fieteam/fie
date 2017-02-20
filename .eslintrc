@@ -24,6 +24,10 @@
     // 有动态引入的需求
     "import/no-dynamic-require": "off",
     // 有些函数对外需要暴露 generator 类型函数,但里面确实只有同步代码
-    "require-yield": "off"
+    "require-yield": "off",
+    // 一些正则表达式需要用到
+    "no-useless-escape": "off",
+    // 感觉这样写简洁一些
+    "no-mixed-operators" : "warn"
   }
 }

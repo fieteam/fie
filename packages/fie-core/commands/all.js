@@ -18,6 +18,7 @@ const argv = require('yargs').argv;
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const report = require('fie-report');
 
 let fieObject;
 
@@ -42,6 +43,7 @@ function* runPlugin(name, cliArgs) {
   }
 
   if (exist) {
+    setEntryModule(name);
     const plugin = yield fieModule.get(name);
     let method;
     let pluginCmd = '';
@@ -59,10 +61,12 @@ function* runPlugin(name, cliArgs) {
       }
     }
     if (!method) {
-      log.error(`未找到 ${name} 插件对应的命令 ${pluginCmd}`);
+      const msg = `未找到 ${name} 插件对应的命令 ${pluginCmd}`;
+      log.error(msg);
+      report.error(name, msg);
       return;
     }
-    setEntryModule(name);
+
     yield fieTask.runFunction({
       method,
       args: [fieObject, {
@@ -71,7 +75,9 @@ function* runPlugin(name, cliArgs) {
       }]
     });
   } else {
-    log.error(`${name} 插件不存在`);
+    const msg = `${name} 插件不存在`;
+    log.error(msg);
+    report.error(name, msg);
   }
 }
 
@@ -103,7 +109,9 @@ function* showVersion(name) {
   yield logOne(`plugin-${name}`);
 
   if (!existsOne) {
-    log.error(`未找到 toolkit-${name} 或 plugin-${name} 模块`);
+    const msg = `未找到 toolkit-${name} 或 plugin-${name} 模块`;
+    log.error(msg);
+    report.error('plugin-not-found', msg);
   }
 }
 
@@ -173,6 +181,9 @@ module.exports = function* (command, cliArgs) {
       cliArgs.type = cliArgs.length > 0 ? cliArgs[0] : '';
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';
     }
+    // 套件发送log
+    log.debug(`套件 ${toolkitName} LOG开始发送...`);
+    report.moduleUsage(fieModule.fullName(toolkitName));
     setEntryModule(toolkitName);
     yield fieTask.runFunction({
       method: toolkit[command],
@@ -190,18 +201,20 @@ module.exports = function* (command, cliArgs) {
             when: 'after',
             command
           });
-        }).catch(err => fieError.handle(err));
+        }).catch((err) => {
+          fieError.handle(err);
+        });
       }
     });
     return;
   } else if (hasAfterTask) {
     log.debug('未找到对应的套件及方法');
-
     // 只有后置命令, 却没有套件模块的给个提示
-    log.error(`未找到 ${command} 对应的套件命令,后置任务无法执行`);
+    const msg = `未找到 ${command} 对应的套件命令,后置任务无法执行`;
+    log.error(msg);
+    report.error('plugin-not-found', msg);
     return;
   }
-
 
   // -------------- 执行插件任务 ---------------
   // 在已经执行了任务流的情况下,直接不执行插件逻辑
