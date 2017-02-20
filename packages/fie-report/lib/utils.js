@@ -50,7 +50,9 @@ exports.getCurBranch = function (cwd) {
   if (fs.existsSync(headerFile)) {
     const gitVersion = fs.readFileSync(headerFile, { encoding: 'utf8' });
     const arr = gitVersion.split(/refs[\\\/]heads[\\\/]/g);
-    version = arr && arr[1] || '';
+    if (arr && arr.length > 1) {
+      version = arr[1];
+    }
   }
   return version.trim();
 };
