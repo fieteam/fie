@@ -39,7 +39,7 @@ function printListByType(type, modules) {
         '  ',
         chalk.green(item.name),
         chalk.gray(padding),
-        item.description ? item.description : '暂无描述'
+        item.chName ? item.chName : '暂无描述'
       ].join('');
 
       console.log(tmpString);
