@@ -185,26 +185,34 @@ module.exports = function* (command, cliArgs) {
     log.debug(`套件 ${toolkitName} LOG开始发送...`);
     report.moduleUsage(fieModule.fullName(toolkitName));
     setEntryModule(toolkitName);
+    const afterToolCommand = () => {
+      // -------------- 执行后置任务 ---------------
+      // next 是异步的方法, run 是 generator方法,所以需要用 co 包一层
+      hasAfterTask && co(function* () {
+        yield fieTask.run({
+          tasks: tasks[command],
+          args: [fieObject, cliArgs],
+          when: 'after',
+          command
+        });
+      }).catch((err) => {
+        fieError.handle(err);
+      });
+    };
     yield fieTask.runFunction({
       method: toolkit[command],
-      args: [fieObject, {
-        clientArgs: cliArgs,
-        clientOptions: argv
-      }],
-      next() {
-        // -------------- 执行后置任务 ---------------
-        // next 是异步的方法, run 是 generator方法,所以需要用 co 包一层
-        hasAfterTask && co(function* () {
-          yield fieTask.run({
-            tasks: tasks[command],
-            args: [fieObject, cliArgs],
-            when: 'after',
-            command
-          });
-        }).catch((err) => {
-          fieError.handle(err);
-        });
-      }
+      args: [
+        fieObject,
+        {
+          clientArgs: cliArgs,
+          clientOptions: argv,
+          // 兼容未使用 generator 版本套件和插件
+          callback: afterToolCommand
+        },
+        // 传入第三个参数 ,兼容未使用 generator 版本的套件和插件
+        afterToolCommand],
+      // fieTask 模块调用
+      next: afterToolCommand
     });
     return;
   } else if (hasAfterTask) {
