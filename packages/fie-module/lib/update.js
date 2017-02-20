@@ -18,7 +18,7 @@ function* update(name) {
     return;
   }
   const list = yield localList();
-  log.debug(`更新本地列表 %o`, list);
+  log.debug('更新本地列表 %o', list);
   for (let i = 0; i < list.length; i += 1) {
     // todo 先全部重新安装 ,后面再做版本判断
     yield installOne(list[i].name, options);
