@@ -70,9 +70,9 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     __WPO.log(logMsg, 1);
   }
   return {
-		success : true,
-		data : data,
-	}
+    success: true,
+    data,
+  };
 };
 
 
@@ -108,12 +108,12 @@ module.exports = {
         fieToolKitVersion: moduleVersion
       };
     }
-    //TODO 判断如果名称一致的话，则不显示入口
+    // TODO 判断如果名称一致的话，则不显示入口
     if (moduleEntry) {
       data.fieModuleEntry = moduleEntry;
     }
 
-		return generateEntityAndSend(2, data);
+    return generateEntityAndSend(2, data);
   },
 
   /**
@@ -122,7 +122,7 @@ module.exports = {
    * @param {object|string} err 信息
    */
   error(type, err, focus) {
-		return generateEntityAndSend(3, {
+    return generateEntityAndSend(3, {
       errorType: type,
       error: err
     }, focus);

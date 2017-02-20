@@ -6,15 +6,16 @@
  */
 
 'use strict';
+
 const utils = require('./utils');
 
 
 function getUser() {
-	let userInfo = utils.getUserFromFile();
-	if (!userInfo.email) {
-		userInfo = utils.getUserFromGit();
-	}
-	return userInfo;
+  let userInfo = utils.getUserFromFile();
+  if (!userInfo.email) {
+    userInfo = utils.getUserFromGit();
+  }
+  return userInfo;
 }
 
 

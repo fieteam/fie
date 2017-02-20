@@ -83,9 +83,9 @@ exports.getProjectInfo = function (cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
   let pkg;
-  //判断pkg是否存在
-  if(fs.existsSync(pkgPath)){
-    pkg = fs.readJsonSync(path.join(cwd, 'package.json'), { throws: false })
+  // 判断pkg是否存在
+  if (fs.existsSync(pkgPath)) {
+    pkg = fs.readJsonSync(path.join(cwd, 'package.json'), { throws: false });
   }
   const info = {
     cwd,
