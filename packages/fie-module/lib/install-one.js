@@ -4,6 +4,7 @@ const home = require('fie-home');
 const npm = require('fie-npm');
 const log = require('fie-log')('fie-module');
 const utils = require('./utils');
+const cache = require('fie-cache');
 
 function* installOne(name, options) {
   let pureName = '';
@@ -25,6 +26,11 @@ function* installOne(name, options) {
   log.debug(`开始安装 ${name}`);
   yield npm.install(name, {
     cwd: home.getHomePath()
+  });
+
+  // 设置缓存, 1小时内不再检查
+  cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
+    expires: 3600000
   });
 
   // 提示安装成功

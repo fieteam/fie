@@ -11,10 +11,9 @@ const isIntranet = env.isIntranet();
 
 const searchApi = () => {
   const end = `browse/keyword/${encodeURIComponent('fie-')}?type=json&__t=${Date.now()}`;
-  const listApi = isIntranet ? 'http://fie-api.alibaba.net/modules' : `https://npm.taobao.org/${end}`;
+  const listApi = isIntranet ? 'http://fie-api.alibaba.net/modules/simple' : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
-  // return isIntranet ? `http://web.npm.alibaba-inc.com/${end}` : `https://npm.taobao.org/${end}`;
 };
 
 /**
@@ -49,9 +48,10 @@ function* onlineList(options) {
         // 内外网数据源不同,格式稍有差异
         item.name = isIntranet ? item.moduleName : item.name;
         item.chName = item.chName ? item.chName : item.description;
+        item.shared = isIntranet ? item.shared : true;
 
         // 名字不符合规则 或 已删除的包不再显示
-        if (item.description !== 'delete' && regx.test(item.name)) {
+        if (regx.test(item.name)) {
           moduleList.push(item);
         }
       });
