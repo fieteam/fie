@@ -51,7 +51,7 @@ cache.get('ff');
 - key `{string}` 缓存键值
 - value `{mix}` 缓存内容,可以为字符串,数字或json对象
 - options `{object}`
-- options.expries `{number}` 缓存时间,毫秒为单位,如: 1小时 => 3600000
+- options.expires `{number}` 缓存时间,毫秒为单位,如: 1小时 => 3600000
 
 ### clear
 

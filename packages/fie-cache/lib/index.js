@@ -30,7 +30,7 @@ module.exports = {
     const data = fs.readJsonSync(cacheFile);
 
     // 有效期判断
-    if (data.__expries && data.__expries[key] < Date.now()) {
+    if (data.__expires && data.__expires[key] < Date.now()) {
       return null;
     }
     return data[key];
@@ -41,7 +41,7 @@ module.exports = {
    * @param key {string} 缓存的键
    * @param value {mix} 缓存的值
    * @param options {object}
-   * @param options.expries {number} 有效时长,毫秒为单位, 如 1分钟为 360000
+   * @param options.expires {number} 有效时长,毫秒为单位, 如 1分钟为 360000
    * @returns {boolean}
    */
   set(key, value, options) {
@@ -50,7 +50,7 @@ module.exports = {
     }
 
     options = Object.assign({}, {
-      expries: null
+      expires: null
     }, options);
 
     let data = {};
@@ -59,11 +59,11 @@ module.exports = {
     }
 
     // 有效期处理
-    data.__expries = data.__expries || {};
-    if (options.expries) {
-      data.__expries[key] = Date.now() + options.expries;
+    data.__expires = data.__expires || {};
+    if (options.expires) {
+      data.__expires[key] = Date.now() + options.expires;
     } else {
-      data.__expries[key] = null;
+      data.__expires[key] = null;
     }
 
     data[key] = value;

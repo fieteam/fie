@@ -21,7 +21,7 @@ function* updateTip() {
 
   // 缓存设置为3小时
   cache.set(TIP_CACHE_KEY, true, {
-    expries: 108000000
+    expires: 108000000
   });
 
   log.debug('%s current-version: %s, latest-version: %s', current.name, current.version, latest.version);

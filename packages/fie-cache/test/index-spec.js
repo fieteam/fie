@@ -89,7 +89,7 @@ describe('# fie-cache', () => {
       const value = Math.random();
 
       cache.set(key, value, {
-        expries: 20
+        expires: 20
       });
 
       expect(cache.get('testKey2')).to.be.equal(value);
