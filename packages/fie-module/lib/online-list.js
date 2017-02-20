@@ -46,7 +46,7 @@ function* onlineList(options) {
         }
       });
       cache.set(cacheKey, moduleList, {
-        expries: 3600000
+        expires: 3600000
       });
     }
   } catch (e) {

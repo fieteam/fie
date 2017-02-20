@@ -50,3 +50,5 @@ coverage
 eslint.json
 out
 mocha.json
+
+packages/fie-cache/test/fixtures/*.json

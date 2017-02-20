@@ -50,7 +50,9 @@ exports.getCurBranch = function (cwd) {
   if (fs.existsSync(headerFile)) {
     const gitVersion = fs.readFileSync(headerFile, { encoding: 'utf8' });
     const arr = gitVersion.split(/refs[\\\/]heads[\\\/]/g);
-    version = arr && arr[1] || '';
+    if (arr && arr.length > 1) {
+      version = arr[1];
+    }
   }
   return version.trim();
 };
@@ -118,8 +120,8 @@ exports.getProjectEnv = function (force) {
       cacheEnv[item] = cacheEnvGetter[item]();
     });
     // 缓存三天
-    // TODO expries 错别字需要改
-    cache.set('reportEnvCache', cacheEnv, { expries: 259200000 });
+    // TODO expires 错别字需要改
+    cache.set('reportEnvCache', cacheEnv, { expires: 259200000 });
   }
   return cacheEnv;
 };
