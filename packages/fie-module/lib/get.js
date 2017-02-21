@@ -28,8 +28,7 @@ function* get(name) {
     log.debug(`存在本地模块 ${pkgPath}`);
 
     // 本地存在, 判断是否需要更新
-    // todo  测试代码
-    if (true || !cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
+    if (!cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
       // 获取最新版本
       const lastPkg = yield npm.latest(name);
       const localPkg = fs.readJsonSync(pkgPath);
@@ -74,8 +73,6 @@ function* get(name) {
 
             if (!autoZVersion || semver.lt(autoZVersion, lastPkg.version)) {
               // 更新提示
-              const shortName = name.replace('@ali/', '').replace('fie-', '');
-              //log.warn(`${name} 的最新版本为 ${lastPkg.version}, 您可以执行 fie install ${shortName} 进行更新`);
               utils.updateLog(name, {
                 localPkg,
                 lastPkg,
