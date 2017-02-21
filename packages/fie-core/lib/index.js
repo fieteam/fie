@@ -31,8 +31,12 @@ function run(command, args) {
 
     // 添加 fie 版本号环境变量
     process.env.FIE_VERSION = fiePkg.version;
-    //初次执行命令
-		report.coreCommand();
+    //初次执行命令, FIE_IS_FIREST_ENTRY 将会传到子进程
+    log.debug(`是否子命令 ${process.env.FIE_IS_CHILD_ENTRY}`);
+		if (!process.env.FIE_IS_CHILD_ENTRY) {
+      process.env.FIE_IS_CHILD_ENTRY = true;
+      report.coreCommand();
+    }
     if (core.indexOf(command) === -1) {
       // node环境判断, 小于4.x 就退出
       compatible.checkNode();
