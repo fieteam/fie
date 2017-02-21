@@ -31,8 +31,6 @@ function* onlineList(options) {
 
   let moduleList = options.cache && cache.get(cacheKey);
 
-  moduleList = null;
-
   if (!moduleList) {
     moduleList = [];
   }
@@ -41,7 +39,6 @@ function* onlineList(options) {
 
   try {
     if (!moduleList.length) {
-
       const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba.net' : 'npm.taobao.org');
 
       if (!pingRes || !pingRes.alive) {
