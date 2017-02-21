@@ -34,7 +34,7 @@ function* installOne(name, options) {
 
   // 设置缓存, 1小时内不再检查
   cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
-    expires: 3600000
+    expires: utils.NO_TIP_PERIOD
   });
 
   // 提示安装成功
