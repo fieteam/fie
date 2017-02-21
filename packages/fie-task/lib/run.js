@@ -72,8 +72,6 @@ function* oneTask(task, args, hookParam) {
 
 
       child.on('close', (status) => {
-        console.log(status);
-
         // 插件自己要退出,则不抛出异常
         // TODO 找潕量的插件验证一下, 还要考虑 eslint 等情况
         if (status === 10) {
