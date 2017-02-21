@@ -2,7 +2,7 @@
   "name": "fie-module",
   "main": "lib/index.js",
   "description": "fie数据缓存模块",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "keywords": [
     "nodejs",
     "fie-module",
