@@ -23,10 +23,13 @@ function* get(name) {
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
 
+
   if (fs.existsSync(pkgPath)) {
     log.debug(`存在本地模块 ${pkgPath}`);
+
     // 本地存在, 判断是否需要更新
-    if (!cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
+    // todo  测试代码
+    if (true || !cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
       // 获取最新版本
       const lastPkg = yield npm.latest(name);
       const localPkg = fs.readJsonSync(pkgPath);
@@ -43,14 +46,42 @@ function* get(name) {
               lastPkg
             });
           } else {
-            // 更新提示
-            const shortName = name.replace('@ali/', '').replace('fie-', '');
-            log.warn(`${name} 的最新版本为 ${lastPkg.version}, 您可以执行 fie install ${shortName} 进行更新`);
-            utils.updateLog(name, {
-              localPkg,
-              lastPkg,
-              level: 'warn'
-            });
+            // 末位版本自动更新操作
+            let autoZVersion = '';
+            if (lastPkg.changeLog) {
+              // 在 changeLog 里面检测是否有末位更新的版本
+              lastPkg.changeLog = lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
+              for (let j = 0; j < lastPkg.changeLog.length; j += 1) {
+                if (semver.satisfies(lastPkg.changeLog[j].version, `~${localPkg.version}`)
+                  && lastPkg.changeLog[j].version !== localPkg.version) {
+                  autoZVersion = lastPkg.changeLog[j].version;
+                  break;
+                }
+              }
+            }
+
+            if (autoZVersion) {
+              log.info(`检查到您本地版本为 ${localPkg.version} , 自动为您升级到兼容版本 ${autoZVersion} 中...`);
+              const comPkg = yield npm.latest(name, {
+                version: autoZVersion
+              });
+              yield installOne(name, {
+                type: 'update',
+                localPkg,
+                lastPkg: comPkg
+              });
+            }
+
+            if (!autoZVersion || semver.lt(autoZVersion, lastPkg.version)) {
+              // 更新提示
+              const shortName = name.replace('@ali/', '').replace('fie-', '');
+              //log.warn(`${name} 的最新版本为 ${lastPkg.version}, 您可以执行 fie install ${shortName} 进行更新`);
+              utils.updateLog(name, {
+                localPkg,
+                lastPkg,
+                level: 'warn'
+              });
+            }
           }
         }
       }

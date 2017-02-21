@@ -30,8 +30,10 @@ module.exports = {
     const data = fs.readJsonSync(cacheFile);
 
     // 有效期判断
-    if (data.__expires && data.__expires[key] < Date.now()) {
-      return null;
+    if (data.__expires && data.__expires[key]) {
+      if (data.__expires[key] < Date.now()) {
+        return null;
+      }
     }
     return data[key];
   },

@@ -7,7 +7,7 @@
 
 const fieModule = require('fie-module');
 const chalk = require('chalk');
-
+const argv = require('yargs').argv;
 
 /**
  * 设置字符串边距
@@ -39,7 +39,7 @@ function printListByType(type, modules) {
         '  ',
         chalk.green(item.name),
         chalk.gray(padding),
-        item.description ? item.description : '暂无描述'
+        item.chName ? item.chName : '暂无描述'
       ].join('');
 
       console.log(tmpString);
@@ -69,7 +69,7 @@ module.exports = function* (cliArgs, options) {
 
   const local = yield fieModule.localList(param);
   const online = yield fieModule.onlineList(param);
-  const newList = [];
+  let newList = [];
 
   // merge list
   const onlineKeys = online.map((item) => {
@@ -81,6 +81,13 @@ module.exports = function* (cliArgs, options) {
     if (onlineKeys.indexOf(item.name) === -1) {
       newList.push(item);
     }
+  });
+
+  newList = newList.filter((item) => {
+    if (argv.all || item.shared) {
+      return true;
+    }
+    return false;
   });
 
   console.log(chalk.italic.magenta(`\r\n${star}************** fie ${text}列表 ******************${star}\r\n`));
