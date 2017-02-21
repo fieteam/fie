@@ -31,7 +31,12 @@ function run(command, args) {
 
     // 添加 fie 版本号环境变量
     process.env.FIE_VERSION = fiePkg.version;
-
+    //初次执行命令, FIE_IS_FIREST_ENTRY 将会传到子进程
+    log.debug(`是否子命令 ${process.env.FIE_IS_CHILD_ENTRY}`);
+		if (!process.env.FIE_IS_CHILD_ENTRY) {
+      process.env.FIE_IS_CHILD_ENTRY = true;
+      report.coreCommand();
+    }
     if (core.indexOf(command) === -1) {
       // node环境判断, 小于4.x 就退出
       compatible.checkNode();
@@ -44,7 +49,6 @@ function run(command, args) {
       log.debug('进入核心命令分支');
       // init, install, install, uninstall, update ,version 等命令
       // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
-      report.coreCommand();
       yield require(`../commands/${command}`).apply(null, [args]);
     }
 

@@ -58,6 +58,7 @@ function* oneTask(task, args, hookParam) {
 
       log.debug(`${task.command} 开始执行`);
 
+      log.debug('当前环境变量 %o', process.env);
       const child = spawn(command.splice(0, 1).pop(), command, {
         cwd: process.cwd(),
         env: process.env,
@@ -72,8 +73,6 @@ function* oneTask(task, args, hookParam) {
 
 
       child.on('close', (status) => {
-        console.log(status);
-
         // 插件自己要退出,则不抛出异常
         // TODO 找潕量的插件验证一下, 还要考虑 eslint 等情况
         if (status === 10) {
