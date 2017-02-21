@@ -5,6 +5,7 @@ const env = require('fie-env');
 const cache = require('fie-cache');
 const utils = require('./utils');
 const request = require('co-request');
+const ping = require('ping');
 
 const isIntranet = env.isIntranet();
 
@@ -29,6 +30,9 @@ function* onlineList(options) {
   log.debug('get online list from cache %o', cache.get(cacheKey));
 
   let moduleList = options.cache && cache.get(cacheKey);
+
+  moduleList = null;
+
   if (!moduleList) {
     moduleList = [];
   }
@@ -37,6 +41,13 @@ function* onlineList(options) {
 
   try {
     if (!moduleList.length) {
+
+      const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba.net' : 'npm.taobao.org');
+
+      if (!pingRes || !pingRes.alive) {
+        throw Error('网络连接错误');
+      }
+
       const res = yield request(searchApi());
       const body = JSON.parse(res.body);
 
@@ -61,6 +72,7 @@ function* onlineList(options) {
     }
   } catch (e) {
     // 返回数据出错, 可能是没网
+    log.debug(e);
   }
 
 
