@@ -28,11 +28,12 @@ function* get(name) {
     log.debug(`存在本地模块 ${pkgPath}`);
 
     // 本地存在, 判断是否需要更新
-    // todo  测试代码
-    if (true || !cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
+    if (!cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
       // 获取最新版本
       const lastPkg = yield npm.latest(name);
       const localPkg = fs.readJsonSync(pkgPath);
+      // 如果有执行了安装或更新的,这里就无须再设置缓存提示了,因为执行安装或更新后已经设置了一遍
+      let isNeedSetCache = true;
 
       // 有可能网络错误,这里进行判断一下看是否需要再进行更新操作
       if (lastPkg) {
@@ -45,6 +46,7 @@ function* get(name) {
               localPkg,
               lastPkg
             });
+            isNeedSetCache = false;
           } else {
             // 末位版本自动更新操作
             let autoZVersion = '';
@@ -70,16 +72,24 @@ function* get(name) {
                 localPkg,
                 lastPkg: comPkg
               });
+              isNeedSetCache = false;
             }
 
             if (!autoZVersion || semver.lt(autoZVersion, lastPkg.version)) {
               // 更新提示
-              const shortName = name.replace('@ali/', '').replace('fie-', '');
-              //log.warn(`${name} 的最新版本为 ${lastPkg.version}, 您可以执行 fie install ${shortName} 进行更新`);
+              // 如果 autoZVersion 有值,那么去获取安装完后的 package.json 文件
+              const newLocalPkg = autoZVersion ? fs.readJsonSync(pkgPath) : localPkg;
               utils.updateLog(name, {
-                localPkg,
+                localPkg: newLocalPkg,
                 lastPkg,
                 level: 'warn'
+              });
+            }
+
+            // 设置缓存, 1小时内不再检查
+            if (isNeedSetCache) {
+              cache.set(`${utils.UPDATE_CHECK_PRE}${name}`, true, {
+                expires: utils.NO_TIP_PERIOD
               });
             }
           }

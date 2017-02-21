@@ -131,7 +131,8 @@ const utils = {
   UPDATE_CHECK_PRE: 'fieModuleCheck_',
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
-  updateLog
+  updateLog,
+  NO_TIP_PERIOD: 3600000
 };
 
 module.exports = utils;
