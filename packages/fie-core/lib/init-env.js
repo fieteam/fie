@@ -9,7 +9,8 @@ module.exports = function* () {
   const hasInitEnv = fieEnv.hasConfigFile();
 
   // 已经初始化过了,则退出
-  if (hasInitEnv) {
+  // 如果是云构建，则不检测
+  if (hasInitEnv && process.env.BUILD_ENV !== 'cloud') {
     return;
   }
 

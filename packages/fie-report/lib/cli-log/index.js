@@ -4,7 +4,7 @@ const request = require('request');
 const debug = require('debug')('fie-report');
 const __WPO = require('../retcode/log-node');
 
-let host = 'http://fie-api.alibaba.net';
+let host = 'http://fie-api.alibaba-inc.com';
 if (process.env.NODE_ENV === 'local') {
   host = 'http://127.0.0.1:6001';
 }
