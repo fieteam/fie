@@ -2,7 +2,7 @@
   "name": "fie-report",
   "main": "lib/index.js",
   "description": "fie report to retcode",
-  "version": "1.3.7",
+  "version": "2.7.1",
   "keywords": [
     "nodejs",
     "fie-report",

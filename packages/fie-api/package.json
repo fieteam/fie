@@ -2,7 +2,7 @@
   "name": "fie-api",
   "main": "lib/index.js",
   "description": "fie 工具类",
-  "version": "1.3.8",
+  "version": "2.7.1",
   "keywords": [
     "nodejs",
     "fie-api",
@@ -34,9 +34,9 @@
     "fie-fs": "^1.3.7",
     "fie-home": "^1.3.5",
     "fie-log": "^1.3.7",
-    "fie-module": "^1.3.8",
+    "fie-module": "^2.7.1",
     "fie-npm": "^1.3.5",
-    "fie-task": "^1.3.7",
+    "fie-task": "^2.7.1",
     "fie-user": "^1.3.7"
   }
 }
