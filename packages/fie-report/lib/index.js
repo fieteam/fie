@@ -49,7 +49,6 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     branch: project.branch,
     command,
     content: Object.assign({
-      pkg: project.pkg,
       cwd: project.cwd,
     }, flowlog.content),
     type // 操作类型
@@ -58,6 +57,7 @@ const generateEntityAndSend = (type, flowlog, foces) => {
   const data = Object.assign({}, defaultData, flowlog);
 
   debug('最终发送的数据 = %o', data);
+
 
   if (isIntranet) {
     fieCliLog.send(data);
