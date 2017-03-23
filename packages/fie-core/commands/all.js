@@ -116,6 +116,20 @@ function* showVersion(name) {
 }
 
 /**
+ * 当遇到 start , build ,publish 命令是,判断用户是否在正确的目录
+ * @param command
+ * @returns {boolean}
+ */
+function isErrorDirectory(command) {
+  if (['start', 'build', 'publish'].indexOf(command) !== -1 && !fieConfig.exist()) {
+    log.debug('error directory');
+    log.error('未检测到 fie.config.js 文件, 请确认当前命令是否在项目根目录下执行');
+    return false;
+  }
+  return true;
+}
+
+/**
  * 执行命令, 调用优先级是 core > task > toolkit > plugin
  * @param command
  * @param cliArgs
@@ -129,6 +143,9 @@ module.exports = function* (command, cliArgs) {
   log.debug(' tasks = %o , command = %s, cliArgs = %o', tasks, command, cliArgs);
   log.debug(`before task ${hasBeforeTask}`);
 
+  if (!isErrorDirectory(command)) {
+    return;
+  }
 
   // 如果第一个参数为 plugin, 强制执行某个插件, 并且忽略所有的前置,后置任务
   if (command === 'plugin') {
