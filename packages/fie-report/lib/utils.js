@@ -5,9 +5,9 @@ const os = require('os');
 const fs = require('fs-extra');
 const fieHome = require('fie-home');
 const debug = require('debug')('fie-report');
-const ini = require('ini');
 const fieUser = require('fie-user');
 const execSync = require('child_process').execSync;
+const spawn = require('cross-spawn');
 const cache = require('fie-cache');
 
 /**
@@ -60,21 +60,21 @@ exports.getCurBranch = function (cwd) {
 
 /**
  * 获取项目URL
- * @param cwd
  * @returns {*}
  */
-exports.getProjectUrl = function (cwd) {
-  // TODO 是否需要考虑在项目子目录执行命令的情况？
-  const gitLocalPath = path.join(cwd, '.git/config');
+exports.getProjectUrl = function () {
   let url;
-  if (fs.existsSync(gitLocalPath)) {
-    try {
-      const gitLocalConfig = ini.parse(fs.readFileSync(gitLocalPath, 'utf-8'));
-      url = (gitLocalConfig['remote "origin"'] || {}).url;
-    } catch (err) {
-      debug('git config 错误：', err.message);
+  try {
+    url = (spawn.sync('git', ['config', '--get', 'remote.origin.url'], { silent: true }).stdout.toString() || '').trim();
+    // 有些git的url是http开头的，需要格式化为git@格式，方便统一处理
+    const match = url.match(/http:\/\/gitlab.alibaba-inc.com\/(.*)/);
+    if (match && match[1]) {
+      url = `git@gitlab.alibaba-inc.com:${match[1]}`;
     }
+  } catch (err) {
+    debug('git config 错误：', err.message);
   }
+
   return url;
 };
 
@@ -96,9 +96,10 @@ exports.getProjectInfo = function (cwd) {
     repository: ''
   };
 
-  // 分支存在 则可继续获取git地址
-  if (branch) {
-    info.repository = exports.getProjectUrl(cwd);
+  if (pkg && pkg.repository && pkg.repository.url) {
+    info.repository = pkg.repository.url;
+  } else {
+    info.repository = exports.getProjectUrl();
   }
 
   return info;
@@ -120,7 +121,6 @@ exports.getProjectEnv = function (force) {
       cacheEnv[item] = cacheEnvGetter[item]();
     });
     // 缓存三天
-    // TODO expires 错别字需要改
     cache.set('reportEnvCache', cacheEnv, { expires: 259200000 });
   }
   return cacheEnv;
@@ -132,13 +132,14 @@ exports.getProjectEnv = function (force) {
 exports.getCommand = function () {
   let argv = process.argv;
   argv = argv.map((item) => {
-    const match = item.match(/\\bin\\(.*)|\/bin\/(.*)/);
-    if (match && match[2]) {
+    const match = item.match(/\\bin\\(((?!bin).)*)$|\/bin\/(.*)/);
+    // mac
+    if (match && match[3]) {
       // 一般 node fie -v  这种方式则不需要显示 node
-      if (match[2] === 'node') {
-        return '';
-      }
-      return match[2];
+      return match[3] === 'node' ? '' : match[3];
+    } else if (match && match[1]) {
+      // 一般 node fie -v  这种方式则不需要显示 node
+      return match[1] === 'node.exe' ? '' : match[1];
     }
     return item;
   });
