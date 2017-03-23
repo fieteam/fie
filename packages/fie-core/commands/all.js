@@ -67,12 +67,10 @@ function* runPlugin(name, cliArgs) {
       return;
     }
 
+    const optionsArg = { clientArgs: cliArgs, clientOptions: argv };
     yield fieTask.runFunction({
       method,
-      args: [fieObject, {
-        clientArgs: cliArgs,
-        clientOptions: argv
-      }]
+      args: method.length > 1 ? [fieObject, optionsArg]: [optionsArg]
     });
   } else {
     const msg = `${name} 插件不存在`;
@@ -216,18 +214,12 @@ module.exports = function* (command, cliArgs) {
         fieError.handle(err);
       });
     };
+
+    // 传入 callback ,兼容未使用 generator 版本套件和插件
+    const optionsArg = { clientArgs: cliArgs, clientOptions: argv, callback: afterToolCommand };
     yield fieTask.runFunction({
       method: toolkit[command],
-      args: [
-        fieObject,
-        {
-          clientArgs: cliArgs,
-          clientOptions: argv,
-          // 兼容未使用 generator 版本套件和插件
-          callback: afterToolCommand
-        },
-        // 传入第三个参数 ,兼容未使用 generator 版本的套件和插件
-        afterToolCommand],
+      args: toolkit[command].length > 1 ? [fieObject, optionsArg, afterToolCommand]: [optionsArg],
       // fieTask 模块调用
       next: afterToolCommand
     });
