@@ -18,7 +18,6 @@ const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://r
  * @param options
  */
 function* runInstall(installer, paths, options) {
-  debug('installer = %s', installer);
   // npm默认值
   const option = _.defaults(options || {}, {
     registry,
@@ -26,6 +25,18 @@ function* runInstall(installer, paths, options) {
     stdio: 'inherit',
     cwd: process.cwd()
   });
+
+	//云构建下，使用npminstall包，有时候会卡住装不上。
+	//还是使用云构建自带的tnpm版本进行安装吧。
+	if(process.env.BUILD_ENV === 'cloud'){
+		installer = 'tnpm';
+		paths = ['ii'].concat(paths);
+		delete option.registry;
+		delete option.china;
+	}
+
+	debug('installer = %s', installer);
+
   // 将pkg进行扁平化
   if (!Array.isArray(paths) && paths) {
     paths = paths.split(' ') || [];
@@ -66,6 +77,7 @@ module.exports = {
    */
   * install(pkg, options) {
     const installer = require.resolve('npminstall/bin/install.js');
+
     yield runInstall(installer, pkg, options);
   },
 
