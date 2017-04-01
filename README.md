@@ -10,7 +10,6 @@
 [travis-url]: https://travis-ci.org/fieteam/fie
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/xomn5j270tvv6i98?svg=true&style=flat-square
 [appveyor-url]: https://ci.appveyor.com/project/hugohua/fie
-(https://ci.appveyor.com/api/projects/status/6r70s0tp0w96jvtr/branch/master?svg=true&style=flat-square)](https://ci.appveyor.com/project/zincli/fie-plugin-ut/branch/master)
 [codecov-image]: https://img.shields.io/codecov/c/github/fieteam/fie/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/fieteam/fie
 [npm-image]: https://img.shields.io/npm/v/fie.svg?style=flat-square
