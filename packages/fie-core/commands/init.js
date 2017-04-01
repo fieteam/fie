@@ -19,7 +19,7 @@ function* runInit(name) {
   const moduleInfo = yield fieModule.get(name);
   yield task.runFunction({
     method: moduleInfo.init,
-    args: moduleInfo.init.length > 1? [api.getApi(name), {}]: [{}]
+    args: moduleInfo.init.length > 1? [api.getApi(name), {}]: [api.getApi(name)]
   });
 }
 
