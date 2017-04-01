@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-log.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-log
 
-fie.config.js 文件操作模块, 可以对 fie.config.js 文件进行读写等操作
+> 以不同颜色在控制台上输出log
 
 
 ## Installation
@@ -31,9 +31,9 @@ fie-log 返回的是一个方法, 调用该方法可以直接返回一个对象,
 const log = require('fie-log')('test');
 
 // 普通字符串
-log.info('啦啦啦'); // 将以品红色打印:  [test] 啦啦啦
-log.cli.info('啦啦啦'); // 仅当前插件或套件做为入口模块时,才以品红色打印:  [test] 啦啦啦
-log.func.info('啦啦啦'); // 仅当前插件或套件不是入口模块时,才以品红色打印:  [test] 啦啦啦
+log.info('啦啦啦'); // 将以紫色打印:  [test] 啦啦啦
+log.cli.info('啦啦啦'); // 仅当前插件或套件做为入口模块时,才以紫色打印:  [test] 啦啦啦
+log.func.info('啦啦啦'); // 仅当前插件或套件不是入口模块时,才以紫色打印:  [test] 啦啦啦
 
 // 使用占位符
 log.info('字符串:%s 数字:%d ', 'ssss', 33); // 会打印: [test] 字符串:ssss 数字:33
@@ -54,26 +54,26 @@ log.info('对象:%o', {a: 1}); // 打打印: [test] 对象:{a: 1}
 
 ### info(msg)
 
-> 以品红色打印
+> 以紫色打印
 
 - msg `{string}` 需要打印的内容
 
 ### success(msg)
 
-> 以品绿色打印
+> 以绿色打印
 
 - msg `{string}` 需要打印的内容
 
 
 ### warn(msg)
 
-> 以品黄色打印
+> 以黄色打印
 
 - msg `{string}` 需要打印的内容
 
 ### error(msg)
 
-> 以品红色打印
+> 以红色打印
 
 - msg `{string}` 需要打印的内容
 

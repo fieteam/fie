@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-user.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-user
 
-根据用户当前 git 信息去获取用户相关信息
+> 根据用户当前 git 信息去获取用户相关信息
 
 ## 安装
 

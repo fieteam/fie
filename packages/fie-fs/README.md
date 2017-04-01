@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-fs.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-fs
 
-fie 数据缓存模块, 可以用来存储用户常用数据,支持有效期设置
+> fie 文件及文件夹操作模块，一般用于套件中的模板生成及变量替换
 
 ## 安装
 
@@ -27,6 +27,7 @@ npm install fie-fs --save
 ### copyDirectory(options)
 
 > 复制目录, 支持 underscore 模板引擎, 标签开始和结束符是: <{% %}>
+
 - options `object` 
 - options.src `string` 绝对路径
 - options.dist `string` 绝对路径
@@ -40,6 +41,7 @@ npm install fie-fs --save
 ### copyTpl(options)
 
 > 复制文件, 支持 underscore 模板引擎, 标签开始和结束符是: <{% %}>
+
 - options `object`
 - options.src `string` 绝对路径
 - options.dist `string` 绝对路径
@@ -49,7 +51,9 @@ npm install fie-fs --save
 
 
 ### rewriteFile(options)
+
 > 重写文件内容, 本文件不提供读写文件能力,
+
 - options `object`
 - options.hook `string` 判断需要插入行的标记
 - options.insertLines `array` 数组类型, 每一项为新行
@@ -60,12 +64,14 @@ npm install fie-fs --save
 ### move(srcPath, distPath)
 
 > 移动文件
+
 - srcPath `string` 源文件,绝对路径
 - distPath `string` 目标文件,绝对路径
 
 ### remove(file)
 
 > 删除文件或目录
+
 - file `string` 需要删除的文件路径
 
 
