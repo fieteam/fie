@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-npm.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-npm
 
-npm 操作模块,用于安装,卸载,判断是否存在对应的 npm 模块, 会根据当前用户的配置来判断是要拉取阿里内网还是外网.
+> npm 操作模块,用于安装,卸载,判断是否存在对应的 npm 模块, 会根据当前用户的配置来判断是要拉取阿里内网还是外网.
 
 ## Installation
 
@@ -26,7 +26,7 @@ npm install fie-npm --save
 
 ### install(pkg, options)
 
-> `异步方法`,安装一个 npm 包
+> `Generator 函数`,安装一个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
@@ -38,7 +38,7 @@ npm install fie-npm --save
 
 ### uninstall(pkg, options)
 
-> `异步方法`,卸载一个 npm 包
+> `Generator 函数`,卸载一个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项
@@ -49,7 +49,7 @@ npm install fie-npm --save
 
 ### installDependencies(options)
 
-> `异步方法`,安装当前目录的 package.json 对应的依赖包
+> `Generator 函数`,安装当前目录的 package.json 对应的依赖包
 
 - options `{object}` 可选项
 - options.registry `{string}` 包对应的源,默认会根据当前用户选择的网络切换
@@ -69,7 +69,7 @@ npm install fie-npm --save
 
 ### has(pkg, options)
 
-> `异步方法`,判断是否存在某个 npm 包
+> `Generator 函数`,判断是否存在某个 npm 包
 
 - pkg `{string}` 需要进行操作的包名
 - options `{object}` 可选项

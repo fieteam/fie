@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-task.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-task
 
-fie 数据缓存模块, 可以用来存储用户常用数据,支持有效期设置
+> fie 任务流模块，用于执行fie的任务流
 
 ## 安装
 
@@ -33,7 +33,7 @@ npm install fie-task --save
 
 ### run(options)
 
-> `异步方法`,执行一串任务流, 直接传一对应指令的任务流,并指定进行时机
+> `Generator 函数`,执行一串任务流, 直接传一对应指令的任务流,并指定进行时机
 
 - options `{object}` 选项
 - options.tasks `{array}` 任务流数组, 如果需要传入函数,仅支持 generator 函数
@@ -87,7 +87,7 @@ yield run({
 
 ### runFunction();
 
-> `异步方法`,执行一个函数, 支持 generator 及普通函数
+> `Generator 函数`,执行一个函数, 支持 generator 及普通函数
 
 - options `{object}`
 - options.method `{function}` 需要被执行的函数
