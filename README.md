@@ -59,7 +59,7 @@ fie 使用帮助:  $ fie [command] [options]
   $  fie update [name]       # 更新插件
   $  fie install [name]      # 安装插件
   $  fie list [type]         # 插件列表
-  $  fie uninstall [name]    # 安装删除插件
+  $  fie ii                  # 安装npm模块，类似于npm install，但安装速度更快更稳定
   $  fie clear               # 清空 fie 的本地缓存
   $  fie switch              # 切换 fie 的开发环境
   $  fie help                # 显示套件帮助信息

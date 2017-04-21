@@ -12,7 +12,7 @@ const isIntranet = env.isIntranet();
 
 const searchApi = () => {
   const end = `browse/keyword/${encodeURIComponent('fie-')}?type=json&__t=${Date.now()}`;
-  const listApi = isIntranet ? 'http://fie-api.alibaba.net/modules/simple' : `https://npm.taobao.org/${end}`;
+  const listApi = isIntranet ? 'http://fie-api.alibaba-inc.com/modules/simple' : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
 };
@@ -39,7 +39,7 @@ function* onlineList(options) {
 
   try {
     if (!moduleList.length) {
-      const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba.net' : 'npm.taobao.org');
+      const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba-inc.com' : 'npm.taobao.org');
 
       if (!pingRes || !pingRes.alive) {
         throw Error('网络连接错误');
