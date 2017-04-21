@@ -24,7 +24,8 @@
     "fie-log": "^2.7.3",
     "fie-npm": "^2.7.3",
     "fie-report": "^2.7.3",
-    "lodash": "^4.17.2"
+    "lodash": "^4.17.2",
+    "os": "^0.1.1"
   },
   "devDependencies": {
     "cross-spawn": "^5.0.1",
