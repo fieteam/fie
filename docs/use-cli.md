@@ -18,12 +18,11 @@ $ fie -h
 fie 使用帮助:  $ fie [command] [options]
 
   $  fie                     # 显示fie帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
-  $  fie install [name]      # 安装fie模块
   $  fie init [toolkitName]  # 初始化fie模块
+  $  fie install [name]      # 安装fie模块
   $  fie update [name]       # 更新fie模块
-  $  fie uninstall [name]    # 安装删除fie模块
   $  fie list [type]         # fie模块列表
-  $  fie ii                  # npm模块安装
+  $  fie ii                  # 安装npm模块，类似于npm install，但安装速度更快更稳定
   $  fie clear               # 清空 fie 的本地缓存
   $  fie switch              # 切换 fie 的开发环境
   $  fie help                # 显示套件帮助信息
@@ -34,30 +33,6 @@ fie 使用帮助:  $ fie [command] [options]
    -h, --help                显示fie帮助信息
    -v, --version             显示fie版本
 ```
-
-## fie install [name]
-
-安装fie模块(套件及插件)。
-
-```bash
-$ fie install [name]
-```
-
-其中`name`表示fie的模块名称。套件名称格式为：`fie-{toolkit-name}`，插件名称格式为：`fie-{plugin-name}`，输入对应的名字即可安装。
-
-### 例子
-
-```bash
-# 安装聚星台套件
-$ fie install toolkit-blue
-
-# 安装git操作插件
-$ fie install plugin-git
-```
-
-![](http://img3.tbcdn.cn/5476e8b07b923/TB19WHcOpXXXXbXaFXXXXXXXXXX)
-
-
 
 ## fie init [toolkitName]
 
@@ -86,6 +61,32 @@ $ fie init blue
 
 [![](http://img3.tbcdn.cn/5476e8b07b923/TB1YRrIOpXXXXXIXVXXXXXXXXXX)](http://img3.tbcdn.cn/5476e8b07b923/TB1YRrIOpXXXXXIXVXXXXXXXXXX)
 
+
+
+## fie install [name]
+
+安装fie模块(套件及插件)。
+
+```bash
+$ fie install [name]
+```
+
+其中`name`表示fie的模块名称。套件名称格式为：`fie-{toolkit-name}`，插件名称格式为：`fie-{plugin-name}`，输入对应的名字即可安装。
+
+### 例子
+
+```bash
+# 安装聚星台套件
+$ fie install toolkit-blue
+
+# 安装git操作插件
+$ fie install plugin-git
+```
+
+![](http://img3.tbcdn.cn/5476e8b07b923/TB19WHcOpXXXXbXaFXXXXXXXXXX)
+
+
+
 ## fie update [name]
 
 更新fie模块到最新版本。
@@ -98,20 +99,6 @@ $ fie update toolkit-blue
 
 # 更新git操作插件到最新版本
 $ fie update plugin-git
-```
-
-## fie uninstall [name]
-
-删除fie模块。
-
-### 例子
-
-```bash
-# 删除聚星台套件
-$ fie uninstall toolkit-blue
-
-# 删除git操作插件
-$ fie uninstall plugin-git
 ```
 
 ## fie list [type]

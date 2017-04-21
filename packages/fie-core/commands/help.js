@@ -16,9 +16,10 @@ const help = `
 
     $  fie                     显示fie帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
     $  fie init [toolkitName]  初始化套件
-    $  fie update [name]       更新插件
-    $  fie install [name]      安装插件
+    $  fie install [name]      安装FIE模块
+    $  fie update [name]       更新FIE模块
     $  fie list [type]         插件列表
+    $  fie ii                  安装npm模块，功能等同于npm install，但安装速度更快更稳定
     $  fie clear               清空 fie 的本地缓存
     $  fie switch              切换 fie 的开发环境
     $  fie help                显示套件帮助信息

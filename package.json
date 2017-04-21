@@ -7,9 +7,10 @@
     "ci-eslint": "eslint -o eslint.json -f json ./",
     "lint": "eslint --fix ./",
     "doc": "jsdoc -c conf.json  ./node_modules/ink-docstrap/template -R README.md -r",
-    "contributors": "contributors",
+    "contributors": "./node_modules/.bin/contributors",
     "postinstall": "./node_modules/.bin/lerna bootstrap",
-    "clear": "node scripts/clear.js"
+    "clear": "node scripts/clear.js",
+    "link": "cd packages/fie-core && npm link"
   },
   "devDependencies": {
     "chai": "^3.5.0",
