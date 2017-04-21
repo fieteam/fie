@@ -56,8 +56,8 @@ fie 使用帮助:  $ fie [command] [options]
 
   $  fie                     # 显示fie帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
   $  fie init [toolkitName]  # 初始化套件
-  $  fie update [name]       # 更新插件
   $  fie install [name]      # 安装插件
+  $  fie update [name]       # 更新插件
   $  fie list [type]         # 插件列表
   $  fie ii                  # 安装npm模块，类似于npm install，但安装速度更快更稳定
   $  fie clear               # 清空 fie 的本地缓存
