@@ -70,7 +70,7 @@ function* runPlugin(name, cliArgs) {
     const optionsArg = { clientArgs: cliArgs, clientOptions: argv };
     yield fieTask.runFunction({
       method,
-      args: method.length > 1 ? [fieObject, optionsArg]: [Object.assign({}, fieObject, optionsArg)]
+      args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
     });
   } else {
     const msg = `${name} 插件不存在`;
@@ -219,7 +219,7 @@ module.exports = function* (command, cliArgs) {
     const optionsArg = { clientArgs: cliArgs, clientOptions: argv, callback: afterToolCommand };
     yield fieTask.runFunction({
       method: toolkit[command],
-      args: toolkit[command].length > 1 ? [fieObject, optionsArg, afterToolCommand]: [Object.assign({}, fieObject, optionsArg)],
+      args: toolkit[command].length > 1 ? [fieObject, optionsArg, afterToolCommand] : [Object.assign({}, fieObject, optionsArg)],
       // fieTask 模块调用
       next: afterToolCommand
     });
