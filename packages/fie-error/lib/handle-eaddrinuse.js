@@ -15,7 +15,7 @@ function handleSolution(port) {
    $ kill -9 【pid】`);
   }
 
-  chalk.yellow(`   # 看下是哪个PID占用的端口
+  return chalk.yellow(`   # 看下是哪个PID占用的端口
    $ netstat -anop tcp | find /i ":${port}" |  find "LISTENING"
    # 杀进程
    $ taskkill /F /pid 【pid】`);
@@ -41,4 +41,5 @@ ${handleSolution(port)}
 `);
     return true;
   }
+  return false;
 };
