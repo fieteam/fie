@@ -34,4 +34,38 @@ describe('# fie-config', () => {
       xyz: 23
     });
   });
+
+  it('# set value是一个字符串对象', () => {
+    config.set('gg',
+`
+//这是一行注释
+{
+  "good" : "yes"
+}
+      `
+, mockCwd);
+    expect(config.get('gg', mockCwd)).to.be.deep.equals({
+      good: 'yes'
+    });
+  });
+
+  it('# set value是一个带.的字符串', () => {
+    config.set('xx.yy', '123', mockCwd);
+    expect(config.get('xx', mockCwd)).to.be.deep.equals({
+      yy: 123
+    });
+  });
+
+  it('# set value是一个带.的字符串', () => {
+    config.set('tasks.build', [{
+      command: 'echo 44'
+    }], mockCwd);
+    expect(config.get('tasks', mockCwd)).to.have.property('build');
+    expect(config.get('tasks', mockCwd)).to.have.deep.property('build[0].command', 'echo 44');
+  });
+
+  it('# getToolkitName 获取套件的名字', () => {
+    const toolkit = config.getToolkitName(mockCwd);
+    expect(toolkit).to.be.equal('fie-toolkit-dev');
+  });
 });

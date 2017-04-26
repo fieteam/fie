@@ -19,8 +19,8 @@ npm install
 ###  创建软链从fie项目根目录到全局的 npm 的 bin 目录
 
 ```
-# 进入 git clone 下来的fie 项目根目录，执行npm link, 如要提示要权限，前面加sudo 
-$ npm link
+# 进入 git clone 下来的fie 项目根目录，执行npm run link 
+$ npm run link
 ```
 
 ### 修改代码
@@ -43,10 +43,10 @@ $ node-debug /path/to/fie/bin/fie [commands]
  
 #### 查看 debug 输出
 
-通过调用命令时传入 DEBUG=fie 可以查看 fie 核心打印的一些调试信息,用于快速定位错误原因
+通过调用命令时传入 DEBUG=fie-* 可以查看 fie 核心打印的一些调试信息,用于快速定位错误原因
 
 ```
-$ DEBUG=fie node /path/to/fie/bin/fie [commands]
+$ DEBUG=fie-* node /path/to/fie/bin/fie [commands]
 ```
 
 可以结合 node-debug 一起使用, 在调试套件,插件时也可以在 DEBUG 中传入多个值,使用英文逗号分隔, 具体可以查看debug模块
@@ -59,5 +59,4 @@ $ DEBUG=fie node /path/to/fie/bin/fie [commands]
 $ npm test
 ```
 
-## 代码组织
 

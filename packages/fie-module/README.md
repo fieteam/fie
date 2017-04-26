@@ -14,7 +14,7 @@
 [download-image]: https://img.shields.io/npm/dm/fie-module.svg?style=flat-square
 [download-url]: https://npmjs.org/package/fie-module
 
-fie 数据缓存模块, 可以用来存储用户常用数据,支持有效期设置
+> fie 模块的获取、安装及卸载
 
 ## 安装
 
@@ -26,7 +26,7 @@ npm install fie-module --save
 
 ### get(name)
 
-> `异步方法`, 获取 fie 模块, 需要运行插件和套件都用这个方法来先获取, 如果本地尚示安装, 会自动进行安装,然后返回模块
+> `Generator 函数`, 获取 fie 模块, 需要运行插件和套件都用这个方法来先获取, 如果本地尚示安装, 会自动进行安装,然后返回模块
 
 - name `{string}` 模块名, 若需要获取 package.json 信息可以直接在模块名后面跟上  `/package.json`
 - return: `{object}` modInfo 模块对象, modInfo.mod 模块对象, modInfo.options 模块的设置项.
@@ -46,7 +46,7 @@ console.log(pkg.fieOptions);
 
 ### install(name)
 
-> `异步方法`, 安装 FIE 模块
+> `Generator 函数`, 安装 FIE 模块
 
 - name `{string}` 模块名, 若需要指定版本号直接在名字后面跟上即可,如: gulp@1.0.0
 
@@ -60,7 +60,7 @@ console.log(pkg.fieOptions);
 
 ### update(name)
 
-> `异步方法`, 更新 FIE 模块
+> `Generator 函数`, 更新 FIE 模块
 
 - name `{string}` 模块名
 
@@ -78,7 +78,7 @@ console.log(pkg.fieOptions);
 
 ### onlineList(options)
 
-> `异步方法`, 获取线上的 FIE 插件和套件列表
+> `Generator 函数`, 获取线上的 FIE 插件和套件列表
 
 - options `{object}` 可选项
 - options.type `{string}` 类型，可以是 plugin 或 toolkit， 不传获取全部列表
@@ -97,7 +97,7 @@ console.log(pkg.fieOptions);
 
 ### onlineExist([type])
 
-> `异步方法`, 判断线上是否已存在对应的 FIE 模块了
+> `Generator 函数`, 判断线上是否已存在对应的 FIE 模块了
 
 - name `{string}` 模块名
 - return: `{boolean}` 模块列表

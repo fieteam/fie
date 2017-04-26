@@ -26,7 +26,7 @@ $ npm install fie-env -g --registry=https://registry.npm.taobao.org
 
 ### setExtranetEnv()
 
-设置FIE的运行环境为外网环境
+> 设置FIE的运行环境为外网环境
 
 ```javascript
 const fieEnv = require('fie-env');
@@ -35,7 +35,7 @@ fieEnv.setExtranetEnv();
 
 ### setIntranetEnv()
 
-设置FIE的运行环境为内网环境
+> 设置FIE的运行环境为内网环境
 
 ```javascript
 const fieEnv = require('fie-env');
@@ -44,7 +44,8 @@ fieEnv.setIntranetEnv();
 
 ### isIntranet()
 
-是否是内网环境
+> 是否是内网环境
+
 优先判断**process.env.FIE_ENV**变量,值为intranet,则返回true
 process.env.FIE_ENV 为枚举类型，取值为: intranet / extranet
 
@@ -68,7 +69,7 @@ console(resultEnv3);  //==> true
 
 ### hasConfigFile()
 
-判断FIE环境配置文件(fie.env.json)是否存在，可用做FIE环境是否已初始化的判断
+> 判断FIE环境配置文件(fie.env.json)是否存在，可用做FIE环境是否已初始化的判断
 
 ```javascript
 const fieEnv = require('fie-env');
@@ -78,7 +79,7 @@ fieEnv.hasConfigFile();  //=> true
 
 ### removeConfigFile()
 
-删除FIE环境配置文件(fie.env.json)
+> 删除FIE环境配置文件(fie.env.json)
 
 ```javascript
 const fieEnv = require('fie-env');

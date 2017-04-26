@@ -45,6 +45,25 @@ npm install fie-cache --save
 > 清除所有缓存
 
 
+## 例子
+
+```js
+
+const cache = require('fie-cache');
+
+// 将abc这个key的对象写入fie缓存文件。（该缓存文件一般在 ~/.fie/fie.cache.json 中）
+cache.set('abc',{ data : 1 });
+
+// 从fie缓存中获取 abc 这个key的内容。
+cache.get('abc');
+// => return { data : 1 }
+
+//清空fie的缓存内容
+cache.clear();
+
+```
+
+
 ## Support
 
 使用过程中遇到的相关问题，及BUG反馈，可联系: 擎空 <zernmal@foxmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)

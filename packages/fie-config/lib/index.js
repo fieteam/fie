@@ -20,7 +20,7 @@ const fieConfig = {
 
   /**
    * 当前目录下是否存在fie.config.js文件
-   * @param {string} dir 需要判断文件是否存在的目录,可选,默认取值:
+   * @param {string} dir 需要判断文件是否存在的目录,可选,默认取值:当前运行目录
    */
   exist(dir) {
     const cwd = dir || CWD;
