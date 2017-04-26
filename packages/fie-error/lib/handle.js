@@ -17,6 +17,7 @@ const innerList = [
   require('./handle-npm-not-found'),
   require('./handle-module-not-found'),
   require('./handle-enoent'),
+  require('./handle-eaddrinuse'),
   require('./handle-default')
 ];
 
