@@ -58,10 +58,10 @@ const fieConfig = {
       const file = require(configPath);
       log.debug('get %s , file = %o', CONFIG_FILE, file);
       return file;
-    } catch(e) {
+    } catch (e) {
       log.error('读取配置文件失败，请确认 fie.config.js 文件是否有语法错误');
       log.debug(e && e.stack);
-      process.exit(1);
+      return process.exit(1);
     }
   },
 
