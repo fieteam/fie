@@ -8,7 +8,7 @@
 
 const path = require('path');
 const fs = require('fs-extra');
-const debug = require('debug')('fie-config');
+const log = require('fie-log')('fie-config');
 const astAnalyze = require('./ast-analyze');
 
 // fie配置文件
@@ -37,7 +37,7 @@ const fieConfig = {
   get(key, dir) {
     const cwd = dir || CWD;
     const file = this.getAll(cwd);
-    debug('key = %s ,all config = %o', key, file);
+    log.debug('key = %s ,all config = %o', key, file);
 
     return file ? file[key] : null;
   },
@@ -54,9 +54,15 @@ const fieConfig = {
     // 直接使用require的话,会有缓存， 需要先删除 require 的缓存
     const configPath = path.join(cwd, CONFIG_FILE);
     delete require.cache[configPath];
-    const file = require(configPath);
-    debug('get %s , file = %o', CONFIG_FILE, file);
-    return file;
+    try {
+      const file = require(configPath);
+      log.debug('get %s , file = %o', CONFIG_FILE, file);
+      return file;
+    } catch(e) {
+      log.error('读取配置文件失败，请确认 fie.config.js 文件是否有语法错误');
+      log.debug(e && e.stack);
+      process.exit(1);
+    }
   },
 
   /**
@@ -71,7 +77,7 @@ const fieConfig = {
     // 读取文件
     const code = fs.readFileSync(filePath, 'utf8');
     const source = astAnalyze(code, key, value);
-    debug('set %s file source string = %o', CONFIG_FILE, source);
+    log.debug('set %s file source string = %o', CONFIG_FILE, source);
     fs.writeFileSync(filePath, source);
     return true;
   },
