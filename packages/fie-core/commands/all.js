@@ -21,6 +21,7 @@ const chalk = require('chalk');
 const report = require('fie-report');
 
 let fieObject;
+const clientOptions = Object.assign({}, argv);
 
 function setEntryModule(name) {
   process.env[fieHome.getEntryModuleEnvName()] = name.replace('@ali/', '');
@@ -67,12 +68,10 @@ function* runPlugin(name, cliArgs) {
       return;
     }
 
+    const optionsArg = { clientArgs: cliArgs, clientOptions };
     yield fieTask.runFunction({
       method,
-      args: [fieObject, {
-        clientArgs: cliArgs,
-        clientOptions: argv
-      }]
+      args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
     });
   } else {
     const msg = `${name} 插件不存在`;
@@ -143,6 +142,10 @@ module.exports = function* (command, cliArgs) {
   log.debug(' tasks = %o , command = %s, cliArgs = %o', tasks, command, cliArgs);
   log.debug(`before task ${hasBeforeTask}`);
 
+  // 去掉 clientOptions 里面多余的字段
+  delete clientOptions._;
+  delete clientOptions.$0;
+
   if (!isErrorDirectory(command)) {
     return;
   }
@@ -161,7 +164,7 @@ module.exports = function* (command, cliArgs) {
   }
 
   // ------------- 展示版本号, 并中止后面的任务 ---------------
-  if (cliArgs.length === 0 && (argv.v || argv.version)) {
+  if (cliArgs.length === 0 && (clientOptions.v || clientOptions.version)) {
     yield showVersion(command);
     return;
   }
@@ -172,7 +175,7 @@ module.exports = function* (command, cliArgs) {
       tasks: tasks[command],
       args: [api.getApi(), {
         clientArgs: cliArgs,
-        clientOptions: argv
+        clientOptions
       }],
       when: 'before',
       command
@@ -216,18 +219,12 @@ module.exports = function* (command, cliArgs) {
         fieError.handle(err);
       });
     };
+
+    // 传入 callback ,兼容未使用 generator 版本套件和插件
+    const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
     yield fieTask.runFunction({
       method: toolkit[command],
-      args: [
-        fieObject,
-        {
-          clientArgs: cliArgs,
-          clientOptions: argv,
-          // 兼容未使用 generator 版本套件和插件
-          callback: afterToolCommand
-        },
-        // 传入第三个参数 ,兼容未使用 generator 版本的套件和插件
-        afterToolCommand],
+      args: toolkit[command].length > 1 ? [fieObject, optionsArg, afterToolCommand] : [Object.assign({}, fieObject, optionsArg)],
       // fieTask 模块调用
       next: afterToolCommand
     });
