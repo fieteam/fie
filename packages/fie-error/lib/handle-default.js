@@ -5,9 +5,11 @@
 'use strict';
 
 const log = require('fie-log')('fie-error');
+const env = require('fie-env');
 
-
-const ERROR_MSG = ' 请在这里反馈问题给 @擎空 @宇果 https://github.com/fieteam/fie/issues/new ';
+const ERROR_MSG = env.isIntranet()?
+  ' 请在 https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 或钉钉群 11751953 反馈问题' :
+  ' 请在这里反馈问题给 @擎空 @宇果 https://github.com/fieteam/fie/issues/new ';
 
 module.exports = function* (e) {
   log.error(`运行报错,${ERROR_MSG}`);
