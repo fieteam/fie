@@ -8,6 +8,7 @@
 
 const path = require('path');
 const fs = require('fs-extra');
+const report = require('fie-report');
 const log = require('fie-log')('fie-config');
 const astAnalyze = require('./ast-analyze');
 
@@ -61,6 +62,7 @@ const fieConfig = {
     } catch (e) {
       log.error('读取配置文件失败，请确认 fie.config.js 文件是否有语法错误');
       log.debug(e && e.stack);
+      report.error(e.code || 'config-error', e.stack || e, true);
       return process.exit(1);
     }
   },

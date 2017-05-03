@@ -24,6 +24,7 @@
     "esquery": "^0.4.0",
     "fs-extra": "^1.0.0",
     "fie-log": "^2.7.3",
+    "fie-report": "^2.7.3",
     "tosource": "^1.0.0"
   }
 }
