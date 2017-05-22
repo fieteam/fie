@@ -24,6 +24,11 @@ function* updateTip() {
     expires: 108000000
   });
 
+  // latest 没有值，可能没有网络
+  if ( !latest ) {
+    return;
+  }
+
   log.debug('%s current-version: %s, latest-version: %s', current.name, current.version, latest.version);
 
   if (!semver.lt(current.version, latest.version)) {
