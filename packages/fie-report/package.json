@@ -2,7 +2,7 @@
   "name": "fie-report",
   "main": "lib/index.js",
   "description": "fie report to retcode",
-  "version": "2.7.3",
+  "version": "2.7.4",
   "keywords": [
     "nodejs",
     "fie-report",
@@ -30,10 +30,10 @@
   "dependencies": {
     "cross-spawn": "^5.1.0",
     "debug": "^2.6.1",
-    "fie-cache": "^2.7.3",
-    "fie-env": "^1.3.5",
+    "fie-cache": "^2.7.4",
+    "fie-env": "^2.7.4",
     "fie-home": "^1.3.5",
-    "fie-user": "^2.7.3",
+    "fie-user": "^2.7.4",
     "fs-extra": "^2.0.0",
     "ini": "^1.3.4",
     "os": "^0.1.1",

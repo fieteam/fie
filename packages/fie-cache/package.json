@@ -2,7 +2,7 @@
   "name": "fie-cache",
   "main": "lib/index.js",
   "description": "fie数据缓存模块",
-  "version": "2.7.3",
+  "version": "2.7.4",
   "keywords": [
     "nodejs",
     "fie-cache",

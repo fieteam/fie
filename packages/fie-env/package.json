@@ -2,7 +2,7 @@
   "name": "fie-env",
   "main": "lib/index.js",
   "description": "fie内外网判断",
-  "version": "1.3.5",
+  "version": "2.7.4",
   "licenses": "GPL-3.0",
   "keywords": [
     "nodejs",
