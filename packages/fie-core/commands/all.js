@@ -171,12 +171,14 @@ module.exports = function* (command, cliArgs) {
 
   // ------------- 执行前置任务 ---------------
   if (hasBeforeTask) {
+    // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
+    const optionsArg = {
+      clientArgs: cliArgs,
+      clientOptions
+    };
     yield fieTask.run({
       tasks: tasks[command],
-      args: [api.getApi(), {
-        clientArgs: cliArgs,
-        clientOptions
-      }],
+      args: [Object.assign({}, api.getApi(), optionsArg), optionsArg],
       when: 'before',
       command
     });
@@ -209,9 +211,14 @@ module.exports = function* (command, cliArgs) {
       // -------------- 执行后置任务 ---------------
       // next 是异步的方法, run 是 generator方法,所以需要用 co 包一层
       hasAfterTask && co(function* () {
+        // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
+        const optionsArg = {
+          clientArgs: cliArgs,
+          clientOptions
+        };
         yield fieTask.run({
           tasks: tasks[command],
-          args: [fieObject, cliArgs],
+          args: [Object.assign({}, fieObject, optionsArg), optionsArg],
           when: 'after',
           command
         });
@@ -221,6 +228,7 @@ module.exports = function* (command, cliArgs) {
     };
 
     // 传入 callback ,兼容未使用 generator 版本套件和插件
+    // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
     const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
     yield fieTask.runFunction({
       method: toolkit[command],
