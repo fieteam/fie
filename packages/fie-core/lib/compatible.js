@@ -25,7 +25,7 @@ function* updateTip() {
   });
 
   // latest 没有值，可能没有网络
-  if ( !latest ) {
+  if (!latest) {
     return;
   }
 
