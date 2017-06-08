@@ -24,7 +24,11 @@ const cacheEnvGetter = {
     return execSync('node -v').toString().replace(/[\nv]/g, '');
   },
   npmVersion() {
-    return execSync('npm -v').toString().replace('\n', '');
+    try {
+      return execSync('npm -v').toString().replace('\n', '');
+    } catch(e) {
+      return null;
+    }
   },
   tnpmVersion() {
     try {
