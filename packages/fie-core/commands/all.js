@@ -199,6 +199,7 @@ module.exports = function* (command, cliArgs) {
   if (toolkit && toolkit[command]) {
     log.debug(`找到套件 ${toolkitName} 对应的 ${command} 方法`);
     fieObject = api.getApi(toolkitName);
+    // 历史遗留问题，对 add 命令进行特殊处理
     if (command === 'add') {
       cliArgs.type = cliArgs.length > 0 ? cliArgs[0] : '';
       cliArgs.name = cliArgs.length > 1 ? cliArgs[1] : '';

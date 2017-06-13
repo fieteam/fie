@@ -11,7 +11,11 @@ const report = require('fie-report');
 const installOne = require('./install-one');
 const utils = require('./utils');
 
-
+/**
+ * 获取 fie 插件或套件包逻辑，整体逻辑流程图请见：https://img.alicdn.com/tfs/TB1bG2MRFXXXXaaaXXXXXXXXXXX-2100-980.png
+ * @param name
+ * @returns {*}
+ */
 function* get(name) {
   let returnPkg = false;
   if (/\/package\.json$/.test(name)) {
