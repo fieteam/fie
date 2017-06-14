@@ -19,7 +19,7 @@ function* updateTip() {
 
   const latest = yield npm.latest(current.name);
 
-  // 缓存设置为3小时
+  // 缓存设置为3小时，过了3小时才重新提示升级 FIE
   cache.set(TIP_CACHE_KEY, true, {
     expires: 108000000
   });

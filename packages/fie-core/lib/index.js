@@ -15,6 +15,7 @@ const report = require('fie-report');
 const fiePkg = require('../package.json');
 
 /**
+ * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
  * @param command fie所需的命令
  * @param args 数组 fie命令所需的参数
  */
@@ -31,7 +32,7 @@ function run(command, args) {
 
     // 添加 fie 版本号环境变量
     process.env.FIE_VERSION = fiePkg.version;
-    // 初次执行命令, FIE_IS_FIREST_ENTRY 将会传到子进程
+    // 初次执行命令, FIE_IS_CHILD_ENTRY 将会传到子进程
     log.debug(`是否子命令 ${process.env.FIE_IS_CHILD_ENTRY}`);
     if (!process.env.FIE_IS_CHILD_ENTRY) {
       process.env.FIE_IS_CHILD_ENTRY = true;
