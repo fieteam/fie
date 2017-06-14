@@ -13,7 +13,7 @@ function* installOne(name, options) {
   }, options);
   name = utils.fullName(name);
   if (!name.match(/^(@ali\/)?fie-(toolkit|plugin)-/)) {
-    log.error('您转入的包名有误，请输入正确的 fie 包名，如： toolkit-blue，plugin-git');
+    log.error('您传入的包名有误，请输入正确的 fie 包名，如： toolkit-blue，plugin-git');
     return;
   }
 
