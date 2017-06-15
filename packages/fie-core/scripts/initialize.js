@@ -31,6 +31,18 @@ co(function* () {
     if (isIntranet) {
       fieEnv.setIntranetEnv();
       log.success('检测到当前安装的 fie 为内网版本，现默认将 fie 的工作环境切换至内网环境');
+
+      // 若内网环境下，没有登录的话，则登录一下
+      if (!fs.existsSync(userFile)) {
+        yield npm.install('@ali/fie-auth', {
+          cwd: path.join(__dirname, '..')
+        });
+
+        const auth = require('@ali/fie-auth');
+
+        yield auth.login();
+      }
+
     } else {
       // 外网环境
       fieEnv.setExtranetEnv();
@@ -40,15 +52,6 @@ co(function* () {
     log.success(`也可以使用 ${chalk.yellow.bold('$ fie switch')} 命令进行FIE开发环境的切换!`);
   }
 
-  // 若内网环境下，没有登录的话，则登录一下
-  if (!fs.existsSync(userFile)) {
-    yield npm.install('@ali/fie-auth', {
-      cwd: path.join(__dirname, '..')
-    });
 
-    const auth = require('@ali/fie-auth');
-
-    yield auth.login();
-  }
 }).catch(onError);
 
