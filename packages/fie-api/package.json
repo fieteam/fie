@@ -2,7 +2,7 @@
   "name": "fie-api",
   "main": "lib/index.js",
   "description": "fie 工具类",
-  "version": "2.7.4",
+  "version": "2.7.6",
   "keywords": [
     "nodejs",
     "fie-api",
@@ -29,14 +29,14 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "fie-cache": "^2.7.4",
-    "fie-config": "^2.7.4",
+    "fie-config": "^2.7.6",
     "fie-env": "^2.7.4",
     "fie-fs": "^2.7.4",
     "fie-home": "^1.3.5",
     "fie-log": "^2.7.4",
-    "fie-module": "^2.7.4",
+    "fie-module": "^2.7.6",
     "fie-npm": "^2.7.4",
-    "fie-task": "^2.7.4",
+    "fie-task": "^2.7.6",
     "fie-user": "^2.7.4"
   }
 }
