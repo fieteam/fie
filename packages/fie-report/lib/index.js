@@ -50,6 +50,8 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     command,
     content: Object.assign({
       cwd: project.cwd,
+      pkg: project.pkg,
+      fie: project.fie
     }, flowlog.content),
     type // 操作类型
   };

@@ -46,6 +46,21 @@ function outFieHelpInfo(needToolkit) {
   console.log(chalk.yellow(`   环境 - 当前FIE开发环境为: ${tips} , 可使用 $ fie switch 进行切换`));
 }
 
+function isGenerator(obj) {
+  return typeof obj.next === 'function' && typeof obj.throw === 'function';
+}
+
+/**
+ * 判断当前对象是否为 generator 函数
+ * @param obj
+ * @returns {boolean}
+ */
+function isGeneratorFunction(obj) {
+  const constructor = obj.constructor;
+  if (!constructor) return false;
+  if (constructor.name === 'GeneratorFunction' || constructor.displayName === 'GeneratorFunction') return true;
+  return isGenerator(constructor.prototype);
+}
 
 module.exports = function* () {
   const toolkit = fieConfig.getToolkitName();
@@ -53,7 +68,12 @@ module.exports = function* () {
   if (toolkit) {
     const mod = yield fieModule.get(fieModule.toolkitFullName(toolkit));
     if (mod && mod.help) {
-      mod.help();
+      if (isGeneratorFunction(mod.help)) {
+        yield mod.help();
+      } else {
+        mod.help();
+      }
+
       console.log(chalk.cyan(' ------- 以下是 fie 自身的命令 ------- '));
     }
     outFieHelpInfo();

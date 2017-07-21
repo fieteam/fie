@@ -26,7 +26,7 @@ const cacheEnvGetter = {
   npmVersion() {
     try {
       return execSync('npm -v').toString().replace('\n', '');
-    } catch(e) {
+    } catch (e) {
       return null;
     }
   },
@@ -88,25 +88,36 @@ exports.getProjectUrl = function () {
 exports.getProjectInfo = function (cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
+  const fiePath = path.join(cwd, 'fie.config.js');
   let pkg;
+  let fie;
+  let repository = exports.getProjectUrl();
   // 判断pkg是否存在
   if (fs.existsSync(pkgPath)) {
-    pkg = fs.readJsonSync(path.join(cwd, 'package.json'), { throws: false });
+    pkg = fs.readJsonSync(pkgPath, { throws: false });
   }
-  const info = {
+  // 判断fie.config.js是否存在
+  if (fs.existsSync(fiePath)) {
+    delete require.cache[fiePath];
+    try {
+      fie = require(fiePath);
+    } catch (e) {
+      fie = null;
+    }
+  }
+
+  // 如果git中没有则尝试从pkg中获取
+  if (pkg && pkg.repository && pkg.repository.url) {
+    repository = pkg.repository.url;
+  }
+
+  return {
     cwd,
     branch,
     pkg,
-    repository: ''
+    fie,
+    repository
   };
-
-  if (pkg && pkg.repository && pkg.repository.url) {
-    info.repository = pkg.repository.url;
-  } else {
-    info.repository = exports.getProjectUrl();
-  }
-
-  return info;
 };
 
 /**

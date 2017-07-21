@@ -2,7 +2,7 @@
   "name": "fie",
   "main": "lib/index.js",
   "description": "fie 阿里巴巴 国际UED体验技术部 前端工程化工具",
-  "version": "2.7.6",
+  "version": "2.7.7",
   "licenses": "GPL-3.0",
   "bin": {
     "fie": "./bin/fie"
@@ -23,7 +23,6 @@
     "scripts"
   ],
   "scripts": {
-    "postinstall": "node scripts/initialize.js"
   },
   "repository": {
     "type": "git",
