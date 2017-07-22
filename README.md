@@ -107,7 +107,7 @@ fie 使用帮助:  $ fie [command] [options]
 ## Support
 
 1. 使用过程中遇到的相关问题，可在github上提相关的issues : https://github.com/fieteam/fie/issues/new
-2. 也可通过钉钉或旺旺联系：@擎空、@宇果
+2. 也可通过钉钉或旺旺联系：@宇果
 
 ## License
 
