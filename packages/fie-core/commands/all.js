@@ -199,8 +199,6 @@ module.exports = function* (command, cliArgs) {
 
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
 
-  console.log(123);
-
   if (toolkit && toolkit[command]) {
     log.debug(`找到套件 ${toolkitName} 对应的 ${command} 方法`);
     fieObject = api.getApi(toolkitName);

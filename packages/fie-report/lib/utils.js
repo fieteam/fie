@@ -144,10 +144,11 @@ exports.getProjectEnv = function (force) {
 /**
  * 获取当前执行的命令,移除用户路径
  */
-exports.getCommand = function () {
-  let argv = process.argv;
+exports.getCommand = function (arg) {
+  let argv = arg || process.argv;
   argv = argv.map((item) => {
     const match = item.match(/\\bin\\(((?!bin).)*)$|\/bin\/(.*)/);
+
     // mac
     if (match && match[3]) {
       // 一般 node fie -v  这种方式则不需要显示 node
@@ -155,7 +156,12 @@ exports.getCommand = function () {
     } else if (match && match[1]) {
       // 一般 node fie -v  这种方式则不需要显示 node
       return match[1] === 'node.exe' ? '' : match[1];
+    }else if(!match && item.indexOf('node.exe') !== -1){
+			//fix如果C:\\node.exe 这种不带bin的路径
+			//TODO 当然这里的正则可以再优化兼容一下
+      return '';
     }
+
     return item;
   });
   return argv.join(' ').trim();
