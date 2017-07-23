@@ -168,7 +168,8 @@ module.exports = function (wpo, root, conf) {
       } else if (el.attachEvent) {
         el.attachEvent(`on${type}`, function () {
           if (isRemoving) {
-            el.detachEvent(`on${type}`, arguments.callee);
+            // noinspection JSAnnotator
+						el.detachEvent(`on${type}`, arguments.callee);
           }
           func();
         });
