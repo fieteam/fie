@@ -14,7 +14,8 @@ const astAnalyze = require('./ast-analyze');
 
 // fie配置文件
 const CONFIG_FILE = 'fie.config.js';
-const CWD = process.cwd();
+//先从环境变量里获取fie配置文件的目录，这样方便做调试
+const CWD = process.env.FIE_CONFIG_PATH || process.cwd();
 
 
 const fieConfig = {

@@ -1,7 +1,6 @@
 /**
  * Created by hugo on 2017/7/21.
  */
-const help = require('../../commands/help');
 const path = require('path');
 const fs = require('fs-extra');
 
@@ -28,7 +27,7 @@ describe('# 执行help命令', () => {
 
 	it('# 非fie项目下，只输出fie帮助信息', function* () {
 
-		yield help();
+		yield require('../../commands/help')();
 		expect(console.log).to.have.been.called;
 		//调用了5次console
 		expect(spy.callCount).to.be.at.most(5);
@@ -36,11 +35,13 @@ describe('# 执行help命令', () => {
 
 	it.only('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
 
-		yield help(mockCwd);
+		process.env.FIE_CONFIG_PATH = mockCwd;
+		yield require('../../commands/help')();
 		expect(console.log).to.have.been.called;
 		//调用了11次console
 		expect(spy.callCount).to.be.at.most(11);
 
+		delete process.env.FIE_CONFIG_PATH;
 		const hasHelp = spy.args.some(function (val) {
 
 			return val[0].indexOf('以下是 fie 自身的命令') !== -1

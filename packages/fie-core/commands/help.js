@@ -62,10 +62,8 @@ function isGeneratorFunction(obj) {
   return isGenerator(constructor.prototype);
 }
 
-module.exports = function* (dir) {
-  //主要用于测试
-	const cwd = dir || process.cwd();
-  const toolkit = fieConfig.getToolkitName(cwd);
+module.exports = function* () {
+  const toolkit = fieConfig.getToolkitName();
 
   // 套件存在,则优先输出套件帮助信息
   if (toolkit) {
