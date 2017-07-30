@@ -156,9 +156,9 @@ exports.getCommand = function (arg) {
     } else if (match && match[1]) {
       // 一般 node fie -v  这种方式则不需要显示 node
       return match[1] === 'node.exe' ? '' : match[1];
-    }else if(!match && item.indexOf('node.exe') !== -1){
-			//fix如果C:\\node.exe 这种不带bin的路径
-			//TODO 当然这里的正则可以再优化兼容一下
+    } else if (!match && item.indexOf('node.exe') !== -1) {
+      // fix如果C:\\node.exe 这种不带bin的路径
+      // TODO 当然这里的正则可以再优化兼容一下
       return '';
     }
 

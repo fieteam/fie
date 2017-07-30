@@ -65,7 +65,7 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     debug('内网发送...');
     fieCliLog.send(data);
   } else {
-		debug('外网发送...');
+    debug('外网发送...');
     let logMsg = '';
     Object.keys(data).forEach((key) => {
       logMsg += `${key}=${JSON.stringify(data[key])}`;
