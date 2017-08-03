@@ -26,7 +26,7 @@ const cacheEnvGetter = {
   npmVersion() {
     try {
       return execSync('npm -v').toString().replace('\n', '');
-    } catch(e) {
+    } catch (e) {
       return null;
     }
   },
@@ -88,25 +88,36 @@ exports.getProjectUrl = function () {
 exports.getProjectInfo = function (cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
+  const fiePath = path.join(cwd, 'fie.config.js');
   let pkg;
+  let fie;
+  let repository = exports.getProjectUrl();
   // 判断pkg是否存在
   if (fs.existsSync(pkgPath)) {
-    pkg = fs.readJsonSync(path.join(cwd, 'package.json'), { throws: false });
+    pkg = fs.readJsonSync(pkgPath, { throws: false });
   }
-  const info = {
+  // 判断fie.config.js是否存在
+  if (fs.existsSync(fiePath)) {
+    delete require.cache[fiePath];
+    try {
+      fie = require(fiePath);
+    } catch (e) {
+      fie = null;
+    }
+  }
+
+  // 如果git中没有则尝试从pkg中获取
+  if (pkg && pkg.repository && pkg.repository.url) {
+    repository = pkg.repository.url;
+  }
+
+  return {
     cwd,
     branch,
     pkg,
-    repository: ''
+    fie,
+    repository
   };
-
-  if (pkg && pkg.repository && pkg.repository.url) {
-    info.repository = pkg.repository.url;
-  } else {
-    info.repository = exports.getProjectUrl();
-  }
-
-  return info;
 };
 
 /**
@@ -133,10 +144,11 @@ exports.getProjectEnv = function (force) {
 /**
  * 获取当前执行的命令,移除用户路径
  */
-exports.getCommand = function () {
-  let argv = process.argv;
+exports.getCommand = function (arg) {
+  let argv = arg || process.argv;
   argv = argv.map((item) => {
     const match = item.match(/\\bin\\(((?!bin).)*)$|\/bin\/(.*)/);
+
     // mac
     if (match && match[3]) {
       // 一般 node fie -v  这种方式则不需要显示 node
@@ -144,7 +156,12 @@ exports.getCommand = function () {
     } else if (match && match[1]) {
       // 一般 node fie -v  这种方式则不需要显示 node
       return match[1] === 'node.exe' ? '' : match[1];
+    } else if (!match && item.indexOf('node.exe') !== -1) {
+      // fix如果C:\\node.exe 这种不带bin的路径
+      // TODO 当然这里的正则可以再优化兼容一下
+      return '';
     }
+
     return item;
   });
   return argv.join(' ').trim();

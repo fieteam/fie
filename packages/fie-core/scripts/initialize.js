@@ -42,7 +42,6 @@ co(function* () {
 
         yield auth.login();
       }
-
     } else {
       // 外网环境
       fieEnv.setExtranetEnv();
@@ -51,7 +50,5 @@ co(function* () {
 
     log.success(`也可以使用 ${chalk.yellow.bold('$ fie switch')} 命令进行FIE开发环境的切换!`);
   }
-
-
 }).catch(onError);
 

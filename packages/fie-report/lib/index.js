@@ -50,6 +50,8 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     command,
     content: Object.assign({
       cwd: project.cwd,
+      pkg: project.pkg,
+      fie: project.fie
     }, flowlog.content),
     type // 操作类型
   };
@@ -60,8 +62,10 @@ const generateEntityAndSend = (type, flowlog, foces) => {
 
 
   if (isIntranet) {
+    debug('内网发送...');
     fieCliLog.send(data);
   } else {
+    debug('外网发送...');
     let logMsg = '';
     Object.keys(data).forEach((key) => {
       logMsg += `${key}=${JSON.stringify(data[key])}`;

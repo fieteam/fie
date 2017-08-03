@@ -10,7 +10,8 @@
     "contributors": "./node_modules/.bin/contributors",
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "clear": "node scripts/clear.js",
-    "link": "cd packages/fie-core && npm link"
+    "link": "cd packages/fie-core && npm link",
+    "publish-tnpm" : "node scripts/publishTnpm.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -26,6 +27,7 @@
     "jsdoc": "^3.4.2",
     "lerna": "^2.0.0-beta.38",
     "mocha": "^3.1.2",
+    "mocha-sinon": "^2.0.0",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",

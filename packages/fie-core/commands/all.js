@@ -120,6 +120,7 @@ function* showVersion(name) {
  * @returns {boolean}
  */
 function isErrorDirectory(command) {
+  // 如果当前目录下不存在fie.config.js 则提示
   if (['start', 'build', 'publish'].indexOf(command) !== -1 && !fieConfig.exist()) {
     log.debug('error directory');
     log.error('未检测到 fie.config.js 文件, 请确认当前命令是否在项目根目录下执行');
@@ -146,6 +147,7 @@ module.exports = function* (command, cliArgs) {
   delete clientOptions._;
   delete clientOptions.$0;
 
+  // 错误提示提前判断
   if (!isErrorDirectory(command)) {
     return;
   }
@@ -196,6 +198,7 @@ module.exports = function* (command, cliArgs) {
   }
 
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
+
   if (toolkit && toolkit[command]) {
     log.debug(`找到套件 ${toolkitName} 对应的 ${command} 方法`);
     fieObject = api.getApi(toolkitName);
@@ -244,6 +247,16 @@ module.exports = function* (command, cliArgs) {
     const msg = `未找到 ${command} 对应的套件命令,后置任务无法执行`;
     log.error(msg);
     report.error('plugin-not-found', msg);
+    return;
+  }
+
+  // start build publish 错误提示
+  if (['start', 'build', 'publish'].indexOf(command) !== -1) {
+    if (toolkit) {
+      log.error(`该套件尚未实现 ${command} 命令，请检查拼写是否正确或执行 fie -h 查看可用命令`);
+    } else {
+      log.error(`fie.config.js 文件中尚不存在 ${command} 命令，请检查拼写是否正确`);
+    }
     return;
   }
 
