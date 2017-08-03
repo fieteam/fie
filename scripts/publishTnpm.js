@@ -18,8 +18,7 @@ newFiePkg.publishConfig = {
 fs.writeJsonSync(fiePkgPath,newFiePkg);
 
 try{
-	process.chdir(path.join(__dirname,'../packages/fie-core'));
-	spawn.sync('tnpm', ['publish'], { stdio: 'inherit' });
+	spawn.sync('tnpm', ['publish'], { stdio: 'inherit' , cwd :  path.join(__dirname,'../packages/fie-core')});
 	console.log(`${newFiePkg.name} 版本： ${newFiePkg.version} 发布到TNPM成功，查看地址：http://web.npm.alibaba-inc.com/package/${newFiePkg.name}`);
 
 }catch (e){
