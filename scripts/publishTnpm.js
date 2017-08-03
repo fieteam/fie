@@ -10,7 +10,7 @@ const fiePkg = fs.readJsonSync(fiePkgPath);
 const newFiePkg = Object.assign({},fiePkg);
 
 //修改相关的内容
-newFiePkg.name = '@ali/test-aaadddaa1';
+newFiePkg.name = '@ali/fie';
 newFiePkg.publishConfig = {
 	"registry": "http://registry.npm.alibaba-inc.com"
 };
