@@ -255,8 +255,12 @@ module.exports = function* (command, cliArgs) {
     if (toolkit) {
       log.error(`该套件尚未实现 ${command} 命令，请检查拼写是否正确或执行 fie -h 查看可用命令`);
     } else {
-      log.error(`fie.config.js 文件中尚不存在 ${command} 命令，请检查拼写是否正确`);
-    }
+      //存在fie.config.js文件且文件中有对应的 start、build、publish时则不需要提示
+			if (!(hasBeforeTask || hasAfterTask)) {
+				log.error(`fie.config.js 文件中尚不存在 ${command} 命令，请检查拼写是否正确`);
+			}
+
+		}
     return;
   }
 
