@@ -13,7 +13,7 @@ const log = require('fie-log')('fie-config');
 const astAnalyze = require('./ast-analyze');
 
 // fie配置文件
-const CONFIG_FILE = 'fie.config.js';
+const CONFIG_FILE = process.env.FIE_CONFIG_FILE || 'fie.config.js';
 // 先从环境变量里获取fie配置文件的目录，这样方便做调试
 const CWD = process.env.FIE_CONFIG_PATH || process.cwd();
 
@@ -61,7 +61,7 @@ const fieConfig = {
       log.debug('get %s , file = %o', CONFIG_FILE, file);
       return file;
     } catch (e) {
-      log.error('读取配置文件失败，请确认 fie.config.js 文件是否有语法错误');
+      log.error(`读取配置文件失败，请确认 ${CONFIG_FILE} 文件是否有语法错误`);
       log.debug(e && e.stack);
       report.error(e.code || 'config-error', e.stack || e, true);
       return process.exit(1);

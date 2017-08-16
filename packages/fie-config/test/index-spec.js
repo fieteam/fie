@@ -69,3 +69,32 @@ describe('# fie-config', () => {
     expect(toolkit).to.be.equal('fie-toolkit-dev');
   });
 });
+
+
+describe.only('# other-config', () => {
+	const mockCwd = path.resolve(__dirname, 'fixtures');
+	const source = path.resolve(mockCwd, 'source.fie.config.js');
+	const mock = path.resolve(mockCwd, 'qn.config.js');
+	const config = proxyquire('../lib/index', {});
+
+	before(() => {
+		fs.copySync(source, mock);
+	});
+	after(() => {
+		if (fs.existsSync(mock)) {
+			fs.unlinkSync(mock);
+		}
+	});
+
+	it('# get 获取数据', () => {
+		expect(config.get('abc', mockCwd)).to.be.deep.equals({
+			xyz: 22
+		});
+	});
+
+
+	it('# getToolkitName 获取套件的名字', () => {
+		const toolkit = config.getToolkitName(mockCwd);
+		expect(toolkit).to.be.equal('fie-toolkit-dev');
+	});
+});
