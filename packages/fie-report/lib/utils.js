@@ -4,7 +4,6 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs-extra');
 const fieHome = require('fie-home');
-const fieConfig = require('fie-config');
 const debug = require('debug')('fie-report');
 const fieUser = require('fie-user');
 const execSync = require('child_process').execSync;
@@ -89,13 +88,25 @@ exports.getProjectUrl = function () {
 exports.getProjectInfo = function (cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
-  const fie = fieConfig.getAll(cwd);
+	const CONFIG_FILE = process.env.FIE_CONFIG_FILE || 'fie.config.js';
+	const fiePath = path.join(cwd, CONFIG_FILE);
+  //这里不能使用fieConfig这个包，会循环引用
 	let pkg;
-  let repository = exports.getProjectUrl();
-  // 判断pkg是否存在
-  if (fs.existsSync(pkgPath)) {
-    pkg = fs.readJsonSync(pkgPath, { throws: false });
-  }
+	let fie;
+	let repository = exports.getProjectUrl();
+	// 判断pkg是否存在
+	if (fs.existsSync(pkgPath)) {
+		pkg = fs.readJsonSync(pkgPath, { throws: false });
+	}
+	// 判断fie.config.js是否存在
+	if (fs.existsSync(fiePath)) {
+		delete require.cache[fiePath];
+		try {
+			fie = require(fiePath);
+		} catch (e) {
+			fie = null;
+		}
+	}
 
   // 如果git中没有则尝试从pkg中获取
   if (pkg && pkg.repository && pkg.repository.url) {

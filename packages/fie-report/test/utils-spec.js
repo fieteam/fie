@@ -21,7 +21,7 @@ describe('# getCommand', () => {
   });
 });
 
-describe.only('# getProjectInfo', () => {
+describe('# getProjectInfo', () => {
   //mock一下环境
 	const mockCwd = path.resolve(__dirname, 'fixtures');
 	const source = path.resolve(mockCwd, 'source.fie.config.js');
@@ -42,7 +42,8 @@ describe.only('# getProjectInfo', () => {
 
 	it('能获取全部信息', () => {
 		const result = utils.getProjectInfo( mockCwd );
-		console.log(result);
-		
+		expect(result).to.be.an('object');
+		expect(result.fie).to.be.an('object');
+		expect(result.branch).to.be.equal('master');
 	});
 });

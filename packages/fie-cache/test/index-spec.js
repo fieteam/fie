@@ -76,7 +76,7 @@ describe('# fie-cache', () => {
     });
   });
 
-	describe.only('# cache.json 文件异常的情况', () => {
+	describe('# cache.json 文件异常的情况', () => {
 		const testKey = 'test';
 
 		before(() => {
