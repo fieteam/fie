@@ -27,7 +27,6 @@ describe('# 执行help命令', () => {
 
 
   it('# 非fie项目下，只输出fie帮助信息', function* () {
-
     yield require('../../commands/help')();
     /* eslint-disable no-unused-expressions */
     expect(console.log).to.have.been.called;
@@ -36,15 +35,14 @@ describe('# 执行help命令', () => {
   });
 
   it('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
-
-		const help = proxyquire('../../commands/help', {
-			'fie-config': {
-			  getToolkitName : function () {
-          return 'fie-toolkit-dev'
-				}
+    const help = proxyquire('../../commands/help', {
+      'fie-config': {
+        getToolkitName() {
+          return 'fie-toolkit-dev';
+        }
       }
-		});
-		yield help();
+    });
+    yield help();
 
     /* eslint-disable no-unused-expressions */
     expect(console.log).to.have.been.called;

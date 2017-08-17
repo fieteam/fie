@@ -67,9 +67,8 @@ const fieHome = {
       paths.forEach((item) => {
         fs.removeSync(item);
       });
-			// TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
-			rimraf.sync(fieModulesPath);
-
+      // TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
+      rimraf.sync(fieModulesPath);
     }
   },
 

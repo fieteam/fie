@@ -27,10 +27,10 @@ module.exports = {
     if (!key || !fs.existsSync(cacheFile)) {
       return null;
     }
-    //如果不是json文件，也不抛出异常
+    // 如果不是json文件，也不抛出异常
     let data = fs.readJsonSync(cacheFile, { throws: false }) || {};
-    if(typeof data !== 'object'){
-      data = {}
+    if (typeof data !== 'object') {
+      data = {};
     }
 
 
@@ -64,9 +64,9 @@ module.exports = {
     let data = {};
     if (fs.existsSync(cacheFile)) {
       data = fs.readJsonSync(cacheFile, { throws: false }) || {};
-			if(typeof data !== 'object'){
-				data = {}
-			}
+      if (typeof data !== 'object') {
+        data = {};
+      }
     }
 
     // 有效期处理

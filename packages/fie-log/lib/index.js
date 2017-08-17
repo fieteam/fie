@@ -90,13 +90,13 @@ module.exports = (moduleName) => {
     });
 
     // format args
-    //不同颜色，用不同的console方法输出，虽然都是一样，主要是方便测试时做判断
-    if(color === 'red'){
-			console.error.bind(console).apply(_self, args);
-    }else if(color === 'yellow'){
-			console.warn.bind(console).apply(_self, args);
-    }else {
-			console.log.bind(console).apply(_self, args);
+    // 不同颜色，用不同的console方法输出，虽然都是一样，主要是方便测试时做判断
+    if (color === 'red') {
+      console.error.bind(console).apply(_self, args);
+    } else if (color === 'yellow') {
+      console.warn.bind(console).apply(_self, args);
+    } else {
+      console.log.bind(console).apply(_self, args);
     }
 
     return true;

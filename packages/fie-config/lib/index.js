@@ -102,12 +102,12 @@ const fieConfig = {
     return null;
   },
 
-	/**
+  /**
    * 获取配置文件的名称
-	 * @returns {string|string}
-	 */
-	getConfigName(){
-    return CONFIG_FILE
+   * @returns {string|string}
+   */
+  getConfigName() {
+    return CONFIG_FILE;
   }
 
 };

@@ -22,28 +22,28 @@ describe('# getCommand', () => {
 });
 
 describe('# getProjectInfo', () => {
-  //mock一下环境
-	const mockCwd = path.resolve(__dirname, 'fixtures');
-	const source = path.resolve(mockCwd, 'source.fie.config.js');
-	const mock = path.resolve(mockCwd, 'fie.config.js');
-	const sourceHead = path.join(mockCwd,'HEAD');
-	const distHead = path.join(mockCwd, '.git/HEAD');
+  // mock一下环境
+  const mockCwd = path.resolve(__dirname, 'fixtures');
+  const source = path.resolve(mockCwd, 'source.fie.config.js');
+  const mock = path.resolve(mockCwd, 'fie.config.js');
+  const sourceHead = path.join(mockCwd, 'HEAD');
+  const distHead = path.join(mockCwd, '.git/HEAD');
 
-	before(() => {
-	  //copy文件
-		fs.copySync(source, mock);
-		//创建文件夹
-    fs.copySync( sourceHead , distHead )
-	});
-	after(() => {
-		fs.removeSync(mock);
-		fs.removeSync(path.join(mockCwd, '.git'));
-	});
+  before(() => {
+      // copy文件
+    fs.copySync(source, mock);
+        // 创建文件夹
+    fs.copySync(sourceHead, distHead);
+  });
+  after(() => {
+    fs.removeSync(mock);
+    fs.removeSync(path.join(mockCwd, '.git'));
+  });
 
-	it('能获取全部信息', () => {
-		const result = utils.getProjectInfo( mockCwd );
-		expect(result).to.be.an('object');
-		expect(result.fie).to.be.an('object');
-		expect(result.branch).to.be.equal('master');
-	});
+  it('能获取全部信息', () => {
+    const result = utils.getProjectInfo(mockCwd);
+    expect(result).to.be.an('object');
+    expect(result.fie).to.be.an('object');
+    expect(result.branch).to.be.equal('master');
+  });
 });
