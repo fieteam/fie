@@ -68,10 +68,17 @@ describe('# fie-config', () => {
     const toolkit = config.getToolkitName(mockCwd);
     expect(toolkit).to.be.equal('fie-toolkit-dev');
   });
+
+  it('# getConfigName 获取配置文件的名称' , () => {
+  	const name = config.getConfigName();
+		expect(name).to.be.equal('fie.config.js');
+	})
 });
 
 
-describe.only('# other-config', () => {
+describe('# other-config', () => {
+  //设置config文件未其他类型的文件
+	process.env.FIE_CONFIG_FILE = 'qn.config.js';
 	const mockCwd = path.resolve(__dirname, 'fixtures');
 	const source = path.resolve(mockCwd, 'source.fie.config.js');
 	const mock = path.resolve(mockCwd, 'qn.config.js');
@@ -81,6 +88,7 @@ describe.only('# other-config', () => {
 		fs.copySync(source, mock);
 	});
 	after(() => {
+		process.env.FIE_CONFIG_FILE = 'qn.config.js';
 		if (fs.existsSync(mock)) {
 			fs.unlinkSync(mock);
 		}
@@ -97,4 +105,9 @@ describe.only('# other-config', () => {
 		const toolkit = config.getToolkitName(mockCwd);
 		expect(toolkit).to.be.equal('fie-toolkit-dev');
 	});
+
+	it('# getConfigName 获取配置文件的名称' , () => {
+		const name = config.getConfigName();
+		expect(name).to.be.equal('qn.config.js');
+	})
 });
