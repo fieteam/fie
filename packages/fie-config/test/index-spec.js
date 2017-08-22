@@ -37,13 +37,13 @@ describe('# fie-config', () => {
 
   it('# set value是一个字符串对象', () => {
     config.set('gg',
-`
+      `
 //这是一行注释
 {
   "good" : "yes"
 }
       `
-, mockCwd);
+      , mockCwd);
     expect(config.get('gg', mockCwd)).to.be.deep.equals({
       good: 'yes'
     });
@@ -67,5 +67,48 @@ describe('# fie-config', () => {
   it('# getToolkitName 获取套件的名字', () => {
     const toolkit = config.getToolkitName(mockCwd);
     expect(toolkit).to.be.equal('fie-toolkit-dev');
+  });
+
+  it('# getConfigName 获取配置文件的名称', () => {
+    const name = config.getConfigName();
+    expect(name).to.be.equal('fie.config.js');
+  });
+});
+
+
+describe('# other-config', () => {
+  // 设置config文件未其他类型的文件
+  const mockCwd = path.resolve(__dirname, 'fixtures');
+  const source = path.resolve(mockCwd, 'source.fie.config.js');
+  const mock = path.resolve(mockCwd, 'qn.config.js');
+  let config;
+
+  before(() => {
+    process.env.FIE_CONFIG_FILE = 'qn.config.js';
+    config = proxyquire('../lib/index', {});
+    fs.copySync(source, mock);
+  });
+  after(() => {
+    delete process.env.FIE_CONFIG_FILE;
+    if (fs.existsSync(mock)) {
+      fs.unlinkSync(mock);
+    }
+  });
+
+  it('# get 获取数据', () => {
+    expect(config.get('abc', mockCwd)).to.be.deep.equals({
+      xyz: 22
+    });
+  });
+
+
+  it('# getToolkitName 获取套件的名字', () => {
+    const toolkit = config.getToolkitName(mockCwd);
+    expect(toolkit).to.be.equal('fie-toolkit-dev');
+  });
+
+  it('# getConfigName 获取配置文件的名称', () => {
+    const name = config.getConfigName();
+    expect(name).to.be.equal('qn.config.js');
   });
 });

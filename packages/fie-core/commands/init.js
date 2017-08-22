@@ -8,10 +8,10 @@ const fieModule = require('fie-module');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const fs = require('fs-extra');
+const fieConfig = require('fie-config');
 const log = require('fie-log')('fie-core');
 const task = require('fie-task');
 const api = require('../lib/api');
-const path = require('path');
 
 const cwd = process.cwd();
 
@@ -72,9 +72,9 @@ module.exports = function* (args) {
   // 存在的话,提示已初始化过了
   // 不存在的话再判断文件夹是否为空
   // 不为空的话则提示覆盖
-  if (fs.existsSync(path.join(cwd, 'fie.config.js'))) {
+  if (fieConfig.exist(cwd)) {
     log.warn('该项目已初始化过,无需再次进行init');
-    log.warn('若想重新初始化,请删除项目中的 fie.config.js 文件');
+    log.warn(`若想重新初始化,请删除项目中的 ${fieConfig.getConfigName()} 文件`);
     return;
   }
 

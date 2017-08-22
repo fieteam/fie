@@ -28,6 +28,7 @@
     // 一些正则表达式需要用到
     "no-useless-escape": "off",
     // 感觉这样写简洁一些
-    "no-mixed-operators" : "warn"
+    "no-mixed-operators" : "warn",
+    "no-lonely-if" : "off"
   }
 }

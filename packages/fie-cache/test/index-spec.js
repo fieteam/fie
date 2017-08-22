@@ -76,6 +76,29 @@ describe('# fie-cache', () => {
     });
   });
 
+  describe('# cache.json 文件异常的情况', () => {
+    const testKey = 'test';
+
+    before(() => {
+      fs.outputFileSync(cacheFile, '123');
+    });
+
+    after(() => {
+      if (fs.existsSync(cacheFile)) {
+        fs.unlinkSync(cacheFile);
+      }
+    });
+    it('# get 获取缓存', () => {
+      expect(cache.get(testKey)).to.be.equal(undefined);
+    });
+    it('# set 设置缓存', () => {
+      const key = 'testKey2';
+      const value = Math.random();
+      cache.set(key, value);
+      const data = fs.readJsonSync(cacheFile);
+      expect(data[key]).to.be.equals(value);
+    });
+  });
 
   describe('# 缓存有效期检测', () => {
     after(() => {

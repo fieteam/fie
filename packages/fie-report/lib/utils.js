@@ -88,15 +88,17 @@ exports.getProjectUrl = function () {
 exports.getProjectInfo = function (cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
-  const fiePath = path.join(cwd, 'fie.config.js');
+  const CONFIG_FILE = process.env.FIE_CONFIG_FILE || 'fie.config.js';
+  const fiePath = path.join(cwd, CONFIG_FILE);
+  // 这里不能使用fieConfig这个包，会循环引用
   let pkg;
   let fie;
   let repository = exports.getProjectUrl();
-  // 判断pkg是否存在
+    // 判断pkg是否存在
   if (fs.existsSync(pkgPath)) {
     pkg = fs.readJsonSync(pkgPath, { throws: false });
   }
-  // 判断fie.config.js是否存在
+    // 判断fie.config.js是否存在
   if (fs.existsSync(fiePath)) {
     delete require.cache[fiePath];
     try {

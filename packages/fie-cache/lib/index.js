@@ -27,7 +27,12 @@ module.exports = {
     if (!key || !fs.existsSync(cacheFile)) {
       return null;
     }
-    const data = fs.readJsonSync(cacheFile);
+    // 如果不是json文件，也不抛出异常
+    let data = fs.readJsonSync(cacheFile, { throws: false }) || {};
+    if (typeof data !== 'object') {
+      data = {};
+    }
+
 
     // 有效期判断
     if (data.__expires && data.__expires[key]) {
@@ -35,6 +40,7 @@ module.exports = {
         return null;
       }
     }
+
     return data[key];
   },
 
@@ -57,7 +63,10 @@ module.exports = {
 
     let data = {};
     if (fs.existsSync(cacheFile)) {
-      data = fs.readJsonSync(cacheFile);
+      data = fs.readJsonSync(cacheFile, { throws: false }) || {};
+      if (typeof data !== 'object') {
+        data = {};
+      }
     }
 
     // 有效期处理
