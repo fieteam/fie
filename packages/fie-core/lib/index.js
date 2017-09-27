@@ -7,11 +7,12 @@
 const co = require('co');
 const home = require('fie-home');
 const log = require('fie-log')('fie-core');
+const fieCommands = require('fie-commands');
+const report = require('fie-report');
 const fieError = require('fie-error');
 const compatible = require('./compatible');
 const initEnv = require('./init-env');
 const core = require('./core')();
-const report = require('fie-report');
 const fiePkg = require('../package.json');
 
 /**

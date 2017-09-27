@@ -1,0 +1,36 @@
+{
+  "name": "fie-commands",
+  "main": "lib/index.js",
+  "description": "fie高阶功能，一般用于命令行直接调用",
+  "version": "1.0.0",
+  "keywords": [
+    "nodejs",
+    "fie-commands",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "co": "^4.6.0",
+    "fie-cache": "^2.7.8",
+    "fie-config": "^2.7.8",
+    "fie-env": "^2.7.8",
+    "fie-error": "^2.7.8",
+    "fie-home": "^2.7.8",
+    "fie-log": "^2.7.8",
+    "fie-module": "^2.7.8",
+    "fie-npm": "^2.7.8",
+    "fie-report": "^2.7.8",
+    "fie-task": "^2.7.8",
+    "fs-extra": "^4.0.2",
+    "yargs": "^9.0.1"
+  }
+}
