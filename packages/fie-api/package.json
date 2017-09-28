@@ -28,6 +28,7 @@
   ],
   "readmeFilename": "README.md",
   "dependencies": {
+    "co": "^4.6.0",
     "fie-cache": "^2.7.8",
     "fie-config": "^2.7.8",
     "fie-env": "^2.7.8",
@@ -36,7 +37,11 @@
     "fie-log": "^2.7.8",
     "fie-module": "^2.7.8",
     "fie-npm": "^2.7.8",
+    "fie-report": "^2.7.8",
     "fie-task": "^2.7.8",
-    "fie-user": "^2.7.8"
+    "fie-user": "^2.7.8",
+    "inquirer": "^3.3.0",
+    "open": "^0.0.5",
+    "yargs": "^9.0.1"
   }
 }

@@ -4,7 +4,6 @@
  * @author 擎空 <zernmal@foxmail.com>
  */
 
-const fiePkg = require('../package.json');
 const path = require('path');
 const argv = require('yargs').argv;
 const chalk = require('chalk');
@@ -29,7 +28,7 @@ function getPackagesVersion() {
 }
 
 module.exports = function* () {
-  console.log(chalk.magenta(`v${fiePkg.version}`));
+  console.log(chalk.magenta(`v${process.env.FIE_VERSION}`));
 
   if (argv.d || argv.debug) {
     // 其依赖的核心包

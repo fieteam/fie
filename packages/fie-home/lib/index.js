@@ -21,10 +21,14 @@ const fieHome = {
 
   /**
    * 获取FIE的home路径
+   * FIE_HOME_FOLDER 作用：可以自定义fie的核心目录，方便开发第三方cli工具进行定制
+   * FIE_HOME 作用：方便单元测试时更改目录结构
    * @returns {string} 返回路径字符串
    */
   getHomePath() {
-    const home = path.resolve(process.env.FIE_HOME || userHome, '.fie');
+    //
+    const userHomeFolder = process.env.FIE_HOME_FOLDER || '.fie';
+    const home = path.resolve(process.env.FIE_HOME || userHome, userHomeFolder);
     debug('fie home = %s', home);
     return home;
   },

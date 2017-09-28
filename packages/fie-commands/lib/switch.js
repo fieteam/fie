@@ -4,7 +4,7 @@
 const inquirer = require('inquirer');
 const fieEnv = require('fie-env');
 const chalk = require('chalk');
-const log = require('fie-log')('fie-core');
+const log = require('fie-log')('fie-commands');
 /**
  * 初始化环境
  */

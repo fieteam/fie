@@ -1,6 +1,7 @@
 /**
- * @desc fie对 所有套件和插件 选择性透出的数据/API 都在这里, 该文件为向下兼容文件，最新的开发方式推荐直接使用 fie-api 包
- * @author 六韬 <yubhbh@gmail.com>
+ * @desc fie对 所有套件和插件 选择性透出的数据/API 都在这里, 该文件为向下兼容文件，最新的开发方式【不推荐】直接使用
+ * 后续会逐步去除老版本的兼容性方案
+ * @author 宇果 <baofen14787@gmail.com>
  */
 
 'use strict';
@@ -22,7 +23,7 @@ const argv = require('yargs').argv;
 const apiList = {
   /**
    * 是否在控制台调用
-   * @param {string} currentModuleName  如 @ali@fie-plugin-git,@ali@fie-toolkit-next
+   * @param {string} currentModule  如 @ali@fie-plugin-git,@ali@fie-toolkit-next
    * @returns {boolean}
    */
   isCallByConsole(currentModule) {
@@ -34,7 +35,7 @@ const apiList = {
    * @param name
    * @param cb
    * @returns {Promise}
-     */
+   */
   getFieModule(name, cb) {
     return new Promise((resolve, reject) => {
       co(function* () {
@@ -56,7 +57,7 @@ const apiList = {
    * @param options
    * @param cb
    * @returns {Promise}
-     */
+   */
   tnpmInstall(options, cb) {
     return new Promise((resolve, reject) => {
       co(function* () {
@@ -93,7 +94,7 @@ const apiList = {
    * 获取 fie.config.js 里面的配置,另外还会 merge 控制台里面的参数
    * @param key
    * @returns {*}
-     */
+   */
   getModuleConfig(key) {
     key = key || 'toolkitConfig';
     const u = user.getUser();
@@ -110,7 +111,7 @@ const apiList = {
    * 复制目录,并且可以进行变量替换
    * @param options
    * @returns {*}
-     */
+   */
   dirCopy(options) {
     // 向下兼容一些错误的写法
     const oldStringReplace = options.sstrReplace || options.sstrRpelace;
@@ -135,7 +136,7 @@ const apiList = {
    * 文件内容重写, 可以根据hook注入内容
    * @param options
    * @returns {*}
-     */
+   */
   fileRewrite(options) {
     options.src = options.content;
     options.srcMode = 1;

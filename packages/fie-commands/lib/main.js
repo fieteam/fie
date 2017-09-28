@@ -6,13 +6,13 @@
 'use strict';
 
 const co = require('co');
-const log = require('fie-log')('fie-core');
+const log = require('fie-log')('fie-commands');
 const fieTask = require('fie-task');
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
 const fieError = require('fie-error');
 const fieNpm = require('fie-npm');
-const api = require('../lib/api');
+const api = require('fie-api/lib/old-api');
 const fieHome = require('fie-home');
 const argv = require('yargs').argv;
 const fs = require('fs-extra');
@@ -152,6 +152,8 @@ module.exports = function* (command, cliArgs) {
     return;
   }
 
+
+  
   // 如果第一个参数为 plugin, 强制执行某个插件, 并且忽略所有的前置,后置任务
   if (command === 'plugin') {
     if (cliArgs.length < 1) {
@@ -166,7 +168,7 @@ module.exports = function* (command, cliArgs) {
   }
 
   // ------------- 展示版本号, 并中止后面的任务 ---------------
-  if (cliArgs.length === 0 && (clientOptions.v || clientOptions.version)) {
+  if (cliArgs && cliArgs.length === 0 && (clientOptions.v || clientOptions.version)) {
     yield showVersion(command);
     return;
   }

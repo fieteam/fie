@@ -16,7 +16,7 @@ module.exports = function* () {
 
   log.warn('检测到您尚未初始化FIE的开发环境!');
 
-  yield require('../commands/switch')();
+  yield require('fie-commands/lib/switch')();
 
   log.success('也可以使用 $ fie switch 命令进行FIE开发环境的切换!');
 

@@ -7,10 +7,10 @@
 
 
 /**
- * @exports fie-modules
+ * @exports fie-commands
  */
 module.exports = {
-  all: require('./all'),
+  main: require('./main'),
   clear: require('./clear'),
   help: require('./help'),
   ii: require('./ii'),

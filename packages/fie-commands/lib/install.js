@@ -4,7 +4,7 @@
 
 'use strict';
 
-const log = require('fie-log')('fie-core');
+const log = require('fie-log')('fie-commands');
 const fieModule = require('fie-module');
 
 module.exports = function* (cliArgs) {
