@@ -25,6 +25,7 @@
     "debug": "^2.2.0",
     "fie-env": "^2.7.8",
     "fie-home": "^2.7.8",
+    "fie-log": "^2.7.8",
     "lodash": "^4.17.2",
     "npminstall": "^3.0.1"
   },

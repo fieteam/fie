@@ -1,13 +1,14 @@
 #! /usr/bin/env node
 'use strict';
 
+
 const co = require('co');
 const home = require('fie-home');
 const fieError = require('fie-error');
 const fieUpgrade = require('fie-upgrade');
 const log = require('fie-log')('fie-core');
 const fieCommands = require('fie-commands');
-const fieArgv = require('fie-argv')();
+const argv = require('fie-argv');
 const sudoBlock = require('sudo-block');
 const initEnv = require('../lib/init-env');
 const fiePkg = require('../package.json');
@@ -21,11 +22,16 @@ sudoBlock();
  */
 co(function* () {
 
+  log.debug('app start run ....');
 
   /// 运行前的一些检测工作
   //TODO 统一处理 添加 fie 版本号环境变量
   process.env.FIE_VERSION = fiePkg.version;
-
+  process.env.FIE_PACKAGE = fiePkg.name;
+  //TODO 以下为测试,后续要删除
+  process.env.FIE_MODULE_PREFIX = 'lzd';     //该值用于设置套件和插件的名称，如fie-toolkit-xxx，lzd-toolkit-xxx
+  process.env.FIE_CONFIG_FILE = 'lzd.config.js';
+  process.env.FIE_HOME_FOLDER = '.lzd';
 
 
   // fie 家目录存在性检查
@@ -43,6 +49,7 @@ co(function* () {
     return item !== 'main';
   });
 
+  const fieArgv = argv();
   const command = fieArgv.command;
   const newArgv = fieArgv.argv;
 

@@ -11,9 +11,10 @@ const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
 const rimraf = require('rimraf');
-const userHome = require('os-homedir')();
+const home = require('os-homedir')();
 
-
+let userHomeFolder;
+let userHome;
 /**
  * @exports fie-home
  */
@@ -26,11 +27,11 @@ const fieHome = {
    * @returns {string} 返回路径字符串
    */
   getHomePath() {
-    //
-    const userHomeFolder = process.env.FIE_HOME_FOLDER || '.fie';
-    const home = path.resolve(process.env.FIE_HOME || userHome, userHomeFolder);
-    debug('fie home = %s', home);
-    return home;
+    userHomeFolder = process.env.FIE_HOME_FOLDER || '.fie';
+    userHome = process.env.FIE_HOME || home;
+    const homePath = path.resolve(userHome, userHomeFolder);
+    debug('fie home = %s', homePath);
+    return homePath;
   },
 
   /**
@@ -51,6 +52,13 @@ const fieHome = {
     const fiePath = fieHome.getHomePath();
     if (!fs.existsSync(fiePath)) {
       fs.mkdirsSync(fiePath);
+    }
+    //缓存home信息到env里面
+    if(!process.env.FIE_HOME_FOLDER){
+      process.env.FIE_HOME_FOLDER = userHomeFolder;
+    }
+    if(!process.env.FIE_HOME){
+      process.env.FIE_HOME = userHome;
     }
   },
 

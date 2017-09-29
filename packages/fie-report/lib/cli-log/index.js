@@ -15,10 +15,11 @@ if (process.env.NODE_ENV === 'local') {
  * @param {object} data
  */
 function send(data) {
-  debug('send log for api = %s', host);
+  const url = `${host}/log/cli`;
+  debug('send log for api = %s', url);
   setTimeout(() => {
     request.post({
-      url: `${host}/log/cli`,
+      url,
       json: true,
       form: data
     }, (err, result) => {

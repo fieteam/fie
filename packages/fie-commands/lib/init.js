@@ -16,6 +16,7 @@ const api = require('fie-api/lib/old-api');
 const cwd = process.cwd();
 
 function* runInit(name) {
+
   const moduleInfo = yield fieModule.get(name);
   yield task.runFunction({
     method: moduleInfo.init,

@@ -1,15 +1,22 @@
 'use strict';
 
-const debug = require('debug')('fie-npm');
+const log = require('fie-log')('fie-npm');
 const spawn = require('cross-spawn');
 const _ = require('lodash');
 const dargs = require('dargs');
 const request = require('co-request');
 const fieEnv = require('fie-env');
 
-
-const isIntranet = fieEnv.isIntranet();
-const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
+/**
+ * 根据内外网区分来获取npm地址
+ * @returns {string}
+ */
+function getRegistry() {
+  const isIntranet = fieEnv.isIntranet();
+  const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
+  log.debug(registry);
+  return registry;
+}
 
 /**
  * 安装 npm 包
@@ -18,6 +25,7 @@ const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://r
  * @param options
  */
 function* runInstall(installer, paths, options) {
+  const registry = getRegistry();
   // npm默认值
   const option = _.defaults(options || {}, {
     registry,
@@ -35,7 +43,7 @@ function* runInstall(installer, paths, options) {
     delete option.china;
   }
 
-  debug('installer = %s', installer);
+  log.debug('installer = %s', installer);
 
   // 将pkg进行扁平化
   if (!Array.isArray(paths) && paths) {
@@ -52,8 +60,8 @@ function* runInstall(installer, paths, options) {
       E: '-save-exact'
     }
   }));
-  debug('args = %o', args);
-  debug('options = %o', option);
+  log.debug('args = %o', args);
+  log.debug('options = %o', option);
   return new Promise((resolve, reject) => {
     spawn(installer, args, option)
       .on('error', (e) => {
@@ -101,6 +109,7 @@ module.exports = {
    * 获取最新的包信息
    */
   * latest(name, options) {
+    const registry = getRegistry();
     options = Object.assign({}, {
       registry,
       version: 'latest'
@@ -125,11 +134,12 @@ module.exports = {
    * @param name
    */
   * has(name, options) {
+    const registry = getRegistry();
     options = Object.assign({}, {
       registry
     }, options);
     const url = `${options.registry}${encodeURIComponent(name)}/latest`;
-    debug('check module has =%s', url);
+    log.debug('check module has =%s', url);
     const res = yield request({
       url: `${options.registry}${encodeURIComponent(name)}/latest`,
       method: 'HEAD'

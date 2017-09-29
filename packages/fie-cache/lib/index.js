@@ -8,11 +8,9 @@
 'use strict';
 
 const fs = require('fs-extra');
+const log = require('fie-log')('fie-cache');
 const path = require('path');
 const home = require('fie-home');
-
-const cacheFile = path.resolve(home.getHomePath(), 'fie.cache.json');
-
 
 /**
  * @exports fie-cache
@@ -24,6 +22,8 @@ module.exports = {
    * @returns {mix}
    */
   get(key) {
+    const cacheFile = this.getCacheFile();
+    log.debug('cache file path = %s',cacheFile);
     if (!key || !fs.existsSync(cacheFile)) {
       return null;
     }
@@ -57,6 +57,8 @@ module.exports = {
       return false;
     }
 
+    const cacheFile = this.getCacheFile();
+
     options = Object.assign({}, {
       expires: null
     }, options);
@@ -87,6 +89,14 @@ module.exports = {
    * 清除所有的缓存
    */
   clear() {
+    const cacheFile = this.getCacheFile();
     fs.removeSync(cacheFile);
+  },
+
+  /**
+   * 获取缓存文件
+   */
+  getCacheFile(){
+    return path.resolve(home.getHomePath(), 'fie.cache.json');
   }
 };

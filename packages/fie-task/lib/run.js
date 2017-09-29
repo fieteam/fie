@@ -58,7 +58,6 @@ function* oneTask(task, args, hookParam) {
 
       log.debug(`${task.command} 开始执行`);
 
-      log.debug('当前环境变量 %o', process.env);
       const child = spawn(command.splice(0, 1).pop(), command, {
         cwd: process.cwd(),
         env: process.env,

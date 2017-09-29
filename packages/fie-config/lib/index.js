@@ -12,10 +12,9 @@ const report = require('fie-report');
 const log = require('fie-log')('fie-config');
 const astAnalyze = require('./ast-analyze');
 
-// fie配置文件
-const CONFIG_FILE = process.env.FIE_CONFIG_FILE || 'fie.config.js';
+
 // 先从环境变量里获取fie配置文件的目录，这样方便做调试
-const CWD = process.env.FIE_CONFIG_PATH || process.cwd();
+const CWD = process.cwd();
 
 
 const fieConfig = {
@@ -25,8 +24,8 @@ const fieConfig = {
    * @param {string} dir 需要判断文件是否存在的目录,可选,默认取值:当前运行目录
    */
   exist(dir) {
-    const cwd = dir || CWD;
-    const fieConfigPath = path.join(cwd, CONFIG_FILE);
+    const cwd = dir || this.getConfigPath();
+    const fieConfigPath = path.join(cwd, this.getConfigName());
     return fs.existsSync(fieConfigPath);
   },
 
@@ -37,7 +36,7 @@ const fieConfig = {
    * @return object
    */
   get(key, dir) {
-    const cwd = dir || CWD;
+    const cwd = dir || this.getConfigPath();
     const file = this.getAll(cwd);
     log.debug('key = %s ,all config = %o', key, file);
 
@@ -48,21 +47,23 @@ const fieConfig = {
    * 获取整个fie.config.js文件的内容
    */
   getAll(dir) {
-    const cwd = dir || CWD;
+    const cwd = dir || this.getConfigPath();
+    const configName = this.getConfigName();
     // 先判断文件是否存在,存在的话才读取
     if (!this.exist(cwd)) {
       return null;
     }
     // 直接使用require的话,会有缓存， 需要先删除 require 的缓存
-    const configPath = path.join(cwd, CONFIG_FILE);
+    const configPath = path.join(cwd, configName);
     delete require.cache[configPath];
     try {
       const file = require(configPath);
-      log.debug('get %s , file = %o', CONFIG_FILE, file);
+      log.debug('get %s , file = %o', configName, file);
       return file;
     } catch (e) {
-      log.error(`读取配置文件失败，请确认 ${CONFIG_FILE} 文件是否有语法错误`);
-      log.debug(e && e.stack);
+      log.error(`读取配置文件失败，请确认 ${configName} 文件是否有错误`);
+      log.error('详细报错信息如下：');
+      log.error(e && e.stack);
       report.error(e.code || 'config-error', e.stack || e, true);
       return process.exit(1);
     }
@@ -75,12 +76,13 @@ const fieConfig = {
    * @param dir 配置文件路径
    */
   set(key, value, dir) {
-    const cwd = dir || CWD;
-    const filePath = path.join(cwd, CONFIG_FILE);
+    const cwd = dir || this.getConfigPath();
+    const configName = this.getConfigName();
+    const filePath = path.join(cwd, configName);
     // 读取文件
     const code = fs.readFileSync(filePath, 'utf8');
     const source = astAnalyze(code, key, value);
-    log.debug('set %s file source string = %o', CONFIG_FILE, source);
+    log.debug('set %s file source string = %o', configName, source);
     fs.writeFileSync(filePath, source);
     return true;
   },
@@ -106,8 +108,15 @@ const fieConfig = {
    * 获取配置文件的名称
    * @returns {string|string}
    */
-  getConfigName() {
-    return CONFIG_FILE;
+  getConfigName(){
+    return process.env.FIE_CONFIG_FILE || 'fie.config.js';
+  },
+
+  /**
+   * 获取config.js的文件路径
+   */
+  getConfigPath(){
+    return process.env.FIE_CONFIG_PATH || CWD;
   }
 
 };

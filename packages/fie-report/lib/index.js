@@ -13,7 +13,6 @@ const utils = require('./utils');
 const __WPO = require('./retcode/log-node');
 const fieCliLog = require('./cli-log/index');
 
-const isIntranet = fieEnv.isIntranet();
 const cwd = process.cwd();
 /**
  * 发送流程日志到FIE平台
@@ -26,6 +25,7 @@ const cwd = process.cwd();
  * @param {number} flowlog.status 操作状态
 */
 const generateEntityAndSend = (type, flowlog, foces) => {
+  const isIntranet = fieEnv.isIntranet();
   const project = utils.getProjectInfo(cwd);
   const env = utils.getProjectEnv(foces);
   const command = utils.getCommand();
@@ -99,7 +99,7 @@ module.exports = {
   moduleUsage(name) {
     const moduleVersion = utils.getFieModuleVersion(name);
     const moduleEntry = process.env[fieHome.getEntryModuleEnvName()];
-    let data;
+    let data = {};
     // 是插件
     if (name.indexOf('fie-plugin') !== -1) {
       data = {
