@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('fie-log')('fie-error');
+const log = require('fie-log')('core-error');
 
 
 /**

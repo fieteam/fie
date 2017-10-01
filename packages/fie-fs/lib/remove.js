@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const log = require('fie-log')('fie-fs');
+const log = require('fie-log')('core-fs');
 
 function remove(file) {
   if (!fs.existsSync(file)) {

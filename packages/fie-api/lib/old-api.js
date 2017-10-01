@@ -11,6 +11,7 @@ const inquirer = require('inquirer');
 const co = require('co');
 const fieLog = require('fie-log');
 const fieModule = require('fie-module');
+const fieModuleName = require('fie-module-name');
 const home = require('fie-home');
 const config = require('fie-config');
 const npm = require('fie-npm');
@@ -27,7 +28,7 @@ const apiList = {
    * @returns {boolean}
    */
   isCallByConsole(currentModule) {
-    return this.moduleName === fieModule.fullName(currentModule);
+    return this.moduleName === fieModuleName.fullName(currentModule);
   },
 
   /**
@@ -158,7 +159,7 @@ const apiList = {
 module.exports = {
   getApi(moduleName) {
     // API透出前预处理
-    moduleName = moduleName && fieModule.fullName(moduleName);
+    moduleName = moduleName && fieModuleName.fullName(moduleName);
     if (!moduleName) {
       moduleName = 'fie-core';
     } else {

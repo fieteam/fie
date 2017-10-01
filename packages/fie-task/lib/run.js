@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('fie-log')('fie-task');
+const log = require('fie-log')('core-task');
 const report = require('fie-report');
 const runFunction = require('./run-function');
 const npmRun = require('npm-run');

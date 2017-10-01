@@ -84,13 +84,11 @@ module.exports = function* (cliArgs, options) {
   });
 
   newList = newList.filter((item) => {
-    if (argv.all || item.shared) {
-      return true;
-    }
-    return false;
+    return !!(argv.all || item.shared);
+
   });
 
-  console.log(chalk.italic.magenta(`\r\n${star}************** fie ${text}列表 ******************${star}\r\n`));
+  console.log(chalk.italic.magenta(`\r\n${star}************** ${text}列表 ******************${star}\r\n`));
 
   if (!type) {
     console.log(chalk.magenta('- 套件列表 \r\n'));

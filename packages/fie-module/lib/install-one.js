@@ -2,9 +2,9 @@
 
 const home = require('fie-home');
 const npm = require('fie-npm');
-const log = require('fie-log')('fie-module');
-const utils = require('./utils');
+const log = require('fie-log')('core-module');
 const cache = require('fie-cache');
+const utils = require('./utils');
 
 function* installOne(name, options) {
 

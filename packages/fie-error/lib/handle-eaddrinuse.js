@@ -2,7 +2,7 @@
  * Created by hugo on 17/4/21.
  * 端口被占用时的错误处理
  */
-const log = require('fie-log')('fie-error');
+const log = require('fie-log')('core-error');
 const chalk = require('chalk');
 const os = require('os');
 

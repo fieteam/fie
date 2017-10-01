@@ -6,10 +6,11 @@
 'use strict';
 
 const co = require('co');
-const log = require('fie-log')('fie-commands');
+const log = require('fie-log')('core-commands');
 const fieTask = require('fie-task');
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
+const fieModuleName = require('fie-module-name');
 const fieError = require('fie-error');
 const fieNpm = require('fie-npm');
 const api = require('fie-api/lib/old-api');
@@ -32,7 +33,7 @@ function setEntryModule(name) {
  * @param cliArgs
  */
 function* runPlugin(name, cliArgs) {
-  name = fieModule.pluginFullName(name);
+  name = fieModuleName.pluginFullName(name);
   fieObject = api.getApi(name);
 
   // 执行插件的方法
@@ -86,7 +87,7 @@ function* runPlugin(name, cliArgs) {
 function* showVersion(name) {
   let existsOne = false;
   const logOne = function* (n) {
-    n = fieModule.fullName(n);
+    n = fieModuleName.fullName(n);
     const localExist = fieModule.localExist(n);
     let mod = '';
     if (localExist) {
@@ -115,13 +116,13 @@ function* showVersion(name) {
 }
 
 /**
- * 当遇到 start , build ,publish 命令是,判断用户是否在正确的目录
+ * 当遇到 start , build 命令时,判断用户是否在正确的目录
  * @param command
  * @returns {boolean}
  */
 function isErrorDirectory(command) {
   // 如果当前目录下不存在fie.config.js 则提示
-  if (['start', 'build', 'publish'].indexOf(command) !== -1 && !fieConfig.exist()) {
+  if (['start', 'build'].indexOf(command) !== -1 && !fieConfig.exist()) {
     log.debug('error directory');
     log.error(`未检测到 ${fieConfig.getConfigName()} 文件, 请确认当前命令是否在项目根目录下执行`);
     return false;
@@ -194,7 +195,7 @@ module.exports = function* (command, cliArgs) {
   let toolkitExist;
   let toolkit;
   if (toolkitName) {
-    toolkitName = fieModule.toolkitFullName(toolkitName);
+    toolkitName = fieModuleName.toolkitFullName(toolkitName);
     toolkitExist = toolkitName ? (fieModule.localExist(toolkitName) || fieModule.onlineExist(toolkitName)) : false;
     toolkit = toolkitExist ? yield fieModule.get(toolkitName) : null;
   }
@@ -211,7 +212,7 @@ module.exports = function* (command, cliArgs) {
     }
     // 套件发送log
     log.debug(`套件 ${toolkitName} LOG开始发送...`);
-    report.moduleUsage(fieModule.fullName(toolkitName));
+    report.moduleUsage(fieModuleName.fullName(toolkitName));
     setEntryModule(toolkitName);
     const afterToolCommand = () => {
       // -------------- 执行后置任务 ---------------

@@ -1,11 +1,11 @@
 {
-  "name": "fie-prefix",
+  "name": "fie-module-name",
   "main": "lib/index.js",
-  "description": "获取fie套件及插件的前缀",
+  "description": "获取模块名字的相关信息，和 前缀",
   "version": "1.0.0",
   "keywords": [
     "nodejs",
-    "fie-prefix",
+    "fie-module-name",
     "fie"
   ],
   "files": [
@@ -28,17 +28,6 @@
   ],
   "readmeFilename": "README.md",
   "dependencies": {
-    "co-request": "^1.0.0",
-    "fie-cache": "^2.7.8",
-    "fie-env": "^2.7.8",
-    "fie-home": "^2.7.8",
-    "fie-log": "^2.7.8",
-    "fie-npm": "^2.7.8",
-    "fie-report": "^2.7.8",
-    "fs-extra": "^1.0.0",
-    "globby": "^6.1.0",
-    "node-emoji": "^1.5.1",
-    "ping": "^0.2.2",
-    "semver": "^5.3.0"
+    "fie-env": "^2.7.8"
   }
 }

@@ -5,7 +5,7 @@
  * Created by hugo on 16/11/20.
  */
 const globby = require('globby');
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 const env = require('fie-env');
 const home = require('fie-home');
 const path = require('path');

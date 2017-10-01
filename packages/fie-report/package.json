@@ -33,6 +33,7 @@
     "fie-cache": "^2.7.8",
     "fie-env": "^2.7.8",
     "fie-home": "^2.7.8",
+    "fie-module-name" : "^1.0.0",
     "fie-user": "^2.7.8",
     "fs-extra": "^2.0.0",
     "ini": "^1.3.4",

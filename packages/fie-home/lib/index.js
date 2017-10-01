@@ -6,7 +6,7 @@
 
 'use strict';
 
-const debug = require('debug')('fie-home');
+const debug = require('debug')('core-home');
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');

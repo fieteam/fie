@@ -7,6 +7,7 @@
 
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
+const fieModuleName = require('fie-module-name');
 const fieEnv = require('fie-env');
 const chalk = require('chalk');
 const help = `
@@ -68,7 +69,7 @@ module.exports = function* () {
 
   // 套件存在,则优先输出套件帮助信息
   if (toolkit) {
-    const mod = yield fieModule.get(fieModule.toolkitFullName(toolkit));
+    const mod = yield fieModule.get(fieModuleName.toolkitFullName(toolkit));
     if (mod && mod.help) {
       if (isGeneratorFunction(mod.help)) {
         yield mod.help();

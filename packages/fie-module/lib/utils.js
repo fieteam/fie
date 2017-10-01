@@ -2,9 +2,10 @@
 
 const semver = require('semver');
 const env = require('fie-env');
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
+const fieModuleName = require('fie-module-name');
 
 
 /**
@@ -143,24 +144,13 @@ const utils = {
 
     return list.filter(item => item.name.indexOf(`${type}-`) > -1);
   },
-  /**
-   * 根据传入的插件名称缩写,获取模块名称
-   * @param name
-   * @returns {*}
-   */
-  fullName(name) {
-    if (name.indexOf('plugin-') > -1) {
-      return pluginFullName(name);
-    } else if (name.indexOf('toolkit-') > -1) {
-      return toolkitFullName(name);
-    }
-    return name;
-  },
-  pluginFullName,
-  toolkitFullName,
-  modPrefix,
-  toolkitPrefix,
-  pluginPrefix,
+  
+  fullName: fieModuleName.fullName,
+  pluginFullName : fieModuleName.pluginFullName,
+  toolkitFullName : fieModuleName.toolkitFullName,
+  modPrefix : fieModuleName.prefix,
+  toolkitPrefix : fieModuleName.toolkitPrefix,
+  pluginPrefix : fieModuleName.pluginPrefix,
   UPDATE_CHECK_PRE: 'fieModuleCheck_',
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',

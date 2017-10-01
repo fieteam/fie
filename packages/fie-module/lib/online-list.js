@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 const env = require('fie-env');
 const cache = require('fie-cache');
 const request = require('co-request');

@@ -3,7 +3,7 @@
 /**
  * Created by hugo on 16/11/16.
  */
-const log = require('fie-log')('fie-error');
+const log = require('fie-log')('core-error');
 const utils = require('./utils');
 const fieHome = require('fie-home');
 const fieNpm = require('fie-npm');
@@ -35,6 +35,7 @@ module.exports = function* (e) {
         cwd: moduleCwd
       });
       log.success(`已将 ${module} 模块安装至 ${moduleCwd} ,自动修复成功,请重新运行命令!`);
+      log.success(`若重新运行仍然出现问题，请在命令前面加上：DEBUG=core-error 来获取详细错误堆栈`);
       return true;
     } catch (err) {
       log.error('sorry 自动修复失败, 请手动修复');

@@ -8,7 +8,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const log = require('fie-log')('fie-cache');
+const log = require('fie-log')('core-cache');
 const path = require('path');
 const home = require('fie-home');
 

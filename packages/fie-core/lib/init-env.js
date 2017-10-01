@@ -1,7 +1,7 @@
 'use strict';
 
 const fieEnv = require('fie-env');
-const log = require('fie-log')('fie-core');
+const log = require('fie-log')('core-core');
 /**
  * 初始化环境
  */

@@ -2,7 +2,7 @@
 
 const localList = require('./local-list');
 const installOne = require('./install-one');
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 
 /**
  * 更新模块

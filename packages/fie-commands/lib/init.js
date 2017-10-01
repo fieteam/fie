@@ -5,11 +5,12 @@
 'use strict';
 
 const fieModule = require('fie-module');
+const fieModuleName = require('fie-module-name');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const fs = require('fs-extra');
 const fieConfig = require('fie-config');
-const log = require('fie-log')('fie-commands');
+const log = require('fie-log')('core-commands');
 const task = require('fie-task');
 const api = require('fie-api/lib/old-api');
 
@@ -30,9 +31,10 @@ function* getName() {
   const choices = [];
   const onlineList = yield fieModule.onlineList({ type: 'toolkit' });
   const localList = fieModule.localList({ type: 'toolkit' });
+  const toolkitPrefix = fieModuleName.toolkitPrefix();
   const onlineMap = {};
   const addChoice = (item) => {
-    const n = item.name.replace('@ali/', '').replace('fie-toolkit-', '');
+    const n = item.name.replace('@ali/', '').replace(toolkitPrefix, '');
     choices.push({
       name: n + chalk.gray(` -  ${item.description}`),
       value: n
@@ -69,7 +71,7 @@ module.exports = function* (args) {
     name = yield getName();
   }
 
-  name = fieModule.toolkitFullName(name);
+  name = fieModuleName.toolkitFullName(name);
 
   // 先判断fie.config.js 是否存在
   // 存在的话,提示已初始化过了
@@ -82,6 +84,7 @@ module.exports = function* (args) {
   }
 
   // 排除那些以点开头的文件
+  // TODO 貌似排除的判断有问题
   const files = fs.readdirSync(cwd).filter(file => file !== '.' && file !== '..');
 
   if (files.length > 0) {

@@ -9,7 +9,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const report = require('fie-report');
-const log = require('fie-log')('fie-config');
+const log = require('fie-log')('core-config');
 const astAnalyze = require('./ast-analyze');
 
 

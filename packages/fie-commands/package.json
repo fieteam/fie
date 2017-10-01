@@ -28,6 +28,7 @@
     "fie-home": "^2.7.8",
     "fie-log": "^2.7.8",
     "fie-module": "^2.7.8",
+    "fie-module-name" : "^1.0.0",
     "fie-npm": "^2.7.8",
     "fie-report": "^2.7.8",
     "fie-task": "^2.7.8",

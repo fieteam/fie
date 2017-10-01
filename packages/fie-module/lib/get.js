@@ -3,7 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const semver = require('semver');
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 const home = require('fie-home');
 const npm = require('fie-npm');
 const cache = require('fie-cache');
@@ -106,10 +106,10 @@ function* get(name) {
   }
   const pkg = fs.readJsonSync(pkgPath);
   const mod = require(modulePath);
-
+  const pluginPrefix = utils.pluginPrefix();
   // TODO 发送log记录，由于调用插件时，也会调用到套件，所以这里只有插件调用的时候才发送log
   // 套件调用，在fie-core all.js文件
-  if (!returnPkg && name.indexOf('fie-plugin') !== -1) {
+  if (!returnPkg && name.indexOf(pluginPrefix) !== -1) {
     log.debug(`${name} 插件开始发送日志...`);
     report.moduleUsage(utils.fullName(name));
   }

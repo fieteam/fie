@@ -6,8 +6,9 @@
 
 'use strict';
 
-const debug = require('debug')('fie-report');
+const debug = require('debug')('core-report');
 const fieHome = require('fie-home');
+const fieModuleName = require('fie-module-name');
 const fieEnv = require('fie-env');
 const utils = require('./utils');
 const __WPO = require('./retcode/log-node');
@@ -99,14 +100,16 @@ module.exports = {
   moduleUsage(name) {
     const moduleVersion = utils.getFieModuleVersion(name);
     const moduleEntry = process.env[fieHome.getEntryModuleEnvName()];
+    const toolkitPrefix = fieModuleName.toolkitPrefix();
+    const pluginPrefix = fieModuleName.pluginPrefix();
     let data = {};
     // 是插件
-    if (name.indexOf('fie-plugin') !== -1) {
+    if (name.indexOf(pluginPrefix) !== -1) {
       data = {
         fiePluginName: name,
         fiePluginVersion: moduleVersion
       };
-    } else if (name.indexOf('fie-toolkit') !== -1) {
+    } else if (name.indexOf(toolkitPrefix) !== -1) {
       data = {
         fieToolkitName: name,
         fieToolKitVersion: moduleVersion
@@ -124,6 +127,7 @@ module.exports = {
    * 发送错误日志
    * @param {string} type 错误类型
    * @param {object|string} err 信息
+   * @param focus bool 是否重新获取系统相关信息而不是读缓存
    */
   error(type, err, focus) {
     return generateEntityAndSend(3, {

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  toolkit: 'fie-toolkit-dev',
+  toolkit: 'hugo-toolkit-empty-module',
   // abc 插件
   abc: {
     xyz: 22

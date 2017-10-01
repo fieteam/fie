@@ -1,12 +1,13 @@
 /**
- * 清除FIE缓存
+ * @author hugohua
+ * @desc 清除FIE缓存
  */
 
 'use strict';
 
 
 const fieHome = require('fie-home');
-const log = require('fie-log')('fie-commands');
+const log = require('fie-log')('core-commands');
 const fieEnv = require('fie-env');
 const cache = require('fie-cache');
 

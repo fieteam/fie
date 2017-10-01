@@ -16,7 +16,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const _ = require('underscore');
 const utils = require('./utils');
-const log = require('fie-log')('fie-fs');
+const log = require('fie-log')('core-fs');
 
 _.templateSettings = utils.templateSettings;
 

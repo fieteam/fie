@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('fie-log')('fie-npm');
+const log = require('fie-log')('core-npm');
 const spawn = require('cross-spawn');
 const _ = require('lodash');
 const dargs = require('dargs');

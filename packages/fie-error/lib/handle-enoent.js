@@ -3,7 +3,7 @@
 /**
  * Created by hugo on 16/11/16.
  */
-const log = require('fie-log')('fie-error');
+const log = require('fie-log')('core-error');
 const fieEnv = require('fie-env');
 const _ = require('lodash');
 

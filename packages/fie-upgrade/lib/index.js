@@ -5,7 +5,7 @@ const emoji = require('node-emoji');
 const npm = require('fie-npm');
 const semver = require('semver');
 const cache = require('fie-cache');
-const log = require('fie-log')('fie-up');
+const log = require('fie-log')('core-upgrade');
 
 const TIP_CACHE_KEY = '__fieVersionTip';
 
