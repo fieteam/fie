@@ -53,7 +53,7 @@ const fieUser6 = proxyquire('../lib/utils', {
 });
 
 
-describe('# fie-user utils', () => {
+describe('# fie-use/lib/utils', () => {
   describe('# getUserFromGit 获取用户信息', () => {
     it('用户没有安装git,返回用户信息为空', () => {
       const userInfo = fieUser1.getUserFromGit();

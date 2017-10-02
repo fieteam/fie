@@ -59,8 +59,6 @@ describe('# fie-commands/lib/help', () => {
 
   it('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
 
-    process.env.FIE_ENV = 'extranet';
-
     const help = proxyquire('../lib/help', {
       'fie-config': {
         getToolkitName() {
@@ -79,6 +77,5 @@ describe('# fie-commands/lib/help', () => {
     /* eslint-disable no-unused-expressions */
     expect(hasHelp).to.be.true;
 
-    delete  process.env.FIE_ENV;
   });
 });

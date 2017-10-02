@@ -27,7 +27,7 @@ function createPackage(name) {
 }
 
 function clearPackage() {
-
+  fs.removeSync( path.join(home.getHomePath(),'fie.cache.json') );
   fs.removeSync(home.getModulesPath())
 }
 
@@ -59,6 +59,7 @@ describe('# fie-module', () => {
   afterEach( () => {
 
     clearConfig(testObject);
+
   } );
 
 

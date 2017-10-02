@@ -7,7 +7,7 @@ const fieUser = require('../lib/index');
 const mockPath = path.resolve(__dirname, 'fixtures');
 
 
-describe('# fie-user 获取用户信息', () => {
+describe('# fie-user/lib/index 获取用户信息', () => {
   const user = {
     email: 'fie-test@alibaba-inc.com',
     name: 'fie-user'
@@ -22,7 +22,7 @@ describe('# fie-user 获取用户信息', () => {
   });
 
   after(() => {
-    process.env.FIE_HOME = home;
+    delete process.env.FIE_HOME;
     fs.removeSync(mockPath);
   });
 

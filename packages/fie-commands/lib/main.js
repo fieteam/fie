@@ -149,12 +149,11 @@ module.exports = function* (command, cliArgs) {
   delete clientOptions.$0;
 
   // 错误提示提前判断
+
   if (!isErrorDirectory(command)) {
     return;
   }
 
-
-  
   // 如果第一个参数为 plugin, 强制执行某个插件, 并且忽略所有的前置,后置任务
   if (command === 'plugin') {
     if (cliArgs.length < 1) {
@@ -177,16 +176,19 @@ module.exports = function* (command, cliArgs) {
   // ------------- 执行前置任务 ---------------
   if (hasBeforeTask) {
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
+
     const optionsArg = {
       clientArgs: cliArgs,
       clientOptions
     };
+
     yield fieTask.run({
       tasks: tasks[command],
       args: [Object.assign({}, api.getApi(), optionsArg), optionsArg],
       when: 'before',
       command
     });
+
   }
 
 

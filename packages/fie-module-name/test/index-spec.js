@@ -11,6 +11,7 @@ describe('# fie-module-name', () => {
 
   after( ()=> {
     delete process.env.FIE_MODULE_PREFIX;
+    delete process.env.FIE_ENV;
   });
 
   it('# 获取模块的前缀', function () {

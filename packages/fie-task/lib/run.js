@@ -115,6 +115,7 @@ function getHookParam(command) {
  * @param options
  */
 function* run(options) {
+
   // 筛选出对应的任务
   const tasks = options.tasks || [];              // 任务流
   const when = options.when || 'before';          // 前置任务还是后置,默认是前置任务
@@ -123,8 +124,10 @@ function* run(options) {
   const newTasks = utils.classify(tasks)[when];
   const hookParam = getHookParam(command);
 
+  
 
   log.info(`正在执行行${command}${(when === 'after' ? '后置' : '前置')}任务`);
+
 
   for (let i = 0; i < newTasks.length; i += 1) {
     if (newTasks[i].async) {

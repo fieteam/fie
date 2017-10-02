@@ -5,14 +5,23 @@ const emptyLog = require('../../../test/fixtures/empty-log');
 
 
 describe('# runFunction 执行函数', () => {
-  const runFunction = proxyquire('../lib/run-function', {
-    'fie-log': emptyLog
-  });
 
-  let tempString = '';
-  const fun1 = () => { tempString += 'a'; };
-  const fun2 = () => { tempString += 'c'; };
-  const funcSpy = sinon.spy();
+  let runFunction;
+  let tempString;
+  let fun1;
+  let fun2;
+  let funcSpy;
+
+  before( ()=> {
+    runFunction = proxyquire('../lib/run-function', {
+      'fie-log': emptyLog
+    });
+
+    tempString = '';
+    fun1 = () => { tempString += 'a'; };
+    fun2 = () => { tempString += 'c'; };
+    funcSpy = sinon.spy();
+  } );
 
   beforeEach(() => {
     tempString = '';

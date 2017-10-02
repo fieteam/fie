@@ -22,7 +22,7 @@ function mockLog() {
   }
 }
 
-describe('# fie-log 日志打印', () => {
+describe('# fie-log', () => {
   beforeEach(() => {
     console.log = mockLog;
   });
