@@ -35,7 +35,7 @@ const utils = {
 
   /**
    * 获取套件模块完整名字
-   * @param name
+   * @param name 可传入的参数可能是：xxx,toolkit-xxx,@ali/fie-toolkit-xxx
    * @returns {string}
    */
   toolkitFullName(name) {

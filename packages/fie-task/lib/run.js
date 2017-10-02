@@ -58,7 +58,13 @@ function* oneTask(task, args, hookParam) {
 
       log.debug(`${task.command} 开始执行`);
 
-      const child = spawn(command.splice(0, 1).pop(), command, {
+      //因为 其他基于fie衍生的工具也具备执行fie插件的能力，故为了不混淆fie的使用，这里在运行时将fie替换为工具本身来执行
+      let cliBin = command.splice(0, 1).pop();
+      if(cliBin === 'fie' && process.env.FIE_BIN){
+        cliBin = process.env.FIE_BIN;
+      }
+      
+      const child = spawn(cliBin, command, {
         cwd: process.cwd(),
         env: process.env,
         stdio: 'inherit'

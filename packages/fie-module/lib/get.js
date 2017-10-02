@@ -22,7 +22,7 @@ function* get(name) {
     name = name.replace('/package.json', '');
     returnPkg = true;
   }
-  name = utils.fullName(name);
+  // name = utils.fullName(name);
 
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
@@ -101,7 +101,7 @@ function* get(name) {
       }
     }
   } else {
-    log.info(`本地尚未安装  ${name},正在执行自动安装...`);
+    log.info(`本地尚未安装 ${name} ,正在执行自动安装...`);
     yield installOne(name);
   }
   const pkg = fs.readJsonSync(pkgPath);

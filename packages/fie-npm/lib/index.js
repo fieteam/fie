@@ -117,7 +117,9 @@ module.exports = {
 
     let body = null;
     try {
-      const res = yield request(`${options.registry}${encodeURIComponent(name)}/${options.version}`);
+      const url = `${options.registry}${encodeURIComponent(name)}/${options.version}`;
+      log.debug(`get ${name} url = %s`,url);
+      const res = yield request(url);
       body = JSON.parse(res.body);
       if (body.error) {
         body = null;

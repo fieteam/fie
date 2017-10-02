@@ -9,13 +9,12 @@ const utils = require('./utils');
 function* installOne(name, options) {
 
   const prefix = utils.modPrefix();
-  console.log(name,options);
 
   let pureName = '';
   options = Object.assign({}, {
     type: 'install'
   }, options);
-  name = utils.fullName(name);
+  // name = utils.fullName(name);
   //匹配套件名称，其中需要判断前缀是否是自定义的
   const match = name.match(/^(@ali\/)?([A-Za-z0-9_-]*)-(toolkit|plugin)-/);
   //判断逻辑：前缀存在 且 前缀为自定义设置的 或者前缀是fie

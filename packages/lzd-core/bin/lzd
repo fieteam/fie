@@ -6,11 +6,11 @@ const co = require('co');
 const home = require('fie-home');
 const fieError = require('fie-error');
 const fieUpgrade = require('fie-upgrade');
+const fieEnv = require('fie-env');
 const log = require('fie-log')('core-core');
 const fieCommands = require('fie-commands');
 const argv = require('fie-argv');
 const sudoBlock = require('sudo-block');
-const initEnv = require('../lib/init-env');
 const fiePkg = require('../package.json');
 
 // 禁止 sudo 执行 fie 命令
@@ -33,21 +33,27 @@ function initConfig(obj) {
  */
 co(function* () {
 
-  log.debug('app start run ....');
+  log.debug('lzd cli start run ....');
 
   // 运行前的一些初始化配置工作，这些内容将存于fie的运行时
   initConfig({
     FIE_VERSION : fiePkg.version,
     FIE_PACKAGE : fiePkg.name,
-    FIE_MODULE_PREFIX : 'fie',
-    FIE_CONFIG_FILE : 'fie.config.js',
-    FIE_HOME_FOLDER : '.fie'
+    FIE_BIN : Object.keys(fiePkg.bin)[0], //获取cli的名称
+    FIE_MODULE_PREFIX : 'lzd',
+    FIE_CONFIG_FILE : 'lzd.config.js',
+    FIE_HOME_FOLDER : '.lzd',
+    FIE_ENV : 'intranet'
   });
 
   // fie 家目录存在性检查
   home.initHomeDir();
-  // 检测环境是否已初始化
-  yield initEnv();
+
+  // 初始化内网环境
+  if(!fieEnv.hasConfigFile()){
+    fieEnv.setIntranetEnv();
+  }
+
   // fie版本更新提示
   yield fieUpgrade({
     name : fiePkg.name,

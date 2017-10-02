@@ -2,13 +2,13 @@
 
 const home = require('fie-home');
 const npm = require('fie-npm');
-const utils = require('./utils');
+// const utils = require('./utils');
 
 function* unInstall(name) {
   if (!name) {
     return;
   }
-  yield npm.unInstall(utils.fullName(name), {
+  yield npm.unInstall(name, {
     cwd: home.getHomePath()
   });
 }

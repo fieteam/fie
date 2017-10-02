@@ -1,6 +1,8 @@
 /**
  *
  * 所有的套件/插件都走这个命令
+ * 自定义prefix 本地套件/插件 -> FIE本地套件/插件 -> 自定义线上套件/插件 -> FIE线上套件/插件
+ *
  */
 
 'use strict';
@@ -12,7 +14,6 @@ const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
 const fieModuleName = require('fie-module-name');
 const fieError = require('fie-error');
-const fieNpm = require('fie-npm');
 const api = require('fie-api/lib/old-api');
 const fieHome = require('fie-home');
 const argv = require('yargs').argv;
@@ -27,26 +28,81 @@ const clientOptions = Object.assign({}, argv);
 function setEntryModule(name) {
   process.env[fieHome.getEntryModuleEnvName()] = name.replace('@ali/', '');
 }
+
+/**
+ * 运行插件的命令
+ * @param name 传入实际存在的插件名
+ */
+function* getRealModuleInfo(name) {
+  const prefix = fieModuleName.prefix();
+  // 如果是自定义prefix的插件
+  const isCustomPrefix = prefix !== 'fie';
+  // 是否使用的是fie插件
+  let isUseFieModule = false;
+  // 传入的插件名
+  let fullName = fieModuleName.fullName(name);
+  // fie的模块名称 @ali/fie-plugin-xxx
+  let fieName = fullName.replace(prefix,'fie');
+  // 实际调用的插件名
+  let reallyName = fullName;
+  // 执行插件的方法
+  let exist = fieModule.localExist(fullName);
+  log.debug(`本地 ${fullName} 模块: ${exist}`);
+  if (!exist) {
+    //判断一下是不是自定义prefix的情况
+    if (isCustomPrefix) {
+      exist = fieModule.localExist(fieName);
+      log.debug(`本地 ${fieName} 模块: ${exist}`);
+      if (!exist) {
+        //查找线上版本
+        exist = yield fieModule.onlineExist(fullName);
+        log.debug(`线上 ${fullName} 模块: ${exist}`);
+        if (!exist) {
+          exist = yield fieModule.onlineExist(fieName);
+          log.debug(`线上 ${fieName} 模块: ${exist}`);
+          if (exist) {
+            reallyName = fieName;
+            isUseFieModule = true
+          }
+        }
+
+      } else {
+        reallyName = fieName;
+        isUseFieModule = true;
+      }
+    } else {
+      exist = yield fieModule.onlineExist(fullName);
+      log.debug(`线上 ${fullName} 模块: ${exist}`);
+    }
+
+  }
+
+  const moduleInfo = {
+    exist,          //模块是否存在
+    isUseFieModule, // 是否使用fie原生模块
+    reallyName,     //
+    fullName
+  };
+
+  log.debug('当前实际的模块信息 %o',moduleInfo);
+
+  return moduleInfo
+}
+
 /**
  * 运行插件命令
+ * 运行逻辑：自定义本地插件 -> FIE本地插件 -> 自定义线上插件 -> FIE线上插件
+ * 先走本地已安装，速度快一些
  * @param name
  * @param cliArgs
  */
 function* runPlugin(name, cliArgs) {
-  name = fieModuleName.pluginFullName(name);
-  fieObject = api.getApi(name);
 
-  // 执行插件的方法
-  let exist = fieModule.localExist(name);
-  log.debug(`${name} 插件本地是否存在: ${exist}`);
-  if (!exist) {
-    exist = yield fieModule.onlineExist(name);
-    log.debug(`${name} 线上是否存在: ${exist}`);
-  }
+  const module = yield getRealModuleInfo(`plugin-${name}`);
 
-  if (exist) {
-    setEntryModule(name);
-    const plugin = yield fieModule.get(name);
+  if (module.exist) {
+    setEntryModule(module.reallyName);
+    const plugin = yield fieModule.get(module.reallyName);
     let method;
     let pluginCmd = '';
     log.debug(' 插件信息 %o', plugin);
@@ -63,37 +119,42 @@ function* runPlugin(name, cliArgs) {
       }
     }
     if (!method) {
-      const msg = `未找到 ${name} 插件对应的命令 ${pluginCmd}`;
+      const msg = `未找到 ${module.reallyName} 插件对应的命令 ${pluginCmd}`;
       log.error(msg);
-      report.error(name, msg);
+      report.error(module.reallyName, msg);
       return;
     }
 
     const optionsArg = { clientArgs: cliArgs, clientOptions };
+    fieObject = api.getApi(module.reallyName);
     yield fieTask.runFunction({
       method,
       args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
     });
   } else {
-    const msg = `${name} 插件不存在`;
+    const msg = `${module.fullName} 插件不存在`;
     log.error(msg);
-    report.error(name, msg);
+    report.error(module.fullName, msg);
   }
 }
 
 /**
- * 展示版本号
+ * 展示本地版本号，显示查找逻辑：自定义prefix本地模块 -> FIE本地模块
+ * break: 2.x版本的逻辑是若本地没有模块则显示线上版本模块的逻辑，而3.x的逻辑是显示本地模块的逻辑
  */
 function* showVersion(name) {
   let existsOne = false;
   const logOne = function* (n) {
     n = fieModuleName.fullName(n);
+    const prefix = fieModuleName.prefix();
     const localExist = fieModule.localExist(n);
     let mod = '';
+
     if (localExist) {
-      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'));
-    } else {
-      mod = yield fieNpm.latest(n);
+      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), { throws: false });
+    } else if(prefix !== 'fie'){
+      n = n.replace(prefix,'fie');
+      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), { throws: false });
     }
     if (mod && mod.version) {
       existsOne = true;
@@ -109,11 +170,12 @@ function* showVersion(name) {
   yield logOne(`plugin-${name}`);
 
   if (!existsOne) {
-    const msg = `未找到 toolkit-${name} 或 plugin-${name} 模块`;
+    const msg = `本地未安装 toolkit-${name} 或 plugin-${name} 模块`;
     log.error(msg);
     report.error('plugin-not-found', msg);
   }
 }
+
 
 /**
  * 当遇到 start , build 命令时,判断用户是否在正确的目录
