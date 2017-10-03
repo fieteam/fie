@@ -3,7 +3,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const home = require('fie-home');
-const utils = require('./utils');
 /**
  * 模块是否存在
  */

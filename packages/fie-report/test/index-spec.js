@@ -4,7 +4,6 @@
 const proxyquire = require('proxyquire');
 
 describe('# fie-report/lib/index', () => {
-
   describe('# fie-report 外网上报recode， 外网上报 fieFlow 信息', () => {
     const fieReport = proxyquire('../lib/index', {
       'fie-env': {
@@ -66,6 +65,4 @@ describe('# fie-report/lib/index', () => {
       expect(result.data).to.have.property('error').and.equal('test error');
     });
   });
-
-
 });

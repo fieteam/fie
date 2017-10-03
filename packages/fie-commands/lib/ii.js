@@ -1,7 +1,8 @@
 /**
  * 快速安装npm包
  */
-"use strict";
+
+'use strict';
 
 
 const fieNpm = require('fie-npm');

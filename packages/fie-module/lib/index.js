@@ -20,5 +20,5 @@ module.exports = {
   localList,
   localExist,
   onlineExist
-  //break已移除 fullName,toolkitFullName,pluginFullName
+  // break已移除 fullName,toolkitFullName,pluginFullName
 };

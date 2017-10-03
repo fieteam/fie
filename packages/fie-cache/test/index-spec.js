@@ -5,14 +5,12 @@ const proxyquire = require('proxyquire');
 const fs = require('fs-extra');
 
 
-
 describe('# fie-cache', () => {
-
   let mockPath;
   let cacheFile;
   let cache;
 
-  before( ()=>{
+  before(() => {
     mockPath = path.resolve(__dirname, 'fixtures');
     cacheFile = path.resolve(mockPath, 'fie.cache.json');
     cache = proxyquire('../lib/index', {
@@ -22,7 +20,7 @@ describe('# fie-cache', () => {
         }
       }
     });
-  } );
+  });
 
   after(() => {
     if (fs.existsSync(cacheFile)) {

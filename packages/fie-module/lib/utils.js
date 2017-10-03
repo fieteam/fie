@@ -1,78 +1,10 @@
 'use strict';
 
 const semver = require('semver');
-const env = require('fie-env');
 const log = require('fie-log')('core-module');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
 const fieModuleName = require('fie-module-name');
-
-
-/**
- * 获取套件模块完整名字
- * @param name
- * @returns {string}
- */
-function toolkitFullName(name) {
-  let full = '';
-  const prefix = modPrefix();
-  const tPrefix = toolkitPrefix();
-  const isIntranet = env.isIntranet();
-  name = name.replace('@ali/', '');
-  if (name.indexOf(tPrefix) === 0) {
-    full = name;
-  } else if (name.indexOf('toolkit') === 0) {
-    full = `${prefix}-${name}`;
-  } else {
-    full = `${tPrefix}${name}`;
-  }
-  return isIntranet ? `@ali/${full}` : full;
-}
-
-
-/**
- * 获取插件模块完整名字
- * 传入的可能是 @ali/fie-plugin-xxx plugin-xxx
- * @returns {string}
- */
-function pluginFullName(name) {
-  let full = '';
-  const prefix = modPrefix();
-  const pPrefix = pluginPrefix();
-  const isIntranet = env.isIntranet();
-  name = name.replace('@ali/', '');
-  if (name.indexOf(pPrefix) === 0) {
-    full = name;
-  } else if (name.indexOf('plugin') === 0) {
-    full = `${prefix}-${name}`;
-  } else {
-    full = `${pPrefix}${name}`;
-  }
-  return isIntranet ? `@ali/${full}` : full;
-}
-
-/**
- * 获取fie模块的前缀
- */
-function modPrefix() {
-  return process.env.FIE_MODULE_PREFIX || 'fie';
-}
-
-/**
- * 获取套件的前缀
- */
-function toolkitPrefix() {
-  const prefix = modPrefix();
-  return `${prefix}-toolkit-`;
-}
-
-/**
- * 获取插件的前缀
- */
-function pluginPrefix() {
-  const prefix = modPrefix();
-  return `${prefix}-plugin-`;
-}
 
 /**
  * 版本更新日志打印
@@ -141,16 +73,15 @@ function updateLog(name, opt) {
 
 const utils = {
   moduleFilter(list, type) {
-
     return list.filter(item => item.name.indexOf(`${type}-`) > -1);
   },
-  
+
   fullName: fieModuleName.fullName,
-  pluginFullName : fieModuleName.pluginFullName,
-  toolkitFullName : fieModuleName.toolkitFullName,
-  modPrefix : fieModuleName.prefix,
-  toolkitPrefix : fieModuleName.toolkitPrefix,
-  pluginPrefix : fieModuleName.pluginPrefix,
+  pluginFullName: fieModuleName.pluginFullName,
+  toolkitFullName: fieModuleName.toolkitFullName,
+  modPrefix: fieModuleName.prefix,
+  toolkitPrefix: fieModuleName.toolkitPrefix,
+  pluginPrefix: fieModuleName.pluginPrefix,
   UPDATE_CHECK_PRE: 'fieModuleCheck_',
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',

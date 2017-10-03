@@ -34,7 +34,7 @@ function localList(options) {
   });
   let modulePkgs = [];
 
-  log.debug('modules path = %s',moduleCwd);
+  log.debug('modules path = %s', moduleCwd);
 
   modules.forEach((item) => {
     const pkgPath = path.resolve(moduleCwd, item, 'package.json');

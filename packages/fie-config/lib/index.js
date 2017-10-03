@@ -108,14 +108,14 @@ const fieConfig = {
    * 获取配置文件的名称
    * @returns {string|string}
    */
-  getConfigName(){
+  getConfigName() {
     return process.env.FIE_CONFIG_FILE || 'fie.config.js';
   },
 
   /**
    * 获取config.js的文件路径
    */
-  getConfigPath(){
+  getConfigPath() {
     return process.env.FIE_CONFIG_PATH || CWD;
   }
 

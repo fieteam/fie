@@ -5,7 +5,6 @@ const fs = require('fs-extra');
 const utils = require('../lib/utils');
 
 describe('# fie-report/lib/utils', () => {
-
   describe('# getCommand', () => {
     it('获取mac下的执行命令', () => {
       const result = utils.getCommand(['/Users/hugo/gitlab/nvm/versions/node/v6.2.1/bin/node', 'fie', 'build']);
@@ -32,7 +31,6 @@ describe('# fie-report/lib/utils', () => {
     let distHead;
 
     before(() => {
-
       mockCwd = path.resolve(__dirname, 'fixtures');
       source = path.resolve(mockCwd, 'source.fie.config.js');
       mock = path.resolve(mockCwd, 'fie.config.js');

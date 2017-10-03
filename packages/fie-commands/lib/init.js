@@ -17,11 +17,10 @@ const api = require('fie-api/lib/old-api');
 const cwd = process.cwd();
 
 function* runInit(name) {
-
   const moduleInfo = yield fieModule.get(name);
   yield task.runFunction({
     method: moduleInfo.init,
-    //这里是为了兼容fie老版本传入fie对象进去，新版本建议是使用fie-api包
+    // 这里是为了兼容fie老版本传入fie对象进去，新版本建议是使用fie-api包
     args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)]
   });
 }
@@ -63,7 +62,6 @@ function* getName() {
 }
 
 module.exports = function* (args) {
-
   let name = args.pop();
 
   if (!name) {

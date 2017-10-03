@@ -53,11 +53,11 @@ const fieHome = {
     if (!fs.existsSync(fiePath)) {
       fs.mkdirsSync(fiePath);
     }
-    //缓存home信息到env里面
-    if(!process.env.FIE_HOME_FOLDER){
+    // 缓存home信息到env里面
+    if (!process.env.FIE_HOME_FOLDER) {
       process.env.FIE_HOME_FOLDER = userHomeFolder;
     }
-    if(!process.env.FIE_HOME){
+    if (!process.env.FIE_HOME) {
       process.env.FIE_HOME = userHome;
     }
   },

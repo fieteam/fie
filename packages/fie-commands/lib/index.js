@@ -18,6 +18,6 @@ module.exports = {
   install: require('./install'),
   list: require('./list'),
   switch: require('./switch'),
-  update : require('./update'),
-  version : require('./version')
+  update: require('./update'),
+  version: require('./version')
 };

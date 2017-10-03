@@ -10,6 +10,7 @@ const fieModule = require('fie-module');
 const fieModuleName = require('fie-module-name');
 const fieEnv = require('fie-env');
 const chalk = require('chalk');
+
 const help = `
  fie 使用帮助:  $ fie [command] [options]
 
@@ -36,7 +37,6 @@ const help = `
  * 显示FIE帮助
  */
 function outFieHelpInfo(needToolkit) {
-
   const tips = fieEnv.isIntranet() ? '阿里内网环境' : '外网环境';
 
   // 打印帮助信息

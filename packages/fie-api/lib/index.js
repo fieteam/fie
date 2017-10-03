@@ -29,5 +29,5 @@ module.exports = {
   config,
   env,
   module: fieModule,
-  moduleName : fieModuleName
+  moduleName: fieModuleName
 };

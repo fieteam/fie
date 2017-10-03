@@ -83,10 +83,7 @@ module.exports = function* (cliArgs, options) {
     }
   });
 
-  newList = newList.filter((item) => {
-    return !!(argv.all || item.shared);
-
-  });
+  newList = newList.filter(item => !!(argv.all || item.shared));
 
   console.log(chalk.italic.magenta(`\r\n${star}************** ${text}列表 ******************${star}\r\n`));
 

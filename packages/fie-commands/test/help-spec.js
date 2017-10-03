@@ -1,7 +1,8 @@
 /**
  * Created by hugo on 2017/7/21.
  */
-"use strict";
+
+'use strict';
 
 
 const path = require('path');
@@ -17,19 +18,18 @@ const testObject = {
 
 
 function initConfig(obj) {
-  Object.keys(obj).forEach( item => {
+  Object.keys(obj).forEach((item) => {
     process.env[item] = obj[item];
-  } );
+  });
 }
 
 function clearConfig(obj) {
-  Object.keys(obj).forEach( item => {
+  Object.keys(obj).forEach((item) => {
     delete process.env[item];
-  } );
+  });
 }
 
 describe('# fie-commands/lib/help', () => {
-
   let mockCwd;
   let source;
   let mock;
@@ -61,7 +61,6 @@ describe('# fie-commands/lib/help', () => {
   });
 
   it('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
-
     const help = proxyquire('../lib/help', {
       'fie-config': {
         getToolkitName() {
@@ -79,6 +78,5 @@ describe('# fie-commands/lib/help', () => {
     const hasHelp = spy.args.some(val => val[0].indexOf('以下是 fie 自身的命令') !== -1);
     /* eslint-disable no-unused-expressions */
     expect(hasHelp).to.be.true;
-
   });
 });

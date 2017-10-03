@@ -8,7 +8,6 @@ const utils = require('./utils');
 const ping = require('ping');
 
 
-
 const searchApi = () => {
   const isIntranet = env.isIntranet();
   const prefix = utils.modPrefix();
@@ -40,20 +39,21 @@ function* onlineList(options) {
 
   try {
     if (!moduleList.length) {
-      //先ping一下，看是否有网络
-      const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba-inc.com' : 'npm.taobao.org');
+      // 先ping一下，看是否有网络
+      const pingApi = isIntranet ? 'fie-api.alibaba-inc.com' : 'npm.taobao.org';
+      const pingRes = yield ping.promise.probe(pingApi);
 
       if (!pingRes || !pingRes.alive) {
         throw Error('网络连接错误');
       }
 
       const res = yield request({
-        url : searchApi(),
-        method : 'get',
-        json : true
+        url: searchApi(),
+        method: 'get',
+        json: true
       });
 
-      log.debug('search body = ',res.body);
+      log.debug('search body = ', res.body);
       const body = res.body;
       // 内外网数据源不同,格式稍有差异
       const list = isIntranet ? body.data : body.packages;
@@ -68,17 +68,16 @@ function* onlineList(options) {
         item.shared = isIntranet ? item.shared : true;
 
         // 名字不符合规则 或 已删除的包不再显示
-        if( item.description !== 'delete' &&
+        if (item.description !== 'delete' &&
             (item.name.indexOf(`${pkgPrefix}${tPrefix}`) === 0 ||
             item.name.indexOf(`${pkgPrefix}${pPrefix}` === 0))
         ) {
           moduleList.push(item);
         }
-
       });
 
-      //如果没有列表，就不缓存了
-      if(!moduleList.length){
+      // 如果没有列表，就不缓存了
+      if (!moduleList.length) {
         cache.set(cacheKey, moduleList, {
           expires: 3600000
         });

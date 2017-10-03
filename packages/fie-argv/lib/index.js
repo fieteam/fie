@@ -2,6 +2,7 @@
  * @author 宇果 <baofen14787@gmail.com>
  * @desc fie运行时，格式化fie在控制台输入的参数
  */
+
 'use strict';
 
 const argv = require('yargs').argv;
@@ -18,7 +19,6 @@ module.exports = () => {
   // 特殊处理一下传入的参数
   // fie -v 时候的处理
   if (!argv._.concat().pop() && (argv.v || argv.version)) {
-
     // 没有传入任何参数, 且有 -v 或 --version
     // 如果有传了参数,说明希望看到套件插件的版本,套件插件版本在 all.js 里面进行处理
     command = 'version';
@@ -54,6 +54,6 @@ module.exports = () => {
 
   return {
     command,
-    argv : newArgv
+    argv: newArgv
   };
 };

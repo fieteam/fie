@@ -3,7 +3,7 @@
   "scripts": {
     "test": "istanbul cover _mocha -- --opts test/mocha.opts --timeout 20000 --bail 'packages/**/test/*-spec.js'",
     "test:one": "DEBUG=core-* _mocha --opts test/mocha.opts --bail --timeout 20000",
-    "ci-test": "DEBUG=core-module istanbul cover _mocha -- --opts test/mocha.opts --bail --timeout 20000 'packages/**/test/*-spec.js' && codecov",
+    "ci-test": "istanbul cover _mocha -- --opts test/mocha.opts --bail --timeout 20000 'packages/**/test/*-spec.js' && codecov",
     "ci-eslint": "eslint -o eslint.json -f json ./",
     "lint": "eslint --fix ./",
     "doc": "jsdoc -c conf.json  ./node_modules/ink-docstrap/template -R README.md -r",

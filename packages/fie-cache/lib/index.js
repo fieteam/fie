@@ -23,7 +23,7 @@ module.exports = {
    */
   get(key) {
     const cacheFile = this.getCacheFile();
-    log.debug('cache file path = %s',cacheFile);
+    log.debug('cache file path = %s', cacheFile);
     if (!key || !fs.existsSync(cacheFile)) {
       return null;
     }
@@ -96,7 +96,7 @@ module.exports = {
   /**
    * 获取缓存文件
    */
-  getCacheFile(){
+  getCacheFile() {
     return path.resolve(home.getHomePath(), 'fie.cache.json');
   }
 };

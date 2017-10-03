@@ -58,12 +58,12 @@ function* oneTask(task, args, hookParam) {
 
       log.debug(`${task.command} 开始执行`);
 
-      //因为 其他基于fie衍生的工具也具备执行fie插件的能力，故为了不混淆fie的使用，这里在运行时将fie替换为工具本身来执行
+      // 因为 其他基于fie衍生的工具也具备执行fie插件的能力，故为了不混淆fie的使用，这里在运行时将fie替换为工具本身来执行
       let cliBin = command.splice(0, 1).pop();
-      if(cliBin === 'fie' && process.env.FIE_BIN){
+      if (cliBin === 'fie' && process.env.FIE_BIN) {
         cliBin = process.env.FIE_BIN;
       }
-      
+
       const child = spawn(cliBin, command, {
         cwd: process.cwd(),
         env: process.env,
@@ -121,7 +121,6 @@ function getHookParam(command) {
  * @param options
  */
 function* run(options) {
-
   // 筛选出对应的任务
   const tasks = options.tasks || [];              // 任务流
   const when = options.when || 'before';          // 前置任务还是后置,默认是前置任务
@@ -130,7 +129,6 @@ function* run(options) {
   const newTasks = utils.classify(tasks)[when];
   const hookParam = getHookParam(command);
 
-  
 
   log.info(`正在执行行${command}${(when === 'after' ? '后置' : '前置')}任务`);
 

@@ -3,7 +3,6 @@
 const proxyquire = require('proxyquire');
 
 describe('# run 执行任务', () => {
-
   let tmpString;
   let envYyy;
   let spy1;
@@ -13,7 +12,7 @@ describe('# run 执行任务', () => {
   let spawn;
   let runTask;
 
-  before( ()=>{
+  before(() => {
     tmpString = '';
     envYyy = '';
     spy1 = sinon.spy((arg1, next) => {
@@ -41,7 +40,7 @@ describe('# run 执行任务', () => {
         spawn
       }
     });
-  } );
+  });
 
   afterEach(() => {
     spy1.reset();
@@ -51,9 +50,9 @@ describe('# run 执行任务', () => {
     tmpString = '';
   });
 
-  after( ()=>{
+  after(() => {
     runTask = null;
-  } );
+  });
 
   it('# 执行前置任务, 支持普通函数和generator函数', function* () {
     yield runTask({
@@ -231,6 +230,6 @@ describe('# run 执行任务', () => {
 
     expect(envYyy).to.be.equals(testEnv);
     expect(process.env.yyy).to.be.equals(beforeEnv);
-    delete process.env.yyy
+    delete process.env.yyy;
   });
 });

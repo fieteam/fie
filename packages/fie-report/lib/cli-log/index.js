@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require('request');
-const debug = require('debug')('fie-report');
+const debug = require('debug')('core-report');
 const __WPO = require('../retcode/log-node');
 
 let host = 'http://fie-api.alibaba-inc.com';
@@ -21,7 +21,8 @@ function send(data) {
     request.post({
       url,
       json: true,
-      form: data
+      form: data,
+      timeout: 4000,   //4s
     }, (err, result) => {
       if (!err && result.body && result.body.code === 200) {
         debug('日志发送成功');
