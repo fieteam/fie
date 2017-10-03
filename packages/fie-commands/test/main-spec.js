@@ -1,6 +1,9 @@
 /**
  * Created by hugo on 2017/7/21.
  */
+"use strict";
+
+
 const path = require('path');
 const fs = require('fs-extra');
 

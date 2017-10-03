@@ -1,5 +1,9 @@
 /**
+ * 快速安装npm包
  */
+"use strict";
+
+
 const fieNpm = require('fie-npm');
 const argv = require('yargs').argv;
 
