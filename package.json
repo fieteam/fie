@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "istanbul cover _mocha -- --opts test/mocha.opts --timeout 20000 --bail 'packages/**/test/*-spec.js'",
+    "test": "DEBUG=core-module istanbul cover _mocha -- --opts test/mocha.opts --timeout 20000 --bail 'packages/**/test/*-spec.js'",
     "test:one": "DEBUG=core-* _mocha --opts test/mocha.opts --bail --timeout 20000",
     "ci-test": "istanbul cover _mocha -- --opts test/mocha.opts --bail --timeout 20000 'packages/**/test/*-spec.js' && codecov",
     "ci-eslint": "eslint -o eslint.json -f json ./",

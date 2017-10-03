@@ -110,7 +110,7 @@ describe('# fie-module', () => {
 
   });
 
-  describe('# onlineList()', () => {
+  describe.only('# onlineList()', () => {
 
     it('# 获取 线上 fie 插件和套件', function* () {
       const data = yield fieModule.onlineList({
