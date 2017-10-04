@@ -6,6 +6,8 @@
 'use strict';
 
 const fieModule = require('fie-module');
+const fieModuleName = require('fie-module-name');
+const log = require('fie-log')('core-commands');
 const chalk = require('chalk');
 const argv = require('yargs').argv;
 
@@ -30,8 +32,8 @@ function getPadding(str, width) {
 
 function printListByType(type, modules) {
   let tmpString;
-
-  modules.filter(item => !!item.name.match(`fie-${type}`))
+  const prefix = fieModuleName.prefix();
+  modules.filter(item => !!item.name.match(`${prefix}-${type}`))
     .forEach((item) => {
       const padding = getPadding(item.name, 35);
 
@@ -66,7 +68,7 @@ module.exports = function* (cliArgs, options) {
   const param = { fixType };
 
   options = options || {};
-
+  log.debug('module params = %o',param);
   const local = yield fieModule.localList(param);
   const online = yield fieModule.onlineList(param);
   let newList = [];
