@@ -42,7 +42,8 @@ function localList(options) {
       const modPkg = fs.readJsonSync(pkgPath);
       modulePkgs.push({
         name: modPkg.name,
-        description: modPkg.description
+        description: modPkg.description,
+        chName: (modPkg.fieOption && modPkg.fieOption.chName) ? modPkg.fieOption.chName : modPkg.description
       });
     }
   });

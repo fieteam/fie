@@ -6,6 +6,7 @@
 
 const fieModule = require('fie-module');
 const fieModuleName = require('fie-module-name');
+const report = require('fie-report');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const fs = require('fs-extra');
@@ -17,12 +18,20 @@ const api = require('fie-api/lib/old-api');
 const cwd = process.cwd();
 
 function* runInit(name) {
-  const moduleInfo = yield fieModule.get(name);
-  yield task.runFunction({
-    method: moduleInfo.init,
-    // 这里是为了兼容fie老版本传入fie对象进去，新版本建议是使用fie-api包
-    args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)]
-  });
+  const module = yield fieModule.getReallyName(name);
+
+  if (module.exist) {
+    const moduleInfo = yield fieModule.get(module.reallyName);
+    yield task.runFunction({
+      method: moduleInfo.init,
+      // 这里是为了兼容fie老版本传入fie对象进去，新版本建议是使用fie-api包
+      args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)]
+    });
+  } else {
+    const msg = `${module.fullName} 套件不存在`;
+    log.error(msg);
+    report.error(module.fullName, msg);
+  }
 }
 
 
@@ -35,7 +44,7 @@ function* getName() {
   const addChoice = (item) => {
     const n = item.name.replace('@ali/', '').replace(toolkitPrefix, '');
     choices.push({
-      name: n + chalk.gray(` -  ${item.description}`),
+      name: n + chalk.gray(` -  ${item.chName}`),
       value: n
     });
   };

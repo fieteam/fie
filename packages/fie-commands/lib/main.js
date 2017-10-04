@@ -29,63 +29,6 @@ function setEntryModule(name) {
   process.env[fieHome.getEntryModuleEnvName()] = name.replace('@ali/', '');
 }
 
-/**
- * 运行插件的命令
- * @param name 传入实际存在的插件名
- */
-function* getRealModuleInfo(name) {
-  const prefix = fieModuleName.prefix();
-  // 如果是自定义prefix的插件
-  const isCustomPrefix = prefix !== 'fie';
-  // 是否使用的是fie插件
-  let isUseFieModule = false;
-  // 传入的插件名
-  const fullName = fieModuleName.fullName(name);
-  // fie的模块名称 @ali/fie-plugin-xxx
-  const fieName = fullName.replace(prefix, 'fie');
-  // 实际调用的插件名
-  let reallyName = fullName;
-  // 执行插件的方法
-  let exist = fieModule.localExist(fullName);
-  log.debug(`本地 ${fullName} 模块: ${exist}`);
-  if (!exist) {
-    // 判断一下是不是自定义prefix的情况
-    if (isCustomPrefix) {
-      exist = fieModule.localExist(fieName);
-      log.debug(`本地 ${fieName} 模块: ${exist}`);
-      if (!exist) {
-        // 查找线上版本
-        exist = yield fieModule.onlineExist(fullName);
-        log.debug(`线上 ${fullName} 模块: ${exist}`);
-        if (!exist) {
-          exist = yield fieModule.onlineExist(fieName);
-          log.debug(`线上 ${fieName} 模块: ${exist}`);
-          if (exist) {
-            reallyName = fieName;
-            isUseFieModule = true;
-          }
-        }
-      } else {
-        reallyName = fieName;
-        isUseFieModule = true;
-      }
-    } else {
-      exist = yield fieModule.onlineExist(fullName);
-      log.debug(`线上 ${fullName} 模块: ${exist}`);
-    }
-  }
-
-  const moduleInfo = {
-    exist,          // 模块是否存在
-    isUseFieModule, // 是否使用fie原生模块
-    reallyName,     //
-    fullName
-  };
-
-  log.debug('当前实际的模块信息 %o', moduleInfo);
-
-  return moduleInfo;
-}
 
 /**
  * 运行插件命令
@@ -95,7 +38,7 @@ function* getRealModuleInfo(name) {
  * @param cliArgs
  */
 function* runPlugin(name, cliArgs) {
-  const module = yield getRealModuleInfo(`plugin-${name}`);
+  const module = yield fieModule.getReallyName(`plugin-${name}`);
 
   if (module.exist) {
     setEntryModule(module.reallyName);

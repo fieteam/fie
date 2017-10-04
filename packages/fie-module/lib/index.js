@@ -9,6 +9,7 @@ const onlineList = require('./online-list');
 const localList = require('./local-list');
 const localExist = require('./local-exist');
 const onlineExist = require('./online-exist');
+const exist = require('./exist');
 
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
   onlineList,
   localList,
   localExist,
-  onlineExist
+  onlineExist,
+  getReallyName: exist
   // break已移除 fullName,toolkitFullName,pluginFullName
 };
