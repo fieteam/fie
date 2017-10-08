@@ -21,7 +21,7 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "co": "^4.6.0",
-    "fie-env": "^2.7.10",
+    "fie-env": "^3.0.0",
     "fie-home": "^2.7.10",
     "fie-log": "^3.0.0",
     "fie-npm": "^3.0.0",
