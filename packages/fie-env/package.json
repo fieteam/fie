@@ -15,6 +15,7 @@
   },
   "files": [
     "lib",
+    "locale",
     "LICENSE"
   ],
   "readmeFilename": "README.md",

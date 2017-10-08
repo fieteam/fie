@@ -10,6 +10,7 @@
   ],
   "files": [
     "lib",
+    "locale",
     "LICENSE"
   ],
   "repository": {

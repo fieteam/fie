@@ -45,7 +45,6 @@ module.exports = function* (e) {
       return false;
     }
   } else if (match && match.length === 2) {
-    log.error(`运行时出现了错误, 未找到 ${match[1]} 文件,请确认 ${match[1]} 是否存在!`);
     log.error(intl.get('notFound', { file: match[1] }));
     if (e.stack) {
       log.error(intl.get('detailError'));

@@ -18,6 +18,7 @@
   "files": [
     "lib",
     "bin",
+    "locale",
     "LICENSE",
     "scripts"
   ],
