@@ -6,14 +6,17 @@
 
 const log = require('fie-log')('core-error');
 const env = require('fie-env');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 
 module.exports = function* (e) {
+  const intl = new Intl(message);
   const ERROR_MSG = env.isIntranet() ?
-    ' 请在 https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 或钉钉群 11751953 反馈问题' :
-    ' 请在这里反馈问题给 hugohua https://github.com/fieteam/fie/issues/new ';
+    intl.get('intranetTips') :
+    intl.get('extranetTips');
 
-  log.error(`运行报错,${ERROR_MSG}`);
+  log.error(ERROR_MSG);
   e.stack && console.log(e.stack);
   return true;
 };

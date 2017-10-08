@@ -21,6 +21,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const report = require('fie-report');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 let fieObject;
 const clientOptions = Object.assign({}, argv);
@@ -29,6 +31,13 @@ function setEntryModule(name) {
   process.env[fieHome.getEntryModuleEnvName()] = name.replace('@ali/', '');
 }
 
+/**
+ * 获取fie的实际命令
+ * @returns {*|string}
+ */
+function getFieBin() {
+  return process.env.FIE_BIN || 'fie';
+}
 
 /**
  * 运行插件命令
@@ -39,7 +48,7 @@ function setEntryModule(name) {
  */
 function* runPlugin(name, cliArgs) {
   const module = yield fieModule.getReallyName(`plugin-${name}`);
-
+  const intl = new Intl(message);
   if (module.exist) {
     setEntryModule(module.reallyName);
     const plugin = yield fieModule.get(module.reallyName);
@@ -72,7 +81,7 @@ function* runPlugin(name, cliArgs) {
       args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
     });
   } else {
-    const msg = `${module.fullName} 插件不存在`;
+    const msg = intl.get('pluginNotFound', { plugin: module.fullName() });
     log.error(msg);
     report.error(module.fullName, msg);
   }
@@ -84,6 +93,7 @@ function* runPlugin(name, cliArgs) {
  */
 function* showVersion(name) {
   let existsOne = false;
+  const intl = new Intl(message);
   const logOne = function* (n) {
     n = fieModuleName.fullName(n);
     const prefix = fieModuleName.prefix();
@@ -98,7 +108,7 @@ function* showVersion(name) {
     }
     if (mod && mod.version) {
       existsOne = true;
-      console.log(chalk.magenta(`\n${n} 对应版本为 ${mod.version}\n`));
+      console.log(chalk.magenta(intl.get('moduleVersion', { module: n, version: mod.version })));
     }
   };
   if (name.indexOf('toolkit-') > -1 || name.indexOf('plugin-') > -1) {
@@ -110,7 +120,7 @@ function* showVersion(name) {
   yield logOne(`plugin-${name}`);
 
   if (!existsOne) {
-    const msg = `本地未安装 toolkit-${name} 或 plugin-${name} 模块`;
+    const msg = intl.get('localNotFound', { name });
     log.error(msg);
     report.error('plugin-not-found', msg);
   }
@@ -123,10 +133,11 @@ function* showVersion(name) {
  * @returns {boolean}
  */
 function isErrorDirectory(command) {
+  const intl = new Intl(message);
   // 如果当前目录下不存在fie.config.js 则提示
   if (['start', 'build'].indexOf(command) !== -1 && !fieConfig.exist()) {
     log.debug('error directory');
-    log.error(`未检测到 ${fieConfig.getConfigName()} 文件, 请确认当前命令是否在项目根目录下执行`);
+    log.error(intl.get('configFileNotFound', { file: fieConfig.getConfigName() }));
     return false;
   }
   return true;
@@ -142,7 +153,7 @@ module.exports = function* (command, cliArgs) {
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
-
+  const intl = new Intl(message);
   log.debug(' tasks = %o , command = %s, cliArgs = %o', tasks, command, cliArgs);
   log.debug(`before task ${hasBeforeTask}`);
 
@@ -159,7 +170,7 @@ module.exports = function* (command, cliArgs) {
   // 如果第一个参数为 plugin, 强制执行某个插件, 并且忽略所有的前置,后置任务
   if (command === 'plugin') {
     if (cliArgs.length < 1) {
-      log.error('请输入您要运行的插件名');
+      log.error(intl.get('runPlugin'));
       return;
     }
     command = cliArgs.splice(0, 1)[0];
@@ -250,7 +261,7 @@ module.exports = function* (command, cliArgs) {
   } else if (hasAfterTask) {
     log.debug('未找到对应的套件及方法');
     // 只有后置命令, 却没有套件模块的给个提示
-    const msg = `未找到 ${command} 对应的套件命令,后置任务无法执行`;
+    const msg = intl.get('notRunTips', { command });
     log.error(msg);
     report.error('plugin-not-found', msg);
     return;
@@ -259,11 +270,13 @@ module.exports = function* (command, cliArgs) {
   // start build 错误提示
   if (['start', 'build'].indexOf(command) !== -1) {
     if (toolkit) {
+      const tool = getFieBin();
       log.error(`该套件尚未实现 ${command} 命令，请检查拼写是否正确或执行 fie -h 查看可用命令`);
+      log.error(intl.get('startNotRunTips', { command, tool }));
     } else {
       // 存在fie.config.js文件且文件中有对应的 start、build、publish时则不需要提示
       if (!(hasBeforeTask || hasAfterTask)) {
-        log.error(`${fieConfig.getConfigName()} 文件中尚不存在 ${command} 命令，请检查拼写是否正确`);
+        log.error(intl.get('configNotRunTips', { file: fieConfig.getConfigName(), command }));
       }
     }
     return;

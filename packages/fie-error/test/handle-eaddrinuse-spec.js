@@ -1,6 +1,8 @@
 'use strict';
 
 const proxyquire = require('proxyquire');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 
 let fieError;
@@ -17,6 +19,8 @@ const handleEnoent = proxyquire('../lib/handle-eaddrinuse', {
 
 describe('#处理 EADDRINUSE 的异常', () => {
   it('#listen EADDRINUSE :::9000', function* () {
+    const intl = new Intl(message);
+    const locale = intl.getLocale();
     yield handleEnoent({
       code: 'EADDRINUSE',
       message: `
@@ -32,11 +36,17 @@ Error: listen EADDRINUSE :::9000
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
 `
     });
-    expect(fieError).to.be.contain('检测到当前端口号');
+    if(locale === 'zh-cn'){
+      expect(fieError).to.be.contain('检测到当前端口号');
+    }else {
+      expect(fieError).to.be.contain('current port number');
+    }
     expect(fieError).to.be.contain('9000');
   });
 
   it('#listen EADDRINUSE 127.0.0.1:3000', function* () {
+    const intl = new Intl(message);
+    const locale = intl.getLocale();
     yield handleEnoent({
       code: 'EADDRINUSE',
       message: `
@@ -52,7 +62,11 @@ Error: listen EADDRINUSE 127.0.0.1:3000
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
 `
     });
-    expect(fieError).to.be.contain('检测到当前端口号');
+    if(locale === 'zh-cn'){
+      expect(fieError).to.be.contain('检测到当前端口号');
+    }else {
+      expect(fieError).to.be.contain('current port number');
+    }
     expect(fieError).to.be.contain('3000');
   });
 });

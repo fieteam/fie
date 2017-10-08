@@ -10,6 +10,8 @@ const fieModuleName = require('fie-module-name');
 const log = require('fie-log')('core-commands');
 const chalk = require('chalk');
 const argv = require('yargs').argv;
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 /**
  * 设置字符串边距
@@ -57,18 +59,19 @@ function printListByType(type, modules) {
  */
 module.exports = function* (cliArgs, options) {
   const type = cliArgs.pop();
+  const intl = new Intl(message);
   const fixType = type === 'plugin' || type === 'toolkit' ? type : null;
   const textMap = {
-    plugin: '插件',
-    toolkit: '套件',
-    all: '套件/插件'
+    plugin: intl.get('plugin'),
+    toolkit: intl.get('toolkit'),
+    all: intl.get('toolkitAndPlugin')
   };
   const text = textMap[fixType || 'all'];
   const star = fixType ? '**' : '';
   const param = { fixType };
 
   options = options || {};
-  log.debug('module params = %o',param);
+  log.debug('module params = %o', param);
   const local = yield fieModule.localList(param);
   const online = yield fieModule.onlineList(param);
   let newList = [];
@@ -87,12 +90,12 @@ module.exports = function* (cliArgs, options) {
 
   newList = newList.filter(item => !!(argv.all || item.shared));
 
-  console.log(chalk.italic.magenta(`\r\n${star}************** ${text}列表 ******************${star}\r\n`));
+  console.log(chalk.italic.magenta(`\r\n${star}************** ${text} ${intl.get('list')} ******************${star}\r\n`));
 
   if (!type) {
-    console.log(chalk.magenta('- 套件列表 \r\n'));
+    console.log(chalk.magenta(intl.get('toolkitList')));
     printListByType('toolkit', newList, options);
-    console.log(chalk.magenta('\r\n- 插件列表 \r\n'));
+    console.log(chalk.magenta(intl.get('pluginList')));
     printListByType('plugin', newList, options);
   } else {
     printListByType(type, newList, options);

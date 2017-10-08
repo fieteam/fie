@@ -5,7 +5,7 @@ const log = require('fie-log')('core-fs');
 
 function move(oldPath, newPath) {
   fs.renameSync(oldPath, newPath);
-  log.success(`${oldPath} 成功移至 ${newPath}`);
+  log.success(`${oldPath} move to ${newPath}`);
 }
 
 module.exports = move;

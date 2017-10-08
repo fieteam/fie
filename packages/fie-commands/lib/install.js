@@ -6,13 +6,15 @@
 
 const log = require('fie-log')('core-commands');
 const fieModule = require('fie-module');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 module.exports = function* (cliArgs) {
   const name = cliArgs.pop();
-
+  const intl = new Intl(message);
   if (name) {
     yield fieModule.install(name);
   } else {
-    log.warn('请输入需要安装的模块名!');
+    log.warn(intl.get('installTips'));
   }
 };

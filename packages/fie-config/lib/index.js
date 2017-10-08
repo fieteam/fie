@@ -10,6 +10,8 @@ const path = require('path');
 const fs = require('fs-extra');
 const report = require('fie-report');
 const log = require('fie-log')('core-config');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 const astAnalyze = require('./ast-analyze');
 
 
@@ -61,8 +63,9 @@ const fieConfig = {
       log.debug('get %s , file = %o', configName, file);
       return file;
     } catch (e) {
-      log.error(`读取配置文件失败，请确认 ${configName} 文件是否有错误`);
-      log.error('详细报错信息如下：');
+      const intl = new Intl(message);
+      log.error(intl.get('readConfigError', { file: configName }));
+      log.error(intl.get('moreDetail'));
       log.error(e && e.stack);
       report.error(e.code || 'config-error', e.stack || e, true);
       return process.exit(1);

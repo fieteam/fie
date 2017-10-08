@@ -6,6 +6,8 @@
 const log = require('fie-log')('core-error');
 const fieEnv = require('fie-env');
 const _ = require('lodash');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 
 module.exports = function* (e) {
@@ -14,11 +16,12 @@ module.exports = function* (e) {
   }
   // 目前可能的值有spawn xx ENOENT;spawnSync xx ENOENT
   const match = e.message.match(/\s(.*)ENOENT/);
+  const intl = new Intl(message);
   if (match && match[0]) {
     const module = match[1].trim();
     const isIntranet = fieEnv.isIntranet();
     const installer = isIntranet ? 'tnpm' : 'npm';
-    log.error(`运行插件或套件时出现了错误, 未找到 ${module} 命令,请看下是否有安装!`);
+    log.error(intl.get('commandNotFound', { module }));
     // 本地模块
     if (module.indexOf('node_modules') !== -1) {
       const cmdArr = module.split('/');
@@ -34,10 +37,9 @@ module.exports = function* (e) {
       } else {
         runModule = cmdArr[startIdx + 1];
       }
-
-      log.error(`修复建议: 在控制台执行 ${installer} install ${runModule} 试试!`);
+      log.error(intl.get('fixLocalTips', { installer, runModule }));
     } else {
-      log.error(`修复建议: 在控制台执行 ${installer} install -g ${module} 试试!`);
+      log.error(intl.get('fixGlobalTips', { installer, module }));
     }
     return true;
   }

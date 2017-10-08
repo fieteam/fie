@@ -56,7 +56,7 @@ function copyDirectory(options) {
       // 文件名转换
       const newFilename = options.filenameTransformer(curDistPath.pop());
       if (!newFilename) {
-        log.error(`${curDistPath.join(path.sep)} 文件名转换失败, 返回为空`);
+        log.error(`${curDistPath.join(path.sep)} File name conversion failed and returned empty`);
         return;
       }
       curDistPath = path.resolve(curDistPath.join(path.sep), newFilename);
@@ -71,9 +71,9 @@ function copyDirectory(options) {
 
       const writeErr = fs.writeFileSync(curDistPath, fileContent);
       if (!writeErr) {
-        log.success(`${curDistPath} 写入成功`);
+        log.success(`${curDistPath} written successfully`);
       } else {
-        log.error(`${curDistPath} 写入出错`);
+        log.error(`${curDistPath} written error`);
       }
     }
   };
@@ -81,12 +81,12 @@ function copyDirectory(options) {
   options = options || {};
 
   if (!options.src || !options.dist) {
-    log.error('请传入源文件目录路径(src) 和 目标目录路径(dist)');
+    log.error('Please import the source file directory path (src) and the target directory path (dist)');
     return;
   }
 
   if (!fs.existsSync(options.src)) {
-    log.error(`源文件目录不存在， src = ${options.src} 不存在这个目录或文件`);
+    log.error(`The source file directory does not exist， src = ${options.src} This directory or file does not exist`);
     return;
   }
 

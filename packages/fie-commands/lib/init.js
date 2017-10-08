@@ -14,12 +14,14 @@ const fieConfig = require('fie-config');
 const log = require('fie-log')('core-commands');
 const task = require('fie-task');
 const api = require('fie-api/lib/old-api');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 const cwd = process.cwd();
 
 function* runInit(name) {
   const module = yield fieModule.getReallyName(name);
-
+  const intl = new Intl(message);
   if (module.exist) {
     const moduleInfo = yield fieModule.get(module.reallyName);
     yield task.runFunction({
@@ -28,7 +30,7 @@ function* runInit(name) {
       args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)]
     });
   } else {
-    const msg = `${module.fullName} 套件不存在`;
+    const msg = intl.get('toolkitNotFound', { toolkit: module.fullName });
     log.error(msg);
     report.error(module.fullName, msg);
   }
@@ -40,6 +42,7 @@ function* getName() {
   const onlineList = yield fieModule.onlineList({ type: 'toolkit' });
   const localList = fieModule.localList({ type: 'toolkit' });
   const toolkitPrefix = fieModuleName.toolkitPrefix();
+  const intl = new Intl(message);
   const onlineMap = {};
   const addChoice = (item) => {
     const n = item.name.replace('@ali/', '').replace(toolkitPrefix, '');
@@ -64,7 +67,7 @@ function* getName() {
   const answers = yield inquirer.prompt([{
     type: 'list',
     name: 'name',
-    message: '请选择一个适合您项目的套件进行初始化:',
+    message: intl.get('toolkitInit'),
     choices
   }]);
   return answers.name;
@@ -72,7 +75,7 @@ function* getName() {
 
 module.exports = function* (args) {
   let name = args.pop();
-
+  const intl = new Intl(message);
   if (!name) {
     // 未传入套件名,提示并列出可用套件名
     name = yield getName();
@@ -85,8 +88,8 @@ module.exports = function* (args) {
   // 不存在的话再判断文件夹是否为空
   // 不为空的话则提示覆盖
   if (fieConfig.exist(cwd)) {
-    log.warn('该项目已初始化过,无需再次进行init');
-    log.warn(`若想重新初始化,请删除项目中的 ${fieConfig.getConfigName()} 文件`);
+    log.warn(intl.get('toolkitReportInit'));
+    log.warn(intl.get('toolkitInitTips', { file: fieConfig.getConfigName() }));
     return;
   }
 
@@ -94,11 +97,11 @@ module.exports = function* (args) {
   const files = fs.readdirSync(cwd).filter(file => file.indexOf('.') !== 0);
 
   if (files.length > 0) {
-    log.warn('当前目录下已存在文件,继续执行初始化会覆盖已存在的同名文件');
+    log.warn(intl.get('fileExist'));
     const questions = [{
       type: 'input',
       name: 'check',
-      message: '确认需要继续执行初始化,请输入(y)'
+      message: intl.get('confirmInit')
     }];
     const answers = yield inquirer.prompt(questions);
     if (answers.check === 'y' || answers.check === 'Y') {

@@ -10,12 +10,17 @@ const fieHome = require('fie-home');
 const log = require('fie-log')('core-commands');
 const fieEnv = require('fie-env');
 const cache = require('fie-cache');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 module.exports = function* () {
-  log.info('开始清除缓存模块...');
+  const intl = new Intl(message);
+
+  log.info(intl.get('startClear'));
+
   fieHome.cleanHomeDir();
   fieEnv.removeConfigFile();
   cache.clear();
-  log.success('缓存模块清除完成');
+  log.success(intl.get('finishClear'));
 };
 

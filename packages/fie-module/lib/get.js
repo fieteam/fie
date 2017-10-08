@@ -8,8 +8,10 @@ const home = require('fie-home');
 const npm = require('fie-npm');
 const cache = require('fie-cache');
 const report = require('fie-report');
+const Intl = require('fie-intl');
 const installOne = require('./install-one');
 const utils = require('./utils');
+const message = require('../locale/index');
 
 /**
  * 获取 fie 插件或套件包逻辑，整体逻辑流程图请见：https://img.alicdn.com/tfs/TB1bG2MRFXXXXaaaXXXXXXXXXXX-2100-980.png
@@ -18,11 +20,11 @@ const utils = require('./utils');
  */
 function* get(name) {
   let returnPkg = false;
+  const intl = new Intl(message);
   if (/\/package\.json$/.test(name)) {
     name = name.replace('/package.json', '');
     returnPkg = true;
   }
-  // name = utils.fullName(name);
 
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
@@ -30,7 +32,6 @@ function* get(name) {
 
   if (fs.existsSync(pkgPath)) {
     log.debug(`存在本地模块 ${pkgPath}`);
-
     // 本地存在, 判断是否需要更新
     if (!cache.get(`${utils.UPDATE_CHECK_PRE}${name}`)) {
       // 获取最新版本
@@ -44,7 +45,7 @@ function* get(name) {
         if (semver.lt(localPkg.version, lastPkg.version)) {
           if (localPkg.fieOption && localPkg.fieOption.update) {
             // 自动更新
-            log.info(`${name} 设置了自动更新,正在执行更新操作...`);
+            log.info(intl.get('name', { name }));
             yield installOne(name, {
               type: 'update',
               localPkg,
@@ -67,7 +68,7 @@ function* get(name) {
             }
 
             if (autoZVersion) {
-              log.info(`检查到您本地版本为 ${localPkg.version} , 自动为您升级到兼容版本 ${autoZVersion} 中...`);
+              log.info('autoUpdateZ', { localVersion: localPkg.version, autoZVersion });
               const comPkg = yield npm.latest(name, {
                 version: autoZVersion
               });
@@ -101,7 +102,7 @@ function* get(name) {
       }
     }
   } else {
-    log.info(`本地尚未安装 ${name} ,正在执行自动安装...`);
+    log.info(intl.get('autoInstall', { name }));
     yield installOne(name);
   }
   const pkg = fs.readJsonSync(pkgPath);

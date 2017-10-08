@@ -98,7 +98,7 @@ describe('# fie-module', () => {
     });
   });
 
-  describe('# onlineList()', () => {
+  describe.skip('# onlineList()', () => {
     it('# 获取 线上 fie 插件和套件', function* () {
       // 注意：npm.taobao.org 在travis上调用不通
       const data = yield fieModule.onlineList();

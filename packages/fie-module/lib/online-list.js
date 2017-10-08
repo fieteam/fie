@@ -12,6 +12,7 @@ const searchApi = () => {
   const isIntranet = env.isIntranet();
   const prefix = encodeURIComponent(`${utils.modPrefix()}-`);
   const end = `browse/keyword/${prefix}?type=json&__t=${Date.now()}`;
+  // TODO 删除pre.
   const listApi = isIntranet ? `http://pre.fie-api.alibaba-inc.com/modules/simple?type=${prefix}` : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
@@ -44,7 +45,7 @@ function* onlineList(options) {
       const pingRes = yield ping.promise.probe(pingApi);
 
       if (!pingRes || !pingRes.alive) {
-        throw Error('网络连接错误');
+        throw Error('Network connection error');
       }
 
       const res = yield request({

@@ -5,6 +5,16 @@ const log = require('fie-log')('core-module');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
 const fieModuleName = require('fie-module-name');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
+
+/**
+ * 获取fie的实际命令
+ * @returns {*|string}
+ */
+function getFieBin() {
+  return process.env.FIE_BIN || 'fie';
+}
 
 /**
  * 版本更新日志打印
@@ -16,15 +26,16 @@ const fieModuleName = require('fie-module-name');
  */
 function updateLog(name, opt) {
   const ulog = log[opt.level || 'success'];
+  const intl = new Intl(message);
   let pre = '';
   let localVersion = '';
   const lastVersion = opt.lastPkg.version;
 
   if (opt.localPkg && opt.localPkg.version !== lastVersion) {
     localVersion = opt.localPkg.version;
-    pre = `从 ${localVersion} 升级至 ${lastVersion}`;
+    pre = intl.get('updateTo', { localVersion, lastVersion });
   } else {
-    pre = `${lastVersion} 版本`;
+    pre = intl.get('updateVersion', { lastVersion });
     localVersion = lastVersion;
   }
 
@@ -34,16 +45,17 @@ function updateLog(name, opt) {
 
     // 在警告模式下加重提示样式
     if (opt.level === 'warn') {
-      const localVTip = localVersion ? ` , 本地版本是 ${localVersion} ` : '';
-      const installTip = `fie install ${opt.lastPkg.name.replace(/^(@ali\/)?fie\-/, '')}`;
+      const tool = getFieBin();
+      const localVTip = localVersion ? intl.get('localVersion', { localVersion }) : '';
+      const installTip = `${tool} install ${opt.lastPkg.name}`;
 
       console.log('\n');
-      ulog(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   升级提示  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
-      ulog(`${name} 推荐的版本是 ${chalk.green(lastVersion)}${localVTip}`);
-      ulog(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(installTip)} 来升级模块`);
+      ulog(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get('updateTips')}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
+      ulog(`${intl.get('recommendVersion', { name, version: chalk.green(lastVersion) })}${localVTip}`);
+      ulog(intl.get('recommendInstall', { icon: emoji.get('point_right'), installTip: chalk.bgRed.bold(installTip) }));
     }
 
-    ulog(`${name} ${pre}包含以下更新:`);
+    ulog(`${name} ${pre}${intl.get('includeUpdate')}`);
     changeLog.forEach((item) => {
       if (!item.log || !item.log.length) {
         return;

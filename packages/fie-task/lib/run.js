@@ -2,9 +2,11 @@
 
 const log = require('fie-log')('core-task');
 const report = require('fie-report');
-const runFunction = require('./run-function');
 const npmRun = require('npm-run');
 const co = require('co');
+const Intl = require('fie-intl');
+const runFunction = require('./run-function');
+const message = require('../locale/index');
 const utils = require('./utils');
 
 const COMMAND_PARAM_HOOK = '$$';
@@ -19,6 +21,7 @@ const spawn = npmRun.spawn;
  * @return {boolean} 是否继续往下执行, 为 false 的话,不继续执行,后面进程直接退出
  */
 function* oneTask(task, args, hookParam) {
+  const intl = new Intl(message);
   // task是一个function时,执行function
   if (task.func) {
     const res = yield runFunction({
@@ -84,9 +87,9 @@ function* oneTask(task, args, hookParam) {
           resetEnv();
           resolve(false);
         } else if (status !== 0) {
-          const message = `${task.command} 命令执行行失败`;
-          log.error(message);
-          report.error('fie-task', message);
+          const msg = intl.get('commandError', { command: task.command });
+          log.error(msg);
+          report.error('fie-task', msg);
           resetEnv();
           // 执行失败后，退出终端，不再继续执行
           process.exit(status);
@@ -122,15 +125,17 @@ function getHookParam(command) {
  */
 function* run(options) {
   // 筛选出对应的任务
+  const intl = new Intl(message);
   const tasks = options.tasks || [];              // 任务流
   const when = options.when || 'before';          // 前置任务还是后置,默认是前置任务
   const args = options.args || [];                // 任务流传进来的参数
   const command = options.command || '';          // 运行的命令
   const newTasks = utils.classify(tasks)[when];
   const hookParam = getHookParam(command);
+  const whenTips = when === 'after' ? intl.get('nextTask') : intl.get('preTask');
 
-
-  log.info(`正在执行行${command}${(when === 'after' ? '后置' : '前置')}任务`);
+  log.info(intl.get('runCommand', { command, whenTips }));
+  // log.info(`正在执行行${command}${(when === 'after' ? '后置' : '前置')}任务`);
 
 
   for (let i = 0; i < newTasks.length; i += 1) {
@@ -148,7 +153,8 @@ function* run(options) {
     }
   }
 
-  log.success(`${command}${(when === 'after' ? '后置' : '前置')}任务执行成功`);
+  log.success(intl.get('runSuccess', { command, whenTips }));
+  // log.success(`${command}${(when === 'after' ? '后置' : '前置')}任务执行成功`);
 }
 
 module.exports = run;

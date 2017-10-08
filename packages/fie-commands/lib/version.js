@@ -34,7 +34,7 @@ module.exports = function* () {
     // 其依赖的核心包
     console.log(chalk.magenta(
       `
-其依赖的核心包版本如下:
+core package:
 
 ${getPackagesVersion()}
 

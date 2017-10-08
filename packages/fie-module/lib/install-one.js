@@ -4,11 +4,13 @@ const home = require('fie-home');
 const npm = require('fie-npm');
 const log = require('fie-log')('core-module');
 const cache = require('fie-cache');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 const utils = require('./utils');
 
 function* installOne(name, options) {
   const prefix = utils.modPrefix();
-
+  const intl = new Intl(message);
   let pureName = '';
   options = Object.assign({}, {
     type: 'install'
@@ -18,7 +20,7 @@ function* installOne(name, options) {
   const match = name.match(/^(@ali\/)?([A-Za-z0-9_-]*)-(toolkit|plugin)-/);
   // 判断逻辑：前缀存在 且 前缀为自定义设置的 或者前缀是fie
   if (!(match && match[2] && (match[2] === prefix || match[2] === 'fie'))) {
-    log.error('您传入的包名有误，请输入正确的包名，如： toolkit-blue，plugin-git');
+    log.error(intl.get('importPkgError'));
     return;
   }
 
@@ -49,11 +51,11 @@ function* installOne(name, options) {
 
   // 提示安装成功
   if (options.type === 'install') {
-    log.success(`${name} 安装成功`);
+    log.success(intl.get('installSuccess', { name }));
     return;
   }
 
-  log.success(`${name} 更新成功`);
+  log.success(intl.get('updateSuccess', { name }));
   // 打印更新日志
   if (!options.lastPkg) {
     options.lastPkg = yield npm.latest(pureName);

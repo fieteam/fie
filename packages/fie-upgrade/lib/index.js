@@ -6,6 +6,8 @@ const npm = require('fie-npm');
 const semver = require('semver');
 const cache = require('fie-cache');
 const log = require('fie-log')('core-upgrade');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 const TIP_CACHE_KEY = '__fieVersionTip';
 
@@ -37,12 +39,12 @@ function* updateTip(data) {
     return;
   }
   const installer = data.name.indexOf('@ali') !== -1 ? 'tnpm' : 'npm';
-
+  const intl = new Intl(message);
   console.log('\n');
-  log.warn(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   升级提示  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
-  log.warn(`FIE推荐的版本是 ${chalk.green.bold(latest.version)} , 本地版本是 ${data.version}, 建议升级后再使用,保证功能的稳定性`);
-  log.warn(`请执行 ${emoji.get('point_right')}  ${chalk.bgRed.bold(` ${installer} install -g ${data.name} `)} 来升级FIE`);
-  log.warn(`如果提示没有权限，请尝试 ${chalk.red.bold(`sudo ${installer} install -g ${data.name} `)}`);
+  log.warn(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get('updateTips')}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
+  log.warn(intl.get('recommendVersion', { latest: chalk.green.bold(latest.version), localVersion: data.version }));
+  log.warn(intl.get('updateCommand', { icon: emoji.get('point_right'), command: chalk.bgRed.bold(` ${installer} install -g ${data.name} `) }));
+  log.warn(`${intl.get('ifUpdateError')} ${chalk.red.bold(`sudo ${installer} install -g ${data.name} `)}`);
   log.warn(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
   console.log('\n');
 }

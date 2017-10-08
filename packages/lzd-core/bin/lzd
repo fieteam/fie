@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 'use strict';
 
-
+require('../lib/config');
 const co = require('co');
 const home = require('fie-home');
 const fieError = require('fie-error');
@@ -10,23 +10,9 @@ const fieEnv = require('fie-env');
 const log = require('fie-log')('core-core');
 const fieCommands = require('fie-commands');
 const argv = require('fie-argv');
-const sudoBlock = require('sudo-block');
 const fiePkg = require('../package.json');
 
-// 禁止 sudo 执行 fie 命令
-sudoBlock();
 
-/**
- * 初始化开发环境
- * @param obj
- */
-function initConfig(obj) {
-  Object.keys(obj).forEach(item => {
-    if(!process.env[item]){
-      process.env[item] = obj[item];
-    }
-  })
-}
 
 /**
  * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
@@ -34,17 +20,6 @@ function initConfig(obj) {
 co(function* () {
 
   log.debug('lzd cli start run ....');
-
-  // 运行前的一些初始化配置工作，这些内容将存于fie的运行时
-  initConfig({
-    FIE_VERSION : fiePkg.version,
-    FIE_PACKAGE : fiePkg.name,
-    FIE_BIN : Object.keys(fiePkg.bin)[0], //获取cli的名称
-    FIE_MODULE_PREFIX : 'lzd',
-    FIE_CONFIG_FILE : 'lzd.config.js',
-    FIE_HOME_FOLDER : '.lzd',
-    FIE_ENV : 'intranet'
-  });
 
   // fie 家目录存在性检查
   home.initHomeDir();

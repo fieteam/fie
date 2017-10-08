@@ -1,6 +1,8 @@
 'use strict';
 
 const log = require('fie-log')('core-error');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 
 
 /**
@@ -8,12 +10,13 @@ const log = require('fie-log')('core-error');
  */
 module.exports = function* (e) {
   const errMsg = e ? e.toString() : '';
+  const intl = new Intl(message);
   const regx = /install\s(.+)\serror/;
   const match = errMsg.match(regx);
 
   if (match) {
     log.debug('npm-not-found 捕获');
-    log.error(`安装 ${match[1]} 出错,请确认网络是否正常及包名是否输入正确`);
+    log.error(intl.get('npmNotFound', { module: match[1] }));
     return true;
   }
   return false;

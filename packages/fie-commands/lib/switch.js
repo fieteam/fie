@@ -5,28 +5,31 @@ const inquirer = require('inquirer');
 const fieEnv = require('fie-env');
 const chalk = require('chalk');
 const log = require('fie-log')('core-commands');
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 /**
  * 初始化环境
  */
 module.exports = function* () {
+  const intl = new Intl(message);
   const divider = '-    ';
   const answers = yield inquirer.prompt([{
     type: 'list',
     name: 'name',
-    message: '请选择FIE的开发环境:',
+    message: intl.get('switchEnvTips'),
     choices: [{
-      name: `阿里内网环境   ${divider}${chalk.gray('阿里员工/可使用VPN登录阿里内网的用户')}`,
+      name: `${intl.get('aliIntranet')}   ${divider}${chalk.gray(intl.get('aliIntranetTips'))}`,
       value: 'intranet',
-      short: '阿里内网环境'
+      short: intl.get('aliIntranet')
 
     }, {
-      name: `外网环境        ${divider}${chalk.gray('ISV/无法访问阿里内网的用户')}`,
+      name: `${intl.get('aliExtranet')}        ${divider}${chalk.gray(intl.get('aliExtranetTips'))}`,
       value: 'extranet',
-      short: '外网环境'
+      short: intl.get('aliExtranet')
     }]
   }]);
 
   // 设置env环境
   fieEnv.setEnv(answers.name);
-  log.success('成功初始化FIE的开发环境!');
+  log.success(intl.get('initEnvSuccess'));
 };
