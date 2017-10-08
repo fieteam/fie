@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  'zh-cn': {
+  zh_CN: {
     commandError: '{command} 命令执行行失败',
     runCommand: '开始执行{command}{whenTips}任务',
     preTask: '前置',
@@ -11,7 +11,7 @@ module.exports = {
     runSuccess: '{command}{whenTips}任务执行成功'
 
   },
-  'en-us': {
+  en_US: {
     commandError: '{command} command execution line failed',
     runCommand: 'Start the {command} {whenTips} task',
     preTask: 'Previous',

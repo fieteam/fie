@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  'zh-cn': {
+  zh_CN: {
     // clear.js
     startClear: '开始清除缓存...',
     finishClear: '缓存清除完成!',
@@ -13,12 +13,13 @@ module.exports = {
 
     $  {tool}                     显示{tool}帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
     $  {tool} init [toolkitName]  初始化套件
-    $  {tool} install [name]      安装FIE模块
-    $  {tool} update [name]       更新FIE模块
+    $  {tool} install [name]      安装{tool}模块
+    $  {tool} update [name]       更新{tool}模块
     $  {tool} list [type]         插件列表
     $  {tool} ii                  安装npm模块，功能等同于npm install，但安装速度更快更稳定
-    $  {tool} clear               清空 fie 的本地缓存
-    $  {tool} switch              切换 fie 的开发环境
+    $  {tool} clear               清空 {tool} 的本地缓存
+    $  {tool} switch              切换 {tool} 的开发环境
+    $  {tool} locale              切换 {tool} 的语言环境
     $  {tool} help                显示套件帮助信息
     $  {tool} [name]              其他调用插件命令
 
@@ -64,11 +65,14 @@ module.exports = {
     aliIntranetTips: '阿里员工/可使用VPN登录阿里内网的用户',
     aliExtranet: '阿里外网环境',
     aliExtranetTips: 'ISV/无法访问阿里内网的用户',
-    initEnvSuccess: '成功初始化开发环境!'
+    initEnvSuccess: '成功初始化开发环境!',
+    // locale
+    switchLocaleTips: '初始化语言环境',
+    initLocalSuccess: '成功初始化语言环境'
 
 
   },
-  'en-us': {
+  en_US: {
     startClear: 'Start clearing the app cache...',
     finishClear: 'The cache is cleared',
     help: `
@@ -82,6 +86,7 @@ module.exports = {
     $  {tool} ii                  安装npm模块，功能等同于npm install，但安装速度更快更稳定
     $  {tool} clear               清空 {tool} 的本地缓存
     $  {tool} switch              切换 {tool} 的开发环境
+    $  {tool} locale              切换 {tool} 的语言环境
     $  {tool} help                显示套件帮助信息
     $  {tool} [name]              其他调用插件命令
 
@@ -127,7 +132,10 @@ module.exports = {
     aliIntranetTips: '阿里员工/可使用VPN登录阿里内网的用户',
     aliExtranet: 'Alibaba Extranet',
     aliExtranetTips: 'ISV/无法访问阿里内网的用户',
-    initEnvSuccess: '成功初始化开发环境!'
+    initEnvSuccess: '成功初始化开发环境!',
+    // locale
+    switchLocaleTips: '初始化语言环境',
+    initLocalSuccess: '成功初始化语言环境'
 
   },
 };

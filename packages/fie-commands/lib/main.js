@@ -212,8 +212,8 @@ module.exports = function* (command, cliArgs) {
   if (toolkitName) {
     toolkitName = fieModuleName.toolkitFullName(toolkitName);
     const moduleInfo = yield fieModule.getReallyName(toolkitName);
-    //判断套件是否存在
-    if(moduleInfo.exist){
+    // 判断套件是否存在
+    if (moduleInfo.exist) {
       toolkitName = moduleInfo.reallyName;
       toolkit = yield fieModule.get(toolkitName);
     }

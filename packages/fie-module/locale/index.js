@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  'zh-cn': {
+  zh_CN: {
     autoUpdate: '{name} 设置了自动更新,正在执行更新操作...',
     autoUpdateZ: '检查到您本地版本为 {localVersion} , 自动为您升级到兼容版本 {autoZVersion} 中...',
     autoInstall: '本地尚未安装 {name} ,正在执行自动安装...',
@@ -22,7 +22,7 @@ module.exports = {
     includeUpdate: '包含以下更新:'
 
   },
-  'en-us': {
+  en_US: {
     autoUpdate: '{name} has set an automatic update and is performing an update operation...',
     autoUpdateZ: 'Check your local version for {localVersion} to automatically upgrade to compatible version {autoZVersion} for you...',
     autoInstall: 'Local has not been installed {name} and is performing an automatic installation...',

@@ -36,9 +36,9 @@ Error: listen EADDRINUSE :::9000
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
 `
     });
-    if(locale === 'zh-cn'){
+    if (locale === 'zh_CN') {
       expect(fieError).to.be.contain('检测到当前端口号');
-    }else {
+    } else {
       expect(fieError).to.be.contain('current port number');
     }
     expect(fieError).to.be.contain('9000');
@@ -62,9 +62,9 @@ Error: listen EADDRINUSE 127.0.0.1:3000
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
 `
     });
-    if(locale === 'zh-cn'){
+    if (locale === 'zh_CN') {
       expect(fieError).to.be.contain('检测到当前端口号');
-    }else {
+    } else {
       expect(fieError).to.be.contain('current port number');
     }
     expect(fieError).to.be.contain('3000');

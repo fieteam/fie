@@ -10,18 +10,43 @@ const log = require('fie-log')('core-intl');
 const home = require('fie-home');
 const fs = require('fs-extra');
 const path = require('path');
+const osLocale = require('os-locale');
 
 // fie env的配置文件
 const FILE_LOCALE = 'fie.locale.json';
 let cacheLocale = null;
 
 function intl(message) {
-  this.message = message;
+  this.message = message || '';
   // 语言类型
   this.locale = this.getLocale();
 }
 
 intl.prototype = {
+
+  /**
+   * 初始化语言文件
+   */
+  initLocale() {
+    // 如果有全局语言文件的话，则退出
+    const fieLocaleGlobal = process.env.FIE_LOCALE;
+    if (fieLocaleGlobal) return;
+
+    const localeFile = path.join(home.getHomePath(), FILE_LOCALE);
+    // 初始化
+    if (!fs.existsSync(localeFile)) {
+      const defaultLocale = osLocale.sync();
+      this.setLocale(defaultLocale);
+    }
+  },
+
+  /**
+   * 删除语言配置文件(fie.env.json)
+   */
+  removeConfigFile() {
+    fs.removeSync(path.join(home.getHomePath(), FILE_LOCALE));
+    cacheLocale = null;
+  },
 
   /**
    * 获取语言信息
@@ -45,7 +70,7 @@ intl.prototype = {
     }
 
     // 默认返回英文
-    if (!localeData) return 'en-us';
+    if (!localeData) return 'en_US';
     return localeData.locale;
   },
 
@@ -70,6 +95,7 @@ intl.prototype = {
    */
   get(key, values) {
     let msg = this.message[this.locale][key];
+
     if (msg) {
       msg = new IntlMessageFormat(msg, this.locale);
       return msg.format(values);

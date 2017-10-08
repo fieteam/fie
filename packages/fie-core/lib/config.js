@@ -1,5 +1,6 @@
 
 const sudoBlock = require('sudo-block');
+
 const fiePkg = require('../package.json');
 
 // 禁止 sudo 执行 fie 命令

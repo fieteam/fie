@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-  'zh-cn': {
+  zh_CN: {
     // handle-default.js
     intranetTips: '运行报错, 请在 https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 或钉钉群 11751953 反馈问题',
     extranetTips: '运行报错, 请在这里反馈问题给 hugohua https://github.com/fieteam/fie/issues/new ',
@@ -34,7 +34,7 @@ module.exports = {
     detailError: '详细错误堆栈信息如下:',
     npmNotFound: '安装 {module} 出错,请确认网络是否正常及包名是否输入正确'
   },
-  'en-us': {
+  en_US: {
 // handle-default.js
     intranetTips: 'Run the error, please https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or dingding group 11751953 feedback problem',
     extranetTips: 'Run the error, please feedback here to hugohua https://github.com/fieteam/fie/issues/new ',

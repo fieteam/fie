@@ -21,7 +21,6 @@ const spawn = npmRun.spawn;
  * @return {boolean} 是否继续往下执行, 为 false 的话,不继续执行,后面进程直接退出
  */
 function* oneTask(task, args, hookParam) {
-
   const intl = new Intl(message);
   // task是一个function时,执行function
   if (task.func) {

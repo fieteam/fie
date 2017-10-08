@@ -19,5 +19,6 @@ module.exports = {
   list: require('./list'),
   switch: require('./switch'),
   update: require('./update'),
-  version: require('./version')
+  version: require('./version'),
+  locale: require('./locale')
 };

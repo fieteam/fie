@@ -7,6 +7,7 @@ const home = require('fie-home');
 const fieError = require('fie-error');
 const fieUpgrade = require('fie-upgrade');
 const log = require('fie-log')('core-core');
+const Intl = require('fie-intl');
 const fieCommands = require('fie-commands');
 const argv = require('fie-argv');
 const initEnv = require('../lib/init-env');
@@ -21,8 +22,14 @@ co(function* () {
 
   // fie 家目录存在性检查
   home.initHomeDir();
+
   // 检测环境是否已初始化
   yield initEnv();
+
+  //初始化语言环境
+  const intl = new Intl();
+
+  intl.initLocale();
   // fie版本更新提示
   yield fieUpgrade({
     name : fiePkg.name,

@@ -8,6 +8,7 @@ const home = require('fie-home');
 const npm = require('fie-npm');
 const cache = require('fie-cache');
 const report = require('fie-report');
+const env = require('fie-env');
 const Intl = require('fie-intl');
 const installOne = require('./install-one');
 const utils = require('./utils');
@@ -16,14 +17,28 @@ const message = require('../locale/index');
 /**
  * 获取 fie 插件或套件包逻辑，整体逻辑流程图请见：https://img.alicdn.com/tfs/TB1bG2MRFXXXXaaaXXXXXXXXXXX-2100-980.png
  * @param name 模块名，如 @ali/fie-toolkit-xxx 也可以是 模块名加package.json (老接口用到，不建议这样使用)，如 如果是这种情况，则返回package信息
+ * 注意: name 必须是完整的package name。这里是个破坏性变更.
  * @returns {*}
  */
 function* get(name) {
   let returnPkg = false;
   const intl = new Intl(message);
+  const isIntranet = env.isIntranet();
   if (/\/package\.json$/.test(name)) {
     name = name.replace('/package.json', '');
     returnPkg = true;
+  }
+
+  // 旧版本兼容，新版本要求传入完整的模块名，但旧版本可能传入的值有 plugin-xxx , toolkit-xxx , fie-plugin-xxx
+  // 需要全部转为 @ali/fie-xxx，由于均是旧版本fie模块才有的问题，所以这里写死fie前缀
+  if (name.indexOf('plugin-') === 0 || name.indexOf('toolkit-') === 0) {
+    if (isIntranet) {
+      name = `@ali/fie-${name}`;
+    } else {
+      name = `fie-${name}`;
+    }
+  } else if (isIntranet && name.indexOf('fie-') === 0) {
+    name = `@ali/${name}`;
   }
 
   const modulePath = path.resolve(home.getModulesPath(), name);
