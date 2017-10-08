@@ -2,7 +2,7 @@
   "name": "fie-home",
   "main": "lib/index.js",
   "description": "fie主工作目录",
-  "version": "2.7.10",
+  "version": "3.0.1",
   "licenses": "GPL-3.0",
   "keywords": [
     "nodejs",

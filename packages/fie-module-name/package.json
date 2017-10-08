@@ -2,7 +2,7 @@
   "name": "fie-module-name",
   "main": "lib/index.js",
   "description": "获取模块名字的相关信息，和 前缀",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "keywords": [
     "nodejs",
     "fie-module-name",
@@ -29,6 +29,6 @@
   ],
   "readmeFilename": "README.md",
   "dependencies": {
-    "fie-env": "^3.0.0"
+    "fie-env": "^3.0.1"
   }
 }

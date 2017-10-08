@@ -2,7 +2,7 @@
   "name": "fie-env",
   "main": "lib/index.js",
   "description": "fie内外网判断",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "licenses": "GPL-3.0",
   "keywords": [
     "nodejs",
@@ -21,7 +21,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "debug": "^2.2.0",
-    "fie-home": "^2.7.10",
+    "fie-home": "^3.0.1",
     "fs-extra": "^1.0.0",
     "graceful-fs": "^4.1.11"
   }
