@@ -2,7 +2,7 @@
   "name": "fie-upgrade",
   "main": "lib/index.js",
   "description": "fie升级检测",
-  "version": "1.0.0",
+  "version": "2.7.9",
   "keywords": [
     "nodejs",
     "fie-upgradge",
@@ -19,10 +19,10 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "chalk": "^2.1.0",
-    "fie-cache": "^2.7.8",
-    "fie-log": "^2.7.8",
-    "fie-intl":"^1.0.0",
-    "fie-npm": "^2.7.8",
+    "fie-cache": "^2.7.9",
+    "fie-log": "^2.7.9",
+    "fie-intl": "^2.7.9",
+    "fie-npm": "^2.7.9",
     "node-emoji": "^1.8.1",
     "semver": "^5.4.1"
   }

@@ -2,7 +2,7 @@
   "name": "fie-intl",
   "main": "lib/index.js",
   "description": "fie 多语言方案",
-  "version": "1.0.0",
+  "version": "2.7.9",
   "keywords": [
     "nodejs",
     "fie-intl",
@@ -18,8 +18,8 @@
   },
   "readmeFilename": "README.md",
   "dependencies": {
-    "fie-home": "^2.7.8",
-    "fie-log": "^2.7.8",
+    "fie-home": "^2.7.9",
+    "fie-log": "^2.7.9",
     "fs-extra": "^4.0.2",
     "intl-messageformat": "^2.1.0"
   }
