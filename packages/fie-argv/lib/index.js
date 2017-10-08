@@ -7,7 +7,7 @@
 
 const argv = require('yargs').argv;
 const report = require('fie-report');
-const log = require('fie-log')('fie-argv');
+const log = require('fie-log')('core-argv');
 
 
 module.exports = () => {

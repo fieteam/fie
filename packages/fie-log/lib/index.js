@@ -27,6 +27,7 @@ const formatters = {
  * @exports fie-log
  */
 module.exports = (moduleName) => {
+  
   /**
    * 根据颜色打印
    * @param content

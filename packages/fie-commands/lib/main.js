@@ -76,6 +76,7 @@ function* runPlugin(name, cliArgs) {
 
     const optionsArg = { clientArgs: cliArgs, clientOptions };
     fieObject = api.getApi(module.reallyName);
+
     yield fieTask.runFunction({
       method,
       args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
@@ -271,7 +272,6 @@ module.exports = function* (command, cliArgs) {
   if (['start', 'build'].indexOf(command) !== -1) {
     if (toolkit) {
       const tool = getFieBin();
-      log.error(`该套件尚未实现 ${command} 命令，请检查拼写是否正确或执行 fie -h 查看可用命令`);
       log.error(intl.get('startNotRunTips', { command, tool }));
     } else {
       // 存在fie.config.js文件且文件中有对应的 start、build、publish时则不需要提示

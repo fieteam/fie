@@ -158,10 +158,11 @@ const apiList = {
 
 module.exports = {
   getApi(moduleName) {
-    // API透出前预处理
-    moduleName = moduleName && fieModuleName.fullName(moduleName);
+    // break: 删除 API透出前预处理
+    // moduleName = moduleName && fieModuleName.fullName(moduleName);
+
     if (!moduleName) {
-      moduleName = 'fie-core';
+      moduleName = 'core-core';
     } else {
       moduleName = moduleName
         .replace('@ali/', '');

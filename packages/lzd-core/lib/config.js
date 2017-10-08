@@ -28,5 +28,6 @@ initConfig({
   FIE_MODULE_PREFIX: 'lzd',
   FIE_CONFIG_FILE: 'lzd.config.js',
   FIE_HOME_FOLDER: '.lzd',
-  FIE_ENV: 'intranet'
+  FIE_ENV: 'intranet',
+  FIE_LOCALE : 'en-us'      //默认语言
 });
