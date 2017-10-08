@@ -2,7 +2,7 @@
   "name": "fie-cache",
   "main": "lib/index.js",
   "description": "fie数据缓存模块",
-  "version": "2.7.9",
+  "version": "2.7.10",
   "keywords": [
     "nodejs",
     "fie-cache",
@@ -19,8 +19,8 @@
   },
   "readmeFilename": "README.md",
   "dependencies": {
-    "fie-home": "^2.7.9",
-    "fie-log": "^2.7.9",
+    "fie-home": "^2.7.10",
+    "fie-log": "^2.7.10",
     "fs-extra": "^1.0.0"
   }
 }

@@ -2,7 +2,7 @@
   "name": "fie-user",
   "main": "lib/index.js",
   "description": "获取用户信息",
-  "version": "2.7.9",
+  "version": "2.7.10",
   "keywords": [
     "nodejs",
     "fie-user",
@@ -30,8 +30,8 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "cross-spawn": "^5.0.1",
-    "fie-home": "^2.7.9",
-    "fie-log": "^2.7.9",
+    "fie-home": "^2.7.10",
+    "fie-log": "^2.7.10",
     "fs-extra": "^2.0.0"
   },
   "devDependencies": {

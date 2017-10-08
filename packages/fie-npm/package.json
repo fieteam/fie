@@ -2,7 +2,7 @@
   "name": "fie-npm",
   "main": "lib/index.js",
   "description": "fie内外网判断",
-  "version": "2.7.9",
+  "version": "2.7.10",
   "licenses": "GPL-3.0",
   "keywords": [
     "nodejs",
@@ -24,9 +24,9 @@
     "cross-spawn": "^5.0.1",
     "dargs": "^5.1.0",
     "debug": "^2.2.0",
-    "fie-env": "^2.7.9",
-    "fie-home": "^2.7.9",
-    "fie-log": "^2.7.9",
+    "fie-env": "^2.7.10",
+    "fie-home": "^2.7.10",
+    "fie-log": "^2.7.10",
     "lodash": "^4.17.2",
     "npminstall": "^3.0.1"
   },

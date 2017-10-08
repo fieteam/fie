@@ -2,7 +2,7 @@
   "name": "fie-task",
   "main": "lib/index.js",
   "description": "fie 任务操作模块",
-  "version": "2.7.9",
+  "version": "2.7.10",
   "keywords": [
     "nodejs",
     "fie-task",
@@ -30,9 +30,9 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "co": "^4.6.0",
-    "fie-log": "^2.7.9",
-    "fie-report": "^2.7.9",
-    "fie-intl": "^2.7.9",
+    "fie-log": "^2.7.10",
+    "fie-report": "^2.7.10",
+    "fie-intl": "^2.7.10",
     "fs-extra": "^1.0.0",
     "npm-run": "^4.1.0",
     "underscore": "^1.8.3"
