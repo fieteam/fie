@@ -6,7 +6,7 @@
 
 
 const fieNpm = require('fie-npm');
-const argv = require('yargs').argv;
+const argv = require('yargs').help(false).argv;
 
 module.exports = function* () {
   const modules = argv._.slice(1);

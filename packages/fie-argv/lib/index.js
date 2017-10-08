@@ -5,7 +5,7 @@
 
 'use strict';
 
-const argv = require('yargs').argv;
+const argv = require('yargs').help(false).argv;
 const report = require('fie-report');
 const log = require('fie-log')('core-argv');
 

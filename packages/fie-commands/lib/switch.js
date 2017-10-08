@@ -23,7 +23,7 @@ module.exports = function* () {
       short: intl.get('aliIntranet')
 
     }, {
-      name: `${intl.get('aliExtranet')}        ${divider}${chalk.gray(intl.get('aliExtranetTips'))}`,
+      name: `${intl.get('aliExtranet')}   ${divider}${chalk.gray(intl.get('aliExtranetTips'))}`,
       value: 'extranet',
       short: intl.get('aliExtranet')
     }]

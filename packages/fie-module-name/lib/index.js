@@ -44,7 +44,7 @@ const utils = {
     const tPrefix = utils.toolkitPrefix();
     const isIntranet = env.isIntranet();
     name = name.replace('@ali/', '');
-    if (name.indexOf(tPrefix) === 0) {
+    if (name.indexOf(tPrefix) === 0 || name.indexOf('toolkit') > 0) {
       full = name;
     } else if (name.indexOf('toolkit') === 0) {
       full = `${prefix}-${name}`;
@@ -66,12 +66,11 @@ const utils = {
     const pPrefix = utils.pluginPrefix();
     const isIntranet = env.isIntranet();
     name = name.replace('@ali/', '');
-    if (name.indexOf(pPrefix) === 0) {
+    //fie-plugin-xxx 的情况，和 另外有个 lzd-plugin-xxx 的情况(即name不是prefix开头的)
+    if (name.indexOf(pPrefix) === 0 || name.indexOf('plugin') > 0) {
       full = name;
-    } else if (name.indexOf('plugin') === 0) {
+    } else if (name.indexOf('plugin') === 0) {  // plugin-xxx 的情况
       full = `${prefix}-${name}`;
-    } else {
-      full = `${pPrefix}${name}`;
     }
     return isIntranet ? `@ali/${full}` : full;
   },

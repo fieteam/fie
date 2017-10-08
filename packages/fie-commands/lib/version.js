@@ -5,7 +5,7 @@
  */
 
 const path = require('path');
-const argv = require('yargs').argv;
+const argv = require('yargs').help(false).argv;
 const chalk = require('chalk');
 
 function getPackagesVersion() {

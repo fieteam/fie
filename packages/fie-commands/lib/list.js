@@ -9,7 +9,7 @@ const fieModule = require('fie-module');
 const fieModuleName = require('fie-module-name');
 const log = require('fie-log')('core-commands');
 const chalk = require('chalk');
-const argv = require('yargs').argv;
+const argv = require('yargs').help(false).argv;
 const Intl = require('fie-intl');
 const message = require('../locale/index');
 

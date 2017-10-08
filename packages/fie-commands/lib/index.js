@@ -9,6 +9,7 @@
 /**
  * @exports fie-commands
  */
+
 module.exports = {
   main: require('./main'),
   clear: require('./clear'),
