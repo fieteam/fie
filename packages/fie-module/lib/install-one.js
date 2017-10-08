@@ -9,6 +9,7 @@ const message = require('../locale/index');
 const utils = require('./utils');
 
 function* installOne(name, options) {
+
   const prefix = utils.modPrefix();
   const intl = new Intl(message);
   let pureName = '';

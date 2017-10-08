@@ -207,12 +207,16 @@ module.exports = function* (command, cliArgs) {
 
   // -------------- 执行套件任务 ---------------
   let toolkitName = fieConfig.exist() ? (fieConfig.get('toolkit') || fieConfig.get('toolkitName')) : '';
-  let toolkitExist;
-  let toolkit;
+  // let toolkitExist;
+  let toolkit = null;
   if (toolkitName) {
     toolkitName = fieModuleName.toolkitFullName(toolkitName);
-    toolkitExist = toolkitName ? (fieModule.localExist(toolkitName) || fieModule.onlineExist(toolkitName)) : false;
-    toolkit = toolkitExist ? yield fieModule.get(toolkitName) : null;
+    const moduleInfo = yield fieModule.getReallyName(toolkitName);
+    //判断套件是否存在
+    if(moduleInfo.exist){
+      toolkitName = moduleInfo.reallyName;
+      toolkit = yield fieModule.get(toolkitName);
+    }
   }
 
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
@@ -227,7 +231,7 @@ module.exports = function* (command, cliArgs) {
     }
     // 套件发送log
     log.debug(`套件 ${toolkitName} LOG开始发送...`);
-    report.moduleUsage(fieModuleName.fullName(toolkitName));
+    report.moduleUsage(toolkitName);
     setEntryModule(toolkitName);
     const afterToolCommand = () => {
       // -------------- 执行后置任务 ---------------

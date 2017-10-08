@@ -2,7 +2,7 @@
   "name": "fie-api",
   "main": "lib/index.js",
   "description": "fie 工具类",
-  "version": "2.7.8",
+  "version": "2.7.9",
   "keywords": [
     "nodejs",
     "fie-api",

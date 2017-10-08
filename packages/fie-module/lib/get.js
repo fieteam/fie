@@ -103,6 +103,7 @@ function* get(name) {
     }
   } else {
     log.info(intl.get('autoInstall', { name }));
+
     yield installOne(name);
   }
   const pkg = fs.readJsonSync(pkgPath);
