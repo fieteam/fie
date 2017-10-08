@@ -2,7 +2,7 @@
   "name": "fie-fs",
   "main": "lib/index.js",
   "description": "fie 文件操作模块",
-  "version": "2.7.10",
+  "version": "3.0.0",
   "keywords": [
     "nodejs",
     "fie-fs",
@@ -20,7 +20,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "debug": "^2.2.0",
-    "fie-log": "^2.7.10",
+    "fie-log": "^3.0.0",
     "fs-extra": "^1.0.0",
     "underscore": "^1.8.3"
   }

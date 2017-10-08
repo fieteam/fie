@@ -2,7 +2,7 @@
   "name": "fie-log",
   "main": "lib/index.js",
   "description": "fie日志模块",
-  "version": "2.7.10",
+  "version": "3.0.0",
   "keywords": [
     "nodejs",
     "fie-log",
