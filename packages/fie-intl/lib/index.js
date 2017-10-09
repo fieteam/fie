@@ -14,6 +14,8 @@ const osLocale = require('os-locale');
 
 // fie env的配置文件
 const FILE_LOCALE = 'fie.locale.json';
+const defaultLocale = 'en_US';
+
 let cacheLocale = null;
 
 function intl(message) {
@@ -35,8 +37,8 @@ intl.prototype = {
     const localeFile = path.join(home.getHomePath(), FILE_LOCALE);
     // 初始化
     if (!fs.existsSync(localeFile)) {
-      const defaultLocale = osLocale.sync();
-      this.setLocale(defaultLocale);
+      const sysLocale = osLocale.sync();
+      this.setLocale(sysLocale);
     }
   },
 
@@ -70,7 +72,7 @@ intl.prototype = {
     }
 
     // 默认返回英文
-    if (!localeData) return 'en_US';
+    if (!localeData) return defaultLocale;
     return localeData.locale;
   },
 
@@ -94,7 +96,14 @@ intl.prototype = {
    * @param values 语言中的变量信息
    */
   get(key, values) {
-    let msg = this.message[this.locale][key];
+    const localeMessage = this.message[this.locale];
+    let msg;
+    if (!localeMessage) {
+      msg = this.message[defaultLocale][key];
+    } else {
+      msg = localeMessage[key];
+    }
+
 
     if (msg) {
       msg = new IntlMessageFormat(msg, this.locale);

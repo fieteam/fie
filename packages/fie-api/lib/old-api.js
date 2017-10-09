@@ -98,6 +98,7 @@ const apiList = {
     key = key || 'toolkitConfig';
     const u = user.getUser();
     const argv = require('yargs').help(false).argv;
+
     u.author = u.name;
     return Object.assign({}, argv, config.get(key), u);
   },

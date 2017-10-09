@@ -13,7 +13,7 @@ const searchApi = () => {
   const prefix = encodeURIComponent(`${utils.modPrefix()}-`);
   const end = `browse/keyword/${prefix}?type=json&__t=${Date.now()}`;
   // TODO 删除pre.
-  const listApi = isIntranet ? `http://pre.fie-api.alibaba-inc.com/modules/simple?type=${prefix}` : `https://npm.taobao.org/${end}`;
+  const listApi = isIntranet ? `http://fie-api.alibaba-inc.com/modules/simple?type=${prefix}` : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
 };

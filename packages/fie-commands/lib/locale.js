@@ -20,9 +20,9 @@ module.exports = function* () {
     name: 'name',
     message: intl.get('switchLocaleTips'),
     choices: [{
-      name: `zh_CH    ${divider}中文`,
-      value: 'zh_CH',
-      short: 'zh_CH'
+      name: `zh_CN    ${divider}中文`,
+      value: 'zh_CN',
+      short: 'zh_CN'
 
     }, {
       name: `en_US    ${divider}英文`,

@@ -56,7 +56,6 @@ function isGeneratorFunction(obj) {
 }
 
 module.exports = function* () {
-
   const toolkit = fieConfig.getToolkitName();
   const intl = new Intl(message);
   const tool = getFieBin();

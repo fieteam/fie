@@ -12,10 +12,10 @@ module.exports = {
 
   },
   en_US: {
-    commandError: '{command} command execution line failed',
-    runCommand: 'Start the {command} {whenTips} task',
-    preTask: 'Previous',
-    nextTask: 'Next',
-    runSuccess: '{command} {whenTips} task was executed successfully'
+    commandError: 'Failed to excute {command}',
+    runCommand: '{command} {whenTips} stared',
+    preTask: 'Pre-task',
+    nextTask: 'Post-task',
+    runSuccess: '{command} {whenTips} completed'
   },
 };

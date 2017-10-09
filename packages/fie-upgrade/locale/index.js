@@ -11,8 +11,8 @@ module.exports = {
   },
   en_US: {
     updateTips: 'Upgrade tips',
-    recommendVersion: 'Recommended version is {latest}, the local version is {localVersion}, it is recommended to upgrade and then use',
+    recommendVersion: 'Upgrading to the latest release {latest} is strongly recommended, the local version is {localVersion}',
     updateCommand: 'Please use {icon} {command} to upgrade',
-    ifUpdateError: 'If the prompt does not have permission, please try'
+    ifUpdateError: 'Please try again if no permission'
   },
 };

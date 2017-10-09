@@ -82,7 +82,7 @@ function* runPlugin(name, cliArgs) {
       args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
     });
   } else {
-    const msg = intl.get('pluginNotFound', { plugin: module.fullName() });
+    const msg = intl.get('pluginNotFound', { plugin: module.fullName });
     log.error(msg);
     report.error(module.fullName, msg);
   }

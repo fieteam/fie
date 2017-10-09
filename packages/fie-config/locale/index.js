@@ -8,7 +8,7 @@ module.exports = {
     moreDetail: '详细报错信息如下：'
   },
   en_US: {
-    readConfigError: 'To read the configuration file failed, please make sure the {file} file is wrong',
-    moreDetail: 'Details of the error is as follows:'
+    readConfigError: 'Failed to read config, please double check {file}',
+    moreDetail: 'details:'
   },
 };
