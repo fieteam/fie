@@ -2,7 +2,7 @@
   "name": "fie-utils",
   "main": "lib/index.js",
   "description": "fie 工具类",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "keywords": [
     "nodejs",
     "fie-utils",
@@ -30,6 +30,6 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "debug": "^2.2.0",
-    "fie-config": "^3.0.1"
+    "fie-config": "^3.0.2"
   }
 }
