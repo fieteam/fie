@@ -11,7 +11,8 @@
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "clear": "node scripts/clear.js",
     "link": "cd packages/fie-core && npm link",
-    "publish-tnpm": "node scripts/publishTnpm.js"
+    "publish-tnpm": "node scripts/publishTnpm.js",
+    "publish-lzd": "node scripts/publishTnpmForLzd.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
