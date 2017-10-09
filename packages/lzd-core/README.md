@@ -1,77 +1,42 @@
-# FIE
+# LZD CLI
 
-> FIE 是由国际UED体验技术部开发的一款前端工程化工具，提供类似于yeoman的脚手架功能及插件体系。全方位覆盖前端开发过程中各个环节，让你开发更简单，过程更流畅,项目更可持续维护。
+> lzd is a front-end engineering tool for lazada, providing a scaffolding function and plug-in system similar to yeoman.
 
-## 安装
 
-```bash
-$ npm install fie -g --registry=https://registry.npm.taobao.org
-```
+## Check for Node and tnpm
 
-等待片刻，待安装完成之后在终端执行 `$ fie -v`，正常返回版本信息，表示安装成功。
+Make sure that you've installed Node and tnpm before attempting to install **lzd**.
 
-注意：fie依赖 nodejs > 4.x 、 npm 环境，在安装fie时，请确保本机已安装了nodejs和npm
-
-## 使用
-
-可在终端输入`$ fie -h` 查看fie使用帮助
+## Installing
 
 ```bash
-fie 使用帮助:  $ fie [command] [options]
-
-  $  fie                     # 显示fie帮助信息,若目录下有使用的套件,则会同时显示套件的帮助信息
-  $  fie init [toolkitName]  # 初始化套件
-  $  fie update [name]       # 更新插件
-  $  fie install [name]      # 安装插件
-  $  fie list [type]         # 插件列表
-  $  fie ii                  # 安装npm模块，类似于npm install，但安装速度更快更稳定
-  $  fie clear               # 清空 fie 的本地缓存
-  $  fie switch              # 切换 fie 的开发环境
-  $  fie help                # 显示套件帮助信息
-  $  fie [name]              # 其他调用插件命令
-
- Options:
-
-   -h, --help                显示fie帮助信息
-   -v, --version             显示fie版本
+$ tnpm install @ali/lzd -g
 ```
 
-### 快速开始
 
-以[fie-toolkit-blue](https://www.npmjs.com/package/fie-toolkit-blue)套件为例，讲解开发流程。
 
-1. 安装fie到npm全局环境中
+## Usage
 
-	```bash
-	$ npm install fie -g --registry=https://registry.npm.taobao.org
-	```
+Terminal input `$ lzd -h` view help
 
-2. 初始化项目
 
-	```bash
-	# 创建并进入项目文件夹
-	$ mkdir my-project && cd $_
-	
-	# 初始化blue的开发环境
-	$ fie init blue
-	```
-	
-3. 开启本地环境
+```bash
+lzd usage:  $ lzd [command] [options]
 
-	```bash
-	# 开启blue的开发环境
-	$ fie start
-	```
-4. 项目编译及打包
+    $  lzd                     show lzd help info
+    $  lzd init [toolkitName]  init toolkit
+    $  lzd install [name]      install lzd
+    $  lzd update [name]       update lzd
+    $  lzd list [type]         plugin list
+    $  lzd clear               empty cache of lzd
+    $  lzd help                show help info of toolkit
+    $  lzd [name]              commands of other plugins
+```
 
-	```bash
-	# 打包blue项目的到指定的目录
-	$ fie build
-	```	
 
-## 技术支持
-1. 使用过程中遇到的相关问题，可在github上提相关的issues : https://github.com/fieteam/fie/issues/new
-2. 也可通过钉钉或旺旺联系：@擎空、@宇果
+## Support
+1. DingDing contact @宇果
+
 
 
 
