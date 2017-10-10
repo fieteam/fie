@@ -36,7 +36,7 @@ module.exports = {
   },
   en_US: {
 // handle-default.js
-    intranetTips: 'Run the error, please https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or dingding group 11751953 feedback problem',
+    intranetTips: 'Run the error, please https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or DingTalk group 11751953 feedback problem',
     extranetTips: 'Run the error, please feedback here to hugohua https://github.com/fieteam/fie/issues/new ',
     winPidTips: `   # Look at which PID occupies the port
    $ lsof -i :{port}

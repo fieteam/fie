@@ -18,10 +18,15 @@ const defaultLocale = 'en_US';
 
 let cacheLocale = null;
 
-function intl(message) {
+/**
+ * 多语言处理
+ * @param message 语言文件
+ * @param locale 使用何种语言,如: zh_CN ,en_US
+ */
+function intl(message,locale) {
   this.message = message || '';
   // 语言类型
-  this.locale = this.getLocale();
+  this.locale = locale || this.getLocale();
 }
 
 intl.prototype = {

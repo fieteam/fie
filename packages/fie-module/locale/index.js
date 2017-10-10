@@ -25,7 +25,7 @@ module.exports = {
   en_US: {
     autoUpdate: '{name} automatic updating',
     autoUpdateZ: 'Automatic updating compatible version {autoZVersion} instead of {localVersion}',
-    autoInstall: 'Automatic installing',
+    autoInstall: 'Automatic installing {name}',
     // install-one.js
     importPkgError: 'Invaid package name. eg: toolkit-blue，plugin-git',
     installSuccess: '{name} installed',

@@ -42,6 +42,7 @@
     "fie-report": "^3.0.2",
     "fie-task": "^3.0.2",
     "fie-user": "^3.0.1",
+    "fie-intl": "^3.0.1",
     "inquirer": "^3.3.0",
     "open": "^0.0.5",
     "yargs": "^9.0.1"
