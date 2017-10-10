@@ -2,7 +2,7 @@
   "name": "fie-module",
   "main": "lib/index.js",
   "description": "fie数据缓存模块",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "keywords": [
     "nodejs",
     "fie-module",
@@ -34,7 +34,7 @@
     "fie-cache": "^3.0.1",
     "fie-env": "^3.0.1",
     "fie-home": "^3.0.1",
-    "fie-intl": "^3.0.2",
+    "fie-intl": "^3.0.4",
     "fie-log": "^3.0.1",
     "fie-module-name": "^3.0.2",
     "fie-npm": "^3.0.1",

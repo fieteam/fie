@@ -2,7 +2,7 @@
   "name": "fie-intl",
   "main": "lib/index.js",
   "description": "fie 多语言方案",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "keywords": [
     "nodejs",
     "fie-intl",

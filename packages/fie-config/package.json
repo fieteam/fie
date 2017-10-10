@@ -2,7 +2,7 @@
   "name": "fie-config",
   "main": "lib/index.js",
   "description": "fie.config.js文件操作",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "keywords": [
     "nodejs",
     "fie",
@@ -26,7 +26,7 @@
     "fie-log": "^3.0.1",
     "fie-report": "^3.0.2",
     "fs-extra": "^1.0.0",
-    "fie-intl": "^3.0.2",
+    "fie-intl": "^3.0.4",
     "tosource": "^1.0.0"
   }
 }
