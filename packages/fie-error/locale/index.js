@@ -36,13 +36,13 @@ module.exports = {
   },
   en_US: {
 // handle-default.js
-    intranetTips: 'Run the error, please https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or DingTalk group 11751953 feedback problem',
-    extranetTips: 'Run the error, please feedback here to hugohua https://github.com/fieteam/fie/issues/new ',
-    winPidTips: `   # Look at which PID occupies the port
+    intranetTips: 'Runtime Error, please report the issue to https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or dingding group 11751953',
+    extranetTips: 'Runtime Error, please report the issue to hugohua https://github.com/fieteam/fie/issues/new ',
+    winPidTips: `   # Look up for the PID which occupies the port
    $ lsof -i :{port}
    # Kill process
    $ kill -9 【pid】`,
-    macPidTips: `   # Look at which PID occupies the port
+    macPidTips: `   # Look up for the PID which occupies the port
    $ netstat -anop tcp | find /i ":{port}" |  find "LISTENING"
    # Kill process
    $ taskkill /F /pid 【pid】`,
@@ -53,16 +53,16 @@ Fix suggestions：
  
 {solution}  
 `,
-    commandNotFound: 'There was an error when running the plugin or toolkit, and the {module} command was not found. Please see if there is an installation!',
-    fixLocalTips: 'Fix Suggestions: Try {installer} install {runModule} on the console!',
-    fixGlobalTips: 'Fix Suggestions: Try {installer} install -g {module} on the console!',
-    moduleNotFound: 'There was an error when running the plugin or toolkit, and the {module} module was not found! Trying to fix it automatically ...',
-    installSuccess: 'To successfully install dependencies in the current project, rerun the command!',
+    commandNotFound: 'The {module} command was not found, there was an error when running the plugin or toolkit. Please see if there is an installation!',
+    fixLocalTips: 'Fix Suggestions: Try {installer} install {runModule} in terminal!',
+    fixGlobalTips: 'Fix Suggestions: Try {installer} install -g {module} in terminal!',
+    moduleNotFound: 'the {module} module was not found, there was an error when running the plugin or toolkit! Trying to fix it automatically ...',
+    installSuccess: 'Re-run the command to successfully install dependencies in the current project!',
     installDone: 'The {module} module has been installed to {moduleCwd} and the automatic repair is successful. Please re-run the command!',
-    installDoneTips: 'If there is still a problem with the rerun, please add: DEBUG = core-error to the detailed error stack',
-    installError: 'sorry automatic repair failed, please manually repair',
-    notFound: 'There was an error in the run, and the {file} file was not found. Please make sure {file} is present!',
+    installDoneTips: 'If there is still a problem while re-run, please add: DEBUG = core-error to the beginning of your command to get the detailed error stack',
+    installError: 'sorry, the automatic repair failed, please repair manually',
+    notFound: 'The {file} file was not found, there was an error in the run. Please make sure {file} exists!',
     detailError: 'Detailed error stack information is as follows:',
-    npmNotFound: 'Install {module} error, please confirm whether the network is normal and whether the package name is correct'
+    npmNotFound: 'Install {module} error, please check whether the network is normal and the package name is correct'
   },
 };

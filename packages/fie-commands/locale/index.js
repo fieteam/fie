@@ -76,66 +76,66 @@ module.exports = {
     startClear: 'Start clearing the app cache...',
     finishClear: 'The cache is cleared',
     help: `
- {tool} usage:  $ {tool} [command] [options]
+ {tool} help tips:  $ {tool} [command] [options]
 
-    $  {tool}                     show {tool} help info
-    $  {tool} init [toolkitName]  init toolkit
-    $  {tool} install [name]      install {tool}
-    $  {tool} update [name]       update {tool}
-    $  {tool} list [type]         plugin list
-    $  {tool} ii                  install npm dependencies
-    $  {tool} clear               empty cache of {tool} 
-    $  {tool} switch              switch develop environment of {tool}
-    $  {tool} locale              language
-    $  {tool} help                show help info of toolkit
-    $  {tool} [name]              commands of other plugins
+    $  {tool}                     display {tool} help info. If there are existing toolkits, it would display the help info of the toolkits
+    $  {tool} init [toolkitName]  Initialize Toolkit 
+    $  {tool} install [name]      Install {tool}
+    $  {tool} update [name]       Update {tool}
+    $  {tool} list [type]         List toolkits
+    $  {tool} ii                  Install npm modules，an alias to npm install, faster and more stable
+    $  {tool} clear               Clear {tool}'s local cache
+    $  {tool} switch              Switch {tool}'s environment
+    $  {tool} locale              switch fie language
+    $  {tool} help                Display toolkits help info
+    $  {tool} [name]              Other command for toolkit
 
    Options:
 
-     -h, --help                {tool} help info
-     -v, --version             {tool} version
+     -h, --help                display {tool} help info
+     -v, --version             show {tool} version
 
 `,
     helpTips: ' Tips: ',
-    helpToolkit: '   Toolkit - for toolkit help',
-    helpPlugin: '   Plugin - for plugin help,pls use {tool} [name] help, eg : {tool} git help',
-    helpEnv: '   Environment - current {tool} enviroment: {env}',
-    helpList: ' ------- Commands of {tool} ------- ',
+    helpToolkit: '   Toolkit - Please run this command at root folder to get help info of toolkits in current project.',
+    helpPlugin: '   Plugin - Please run {tool} [name] help to read the help info of the plugins, eg : {tool} git help',
+    helpEnv: '   Environment - Current {tool} environment: {env} , use $ {tool} switch to switch environment',
+    helpList: ' ------- Below are {tool} useful command ------- ',
     // init.js
-    toolkitNotFound: '{toolkit} doesn\'t exist',
-    toolkitInit: 'Please select a boilerplate type:',
-    toolkitReportInit: 'This project was initialized, no need to re-init',
-    toolkitInitTips: 'for re-init, delete {file}',
-    fileExist: 'current dir already exists and not empty, it will be override if you proceed',
-    confirmInit: 'for continue,type (y)',
+    toolkitNotFound: '{toolkit} toolkit not exist',
+    toolkitInit: 'Please choose a toolkit to init the project:',
+    toolkitReportInit: 'The project is already initialized, no need to init again',
+    toolkitInitTips: 'Please remove {file}, if you need to re-initialize the project',
+    fileExist: 'Current folder is not empty, continuing the init procedure would replace existing files',
+    confirmInit: 'Confirm if you need to continue init, type in (y)',
     // install.js
-    installTips: 'module name is required!',
+    installTips: 'Please input the module name that you need to install!',
     // list.js
-    toolkit: 'toolkits',
-    plugin: 'plugins',
-    toolkitAndPlugin: 'toolkits/plugins',
-    list: 'list',
-    toolkitList: '- toolkit list \r\n',
-    pluginList: '\r\n- plugin list \r\n',
+    toolkit: 'Toolkit',
+    plugin: 'Plugin',
+    toolkitAndPlugin: 'Toolkit/Plugin',
+    list: 'List',
+    toolkitList: '- Toolkit List \r\n',
+    pluginList: '\r\n- Plugin List \r\n',
     // main.js
-    pluginNotFound: '{plugin} doesn\'t exist',
-    moduleVersion: '\n {module} version is: {version}\n',
-    localNotFound: 'toolkit-{name} or plugin-{name} doesn\'t installed',
-    configFileNotFound: '{file} doesn\'t exist, be sure to continue?',
-    runPlugin: 'input the name of plugin to run',
-    notRunTips: 'command {command} doesn\'t exist, exited',
-    startNotRunTips: 'command {command} doesn\'t exist，Please check your typing or use {tool} -h for available commands',
-    configNotRunTips: 'command {command} doesn\'t exist in {file}, Please check your typing',
+    pluginNotFound: '{plugin} plugin no exist',
+    moduleVersion: '\n {module} version is {version}\n',
+    localNotFound: 'No toolkit-{name} or  plugin-{name} installed',
+    configFileNotFound: 'Cannot find {file}, Please make sure your are in root folder',
+    runPlugin: 'Please input the toolkit name',
+    notRunTips: 'Can not find {command} for toolkit, stop progressing',
+    startNotRunTips: 'No {command} exist for current toolkit，Please check your spell or run {tool} -h to list all usable command',
+    configNotRunTips: '{file} does not have {command} command，Please check your spell',
     // switch
     switchEnvTips: 'Please choose the development environment:',
     aliIntranet: 'Alibaba Intranet',
-    aliIntranetTips: 'Only Ali employee or VPN user',
+    aliIntranetTips: 'Alibaba emplotyees/VPN users',
     aliExtranet: 'Alibaba Extranet',
-    aliExtranetTips: 'ISV/other users without access to Ali intranet',
-    initEnvSuccess: ' initialization completed!',
+    aliExtranetTips: 'ISV/No access to intranet users',
+    initEnvSuccess: 'Init environment succeed!',
     // locale
     switchLocaleTips: 'Init language environment',
-    initLocalSuccess: 'Language environment initialized successfully'
+    initLocalSuccess: 'Init language environment succeed!'
 
-  },
+  }
 };

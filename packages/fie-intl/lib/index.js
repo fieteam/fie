@@ -23,7 +23,7 @@ let cacheLocale = null;
  * @param message 语言文件
  * @param locale 使用何种语言,如: zh_CN ,en_US
  */
-function intl(message,locale) {
+function intl(message, locale) {
   this.message = message || '';
   // 语言类型
   this.locale = locale || this.getLocale();

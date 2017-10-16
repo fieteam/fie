@@ -71,7 +71,7 @@ const utils = {
       full = name;
     } else if (name.indexOf('plugin') === 0) {  // plugin-xxx 的情况
       full = `${prefix}-${name}`;
-    }else {
+    } else {
       full = `${pPrefix}${name}`;
     }
     return isIntranet ? `@ali/${full}` : full;
