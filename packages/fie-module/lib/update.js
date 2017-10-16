@@ -1,8 +1,10 @@
 'use strict';
 
+const Intl = require('fie-intl');
+const message = require('../locale/index');
 const localList = require('./local-list');
 const installOne = require('./install-one');
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 
 /**
  * 更新模块
@@ -24,7 +26,8 @@ function* update(name) {
     yield installOne(list[i].name, options);
   }
   if (list.length === 0) {
-    log.success('本地暂无可更新的模块');
+    const intl = new Intl(message);
+    log.success(intl.get('updateNone'));
   }
 }
 

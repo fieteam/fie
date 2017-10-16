@@ -1,0 +1,34 @@
+{
+  "name": "fie-module-name",
+  "main": "lib/index.js",
+  "description": "获取模块名字的相关信息，和 前缀",
+  "version": "3.0.2",
+  "keywords": [
+    "nodejs",
+    "fie-module-name",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "locale",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "author": {
+    "name": "hugohua",
+    "email": "baofen14787@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "hugohua",
+      "email": "baofen14787@gmail.com"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "fie-env": "^3.0.1"
+  }
+}

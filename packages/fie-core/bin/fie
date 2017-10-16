@@ -1,47 +1,71 @@
 #! /usr/bin/env node
 'use strict';
 
-const argv = require('yargs').argv;
-const chalk = require('chalk');
-const log = require('fie-log')('fie-core');
-const fie = require('../lib/index');
-const core = require('../lib/core')();
+require('../lib/config');
 
-const effectiveUser = process.env.USER;
-const actualUser = process.env.SUDO_USER || process.env.USER;
+const co = require('co');
+const home = require('fie-home');
+const argv = require('fie-argv');
+const fieError = require('fie-error');
+const fieUpgrade = require('fie-upgrade');
+const log = require('fie-log')('core-core');
+const Intl = require('fie-intl');
+const fieCommands = require('fie-commands');
+const initEnv = require('../lib/init-env');
+const fiePkg = require('../package.json');
 
-let command;
-let newArgv = [];
+
+/**
+ * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
+ */
+co(function* () {
+
+  log.debug('fie start run ....');
+
+  // fie 家目录存在性检查
+  home.initHomeDir();
+
+  // 检测环境是否已初始化
+  yield initEnv();
+
+  //初始化语言环境
+  const intl = new Intl();
+
+  intl.initLocale();
+  // fie版本更新提示
+  yield fieUpgrade({
+    name : fiePkg.name,
+    version : fiePkg.version
+  });
+  
+
+  //fie 核心运行命令
+  const coreCommands = Object.keys(fieCommands).filter( (item) =>{
+    return item !== 'main';
+  });
+
+  
+  const fieArgv = argv();
+  const command = fieArgv.command;
+  const newArgv = fieArgv.argv;
 
 
-// 禁止 sudo 执行 fie 命令
-if (effectiveUser === 'root' && actualUser !== 'root') {
-  log.error('请勿使用 sudo 执行 fie ，以免污染文件权限。fie 将退出！');
-  process.exit(1);
-}
-
-//特殊处理一下传入的参数
-if (!argv._.concat().pop() && (argv.v || argv.version)) {
-  // 没有传入任何参数, 且有 -v 或 --version
-  // 如果有传了参数,说明希望看到套件插件的版本,套件插件版本在 all.js 里面进行处理
-  command = 'version';
-} else if (argv.help || argv.h) {
-  if (argv._.length === 1 && core.indexOf(argv._[0]) === -1) {
-    // 显示插件帮助信息
-    command = argv._[0];
-    newArgv = ['help'];
+  if (coreCommands.indexOf(command) === -1) {
+    log.debug('进入套件,插件分支');
+    yield fieCommands.main.apply(this, [command, newArgv]);
   } else {
-    command = 'help';
+    log.debug('进入核心命令分支');
+    // init, install, install, uninstall, update ,version 等命令
+    // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
+    yield fieCommands[command].apply(null, [newArgv]);
   }
-} else if (argv._.length === 0) {
-  command = 'help';
-} else {
-  newArgv = argv._.concat();
-  command = newArgv.splice(0, 1).pop();
-}
+  
 
-log.debug('控制台传入的原始参数: %o',argv);
-log.debug('即将执行的fie命令: %o',command);
-log.debug('fie命令的参数: %o',newArgv);
-
-fie.run(command, newArgv);
+  // 捕获异常
+  process.on('uncaughtException', (err) => {
+    log.debug(`进入未知错误${JSON.stringify(err)}`);
+    fieError.handle(err);
+  });
+}).catch((err) => {
+  fieError.handle(err);
+});

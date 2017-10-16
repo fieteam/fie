@@ -11,7 +11,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const log = require('fie-log')('fie-fs');
+const log = require('fie-log')('core-fs');
 
 /**
  * @desc Hook a string
@@ -25,7 +25,7 @@ const log = require('fie-log')('fie-fs');
  */
 const hookMatchStr = (content, hookOptions) => {
   if (!content) {
-    throw Error('parama content and options ');
+    throw Error('params content and options ');
   }
   const options = hookOptions || {};
   let matchLineIndex = -1;
@@ -84,13 +84,13 @@ const rewriteFile = (options) => {
   log.debug('options = %o', options);
 
   if (options.src === '') {
-    log.error('文件路径不能为空');
+    log.error('The file path can not be empty');
     return content;
   }
 
   if (options.srcMode === 0) {
     if (!fs.statSync(options.src).isFile()) {
-      log.error('文件路径指向的不是文件');
+      log.error('The file path is pointing to a file');
       return content;
     }
     content = fs.readFileSync(options.src).toString();
@@ -102,7 +102,7 @@ const rewriteFile = (options) => {
 
   if (options.dist) {
     fs.writeFileSync(options.dist, content);
-    log.success(`${options.dist} 文件写入成功`);
+    log.success(`${options.dist} written successfully`);
   }
 
   return content;

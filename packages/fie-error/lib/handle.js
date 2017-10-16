@@ -9,7 +9,7 @@
 'use strict';
 
 const co = require('co');
-const log = require('fie-log')('fie-error');
+const log = require('fie-log')('core-error');
 const report = require('fie-report');
 const utils = require('./utils');
 

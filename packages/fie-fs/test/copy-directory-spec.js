@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
 
-describe('# copy-tpl 复制文件', () => {
+describe('# copy-directory 复制目录', () => {
   const dirSrc = path.resolve(__dirname, 'fixtures', 'dir-src');
   const dirDist = path.resolve(__dirname, 'fixtures', 'dir-dist');
   const copyDirectory = proxyquire('../lib/copy-directory', {

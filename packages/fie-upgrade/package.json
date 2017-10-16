@@ -1,0 +1,30 @@
+{
+  "name": "fie-upgrade",
+  "main": "lib/index.js",
+  "description": "fie升级检测",
+  "version": "3.0.4",
+  "keywords": [
+    "nodejs",
+    "fie-upgradge",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "locale",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "fie-cache": "^3.0.1",
+    "fie-log": "^3.0.1",
+    "fie-intl": "^3.0.4",
+    "fie-npm": "^3.0.1",
+    "node-emoji": "^1.8.1",
+    "semver": "^5.4.1"
+  }
+}

@@ -42,6 +42,7 @@ function* runFunction(options) {
     next();
     return res;
   }
+
   const res = method.apply(null, args.concat(next));
   // return 为 promise 对象的情况
   if (res && typeof res.then === 'function') {

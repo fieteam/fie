@@ -1,0 +1,64 @@
+#! /usr/bin/env node
+'use strict';
+
+require('../lib/config');
+const co = require('co');
+const home = require('fie-home');
+const fieError = require('fie-error');
+const fieUpgrade = require('fie-upgrade');
+const fieEnv = require('fie-env');
+const log = require('fie-log')('core-core');
+const fieCommands = require('fie-commands');
+const argv = require('fie-argv');
+const fiePkg = require('../package.json');
+
+
+
+/**
+ * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
+ */
+co(function* () {
+
+  log.debug('lzd cli start run ....');
+
+  // fie 家目录存在性检查
+  home.initHomeDir();
+
+  // 初始化内网环境
+  if(!fieEnv.hasConfigFile()){
+    fieEnv.setIntranetEnv();
+  }
+
+  // fie版本更新提示
+  yield fieUpgrade({
+    name : fiePkg.name,
+    version : fiePkg.version
+  });
+
+  //fie 核心运行命令
+  const coreCommands = Object.keys(fieCommands).filter( (item) =>{
+    return item !== 'main';
+  });
+
+  const fieArgv = argv();
+  const command = fieArgv.command;
+  const newArgv = fieArgv.argv;
+
+  if (coreCommands.indexOf(command) === -1) {
+    log.debug('进入套件,插件分支');
+    yield fieCommands.main.apply(this, [command, newArgv]);
+  } else {
+    log.debug('进入核心命令分支');
+    // init, install, install, uninstall, update ,version 等命令
+    // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
+    yield fieCommands[command].apply(null, [newArgv]);
+  }
+
+  // 捕获异常
+  process.on('uncaughtException', (err) => {
+    log.debug(`进入未知错误${JSON.stringify(err)}`);
+    fieError.handle(err);
+  });
+}).catch((err) => {
+  fieError.handle(err);
+});

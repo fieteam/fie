@@ -6,14 +6,15 @@
 
 'use strict';
 
-const debug = require('debug')('fie-home');
+const debug = require('debug')('core-home');
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
 const rimraf = require('rimraf');
-const userHome = require('os-homedir')();
+const home = require('os-homedir')();
 
-
+let userHomeFolder;
+let userHome;
 /**
  * @exports fie-home
  */
@@ -21,12 +22,16 @@ const fieHome = {
 
   /**
    * 获取FIE的home路径
+   * FIE_HOME_FOLDER 作用：可以自定义fie的核心目录，方便开发第三方cli工具进行定制
+   * FIE_HOME 作用：方便单元测试时更改目录结构
    * @returns {string} 返回路径字符串
    */
   getHomePath() {
-    const home = path.resolve(process.env.FIE_HOME || userHome, '.fie');
-    debug('fie home = %s', home);
-    return home;
+    userHomeFolder = process.env.FIE_HOME_FOLDER || '.fie';
+    userHome = process.env.FIE_HOME || home;
+    const homePath = path.resolve(userHome, userHomeFolder);
+    debug('fie home = %s', homePath);
+    return homePath;
   },
 
   /**
@@ -47,6 +52,13 @@ const fieHome = {
     const fiePath = fieHome.getHomePath();
     if (!fs.existsSync(fiePath)) {
       fs.mkdirsSync(fiePath);
+    }
+    // 缓存home信息到env里面
+    if (!process.env.FIE_HOME_FOLDER) {
+      process.env.FIE_HOME_FOLDER = userHomeFolder;
+    }
+    if (!process.env.FIE_HOME) {
+      process.env.FIE_HOME = userHome;
     }
   },
 

@@ -13,7 +13,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const _ = require('underscore');
 const utils = require('./utils');
-const log = require('fie-log')('fie-fs');
+const log = require('fie-log')('core-fs');
 
 _.templateSettings = utils.templateSettings;
 
@@ -41,7 +41,7 @@ function copyTpl(options) {
 
   if (fs.statSync(options.src).isDirectory()) {
     fs.mkdirsSync(options.dist);
-    log.success(`${options.dist} 写入成功`);
+    log.success(`${options.dist} written successfully`);
     return;
   }
 
@@ -50,7 +50,7 @@ function copyTpl(options) {
   try {
     content = _.template(content)(options.data);
   } catch (err) {
-    log.error(`${options.src} template 失败请检查模板及数据是否正确`);
+    log.error(`${options.src} template fail, Please check the template and the data is correct`);
   }
   for (let j = 0; j < options.stringReplace.length; j += 1) {
     content = content.replace(new RegExp(options.stringReplace[j].placeholder, 'g'), options.stringReplace[j].value);
@@ -59,7 +59,7 @@ function copyTpl(options) {
   // 若没有目录文件需要创建,最终创建文件
   fs.mkdirsSync(path.dirname(options.dist));
   fs.writeFileSync(options.dist, content);
-  log.success(`${options.dist} 写入成功`);
+  log.success(`${options.dist} written successfully`);
 }
 
 module.exports = copyTpl;

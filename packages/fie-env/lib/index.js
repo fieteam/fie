@@ -6,7 +6,7 @@
  * @author 宇果 <baofen14787@gmail.com>
  * @namespace fie-env
  */
-const debug = require('debug')('fie-env');
+const debug = require('debug')('core-env');
 const home = require('fie-home');
 const fs = require('fs-extra');
 const path = require('path');

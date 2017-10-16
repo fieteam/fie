@@ -7,22 +7,20 @@ const fieUser = require('../lib/index');
 const mockPath = path.resolve(__dirname, 'fixtures');
 
 
-describe('# fie-user 获取用户信息', () => {
+describe('# fie-user/lib/index 获取用户信息', () => {
   const user = {
     email: 'fie-test@alibaba-inc.com',
     name: 'fie-user'
   };
-  let home;
   // 测试前先准备一下环境
   before(() => {
-    home = process.env.FIE_HOME;
     process.env.FIE_HOME = mockPath;
     fs.mkdirsSync(path.join(mockPath, '.fie'));
     fs.outputJsonSync(path.join(mockPath, '.fie', 'fie.user.json'), user);
   });
 
   after(() => {
-    process.env.FIE_HOME = home;
+    delete process.env.FIE_HOME;
     fs.removeSync(mockPath);
   });
 

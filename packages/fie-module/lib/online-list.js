@@ -1,18 +1,19 @@
 'use strict';
 
-const log = require('fie-log')('fie-module');
+const log = require('fie-log')('core-module');
 const env = require('fie-env');
 const cache = require('fie-cache');
-const utils = require('./utils');
 const request = require('co-request');
+const utils = require('./utils');
 const ping = require('ping');
-
-const isIntranet = env.isIntranet();
 
 
 const searchApi = () => {
-  const end = `browse/keyword/${encodeURIComponent('fie-')}?type=json&__t=${Date.now()}`;
-  const listApi = isIntranet ? 'http://fie-api.alibaba-inc.com/modules/simple' : `https://npm.taobao.org/${end}`;
+  const isIntranet = env.isIntranet();
+  const prefix = encodeURIComponent(`${utils.modPrefix()}-`);
+  const end = `browse/keyword/${prefix}?type=json&__t=${Date.now()}`;
+  // TODO 删除pre.
+  const listApi = isIntranet ? `http://fie-api.alibaba-inc.com/modules/simple?type=${prefix}` : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
 };
@@ -25,6 +26,8 @@ function* onlineList(options) {
   options = Object.assign({}, {
     cache: true
   }, options);
+
+  const isIntranet = env.isIntranet();
   const cacheKey = isIntranet ? utils.ONLINE_MODULE_CACHE_KEY_IN : utils.ONLINE_MODULE_CACHE_KEY_OUT;
 
   log.debug('get online list from cache %o', cache.get(cacheKey));
@@ -35,23 +38,30 @@ function* onlineList(options) {
     moduleList = [];
   }
 
-  const regx = isIntranet ? /^@ali\/fie-(plugin|toolkit)-/ : /^fie-(plugin|toolkit)-/;
-
   try {
     if (!moduleList.length) {
-      const pingRes = yield ping.promise.probe(isIntranet ? 'fie-api.alibaba-inc.com' : 'npm.taobao.org');
+      // 先ping一下，看是否有网络
+      const pingApi = isIntranet ? 'fie-api.alibaba-inc.com' : 'npm.taobao.org';
+      const pingRes = yield ping.promise.probe(pingApi);
 
       if (!pingRes || !pingRes.alive) {
-        throw Error('网络连接错误');
+        throw Error('Network connection error');
       }
 
-      const res = yield request(searchApi());
-      const body = JSON.parse(res.body);
+      const res = yield request({
+        url: searchApi(),
+        method: 'get',
+        json: true
+      });
 
+      log.debug('search body = ', res.body);
+      const body = res.body;
       // 内外网数据源不同,格式稍有差异
       const list = isIntranet ? body.data : body.packages;
 
-
+      const tPrefix = utils.toolkitPrefix();
+      const pPrefix = utils.pluginPrefix();
+      const pkgPrefix = isIntranet ? '@ali/' : '';
       list.forEach((item) => {
         // 内外网数据源不同,格式稍有差异
         item.name = isIntranet ? item.moduleName : item.name;
@@ -59,13 +69,20 @@ function* onlineList(options) {
         item.shared = isIntranet ? item.shared : true;
 
         // 名字不符合规则 或 已删除的包不再显示
-        if (regx.test(item.name)) {
+        if (item.description !== 'delete' &&
+            (item.name.indexOf(`${pkgPrefix}${tPrefix}`) === 0 ||
+            item.name.indexOf(`${pkgPrefix}${pPrefix}` === 0))
+        ) {
           moduleList.push(item);
         }
       });
-      cache.set(cacheKey, moduleList, {
-        expires: 3600000
-      });
+
+      // 如果没有列表，就不缓存了
+      if (!moduleList.length) {
+        cache.set(cacheKey, moduleList, {
+          expires: 3600000
+        });
+      }
     }
   } catch (e) {
     // 返回数据出错, 可能是没网

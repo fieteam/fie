@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const fieHome = require('../lib/index');
 
 let home;
-describe('fie-home获取fie及模块的相关路径', () => {
+describe('# fie-home', () => {
   before(() => {
     process.env.FIE_HOME = path.join(__dirname, 'helpers');
     fs.mkdirsSync(process.env.FIE_HOME);

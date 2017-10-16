@@ -7,9 +7,9 @@ const unInstall = require('./un-install');
 const update = require('./update');
 const onlineList = require('./online-list');
 const localList = require('./local-list');
-const utils = require('./utils');
 const localExist = require('./local-exist');
 const onlineExist = require('./online-exist');
+const exist = require('./exist');
 
 
 module.exports = {
@@ -21,7 +21,6 @@ module.exports = {
   localList,
   localExist,
   onlineExist,
-  fullName: utils.fullName,
-  toolkitFullName: utils.toolkitFullName,
-  pluginFullName: utils.pluginFullName
+  getReallyName: exist
+  // break已移除 fullName,toolkitFullName,pluginFullName
 };

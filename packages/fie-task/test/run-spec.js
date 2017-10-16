@@ -1,38 +1,47 @@
 'use strict';
 
 const proxyquire = require('proxyquire');
-const emptyLog = require('../../../test/fixtures/empty-log');
-
-let tmpString = '';
-let envYyy = '';
-const spy1 = sinon.spy((arg1, next) => {
-  tmpString += 'a';
-  next();
-});
-const spy2 = sinon.spy();
-const spy3 = sinon.spy((next) => {
-  tmpString += 'c';
-  next();
-});
-const spawnStub = function () {
-  envYyy = process.env.yyy;
-  return {
-    on(event, cb) {
-      if (event === 'close') {
-        cb(0);
-      }
-    }
-  };
-};
-const spawn = sinon.spy(spawnStub);
-const run = proxyquire('../lib/run', {
-  'fie-log': emptyLog,
-  'npm-run': {
-    spawn
-  }
-});
 
 describe('# run 执行任务', () => {
+  let tmpString;
+  let envYyy;
+  let spy1;
+  let spy2;
+  let spy3;
+  let spawnStub;
+  let spawn;
+  let runTask;
+
+  before(() => {
+    tmpString = '';
+    envYyy = '';
+    spy1 = sinon.spy((arg1, next) => {
+      tmpString += 'a';
+      next();
+    });
+    spy2 = sinon.spy();
+    spy3 = sinon.spy((next) => {
+      tmpString += 'c';
+      next();
+    });
+    spawnStub = function () {
+      envYyy = process.env.yyy;
+      return {
+        on(event, cb) {
+          if (event === 'close') {
+            cb(0);
+          }
+        }
+      };
+    };
+    spawn = sinon.spy(spawnStub);
+    runTask = proxyquire('../lib/run', {
+      'npm-run': {
+        spawn
+      }
+    });
+  });
+
   afterEach(() => {
     spy1.reset();
     spy2.reset();
@@ -41,8 +50,12 @@ describe('# run 执行任务', () => {
     tmpString = '';
   });
 
+  after(() => {
+    runTask = null;
+  });
+
   it('# 执行前置任务, 支持普通函数和generator函数', function* () {
-    yield run({
+    yield runTask({
       tasks: [{
         func: spy1
       }, {
@@ -80,7 +93,7 @@ describe('# run 执行任务', () => {
 
 
   it('# 执行后置任务, 支持普通函数和generator函数', function* () {
-    yield run({
+    yield runTask({
       tasks: [{
         func: spy3
       }, {
@@ -119,7 +132,7 @@ describe('# run 执行任务', () => {
 
 
   it('# 没有 __toolkitCommand__ 的情况下都是前置任务', function* () {
-    yield run({
+    yield runTask({
       tasks: [{
         func: spy1
       }, {
@@ -138,7 +151,7 @@ describe('# run 执行任务', () => {
 
 
   it('# async 为 true 的话，无须等待直接执行后面的任务', function* () {
-    yield run({
+    yield runTask({
       tasks: [{
         func() {
           return new Promise((resolve) => {
@@ -170,7 +183,7 @@ describe('# run 执行任务', () => {
   it('# 错误能被上层 catch 到, 且后面的任务被中断(异步任务无法被catch)', function* () {
     let errorMsg = '';
     try {
-      yield run({
+      yield runTask({
         tasks: [{
           * func() {
             yield new Promise((resolve, reject) => {
@@ -194,7 +207,7 @@ describe('# run 执行任务', () => {
 
   it('# 会将 $$ 替换成 fie 命令后面的参数', function* () {
     process.argv = ['fie', 'start', '--port', '8888'];
-    yield run({
+    yield runTask({
       tasks: [{
         command: 'yoo sss $$'
       }],
@@ -208,7 +221,7 @@ describe('# run 执行任务', () => {
     const beforeEnv = 'beforeEnv';
     const testEnv = 'testEnv';
     process.env.yyy = beforeEnv;
-    yield run({
+    yield runTask({
       tasks: [{
         command: `yyy=${testEnv} echo xxx`
       }],
@@ -217,5 +230,6 @@ describe('# run 执行任务', () => {
 
     expect(envYyy).to.be.equals(testEnv);
     expect(process.env.yyy).to.be.equals(beforeEnv);
+    delete process.env.yyy;
   });
 });

@@ -2,7 +2,7 @@
   "name": "fie-log",
   "main": "lib/index.js",
   "description": "fie日志模块",
-  "version": "2.7.8",
+  "version": "3.0.1",
   "keywords": [
     "nodejs",
     "fie-log",
@@ -10,6 +10,7 @@
   ],
   "files": [
     "lib",
+    "locale",
     "LICENSE"
   ],
   "repository": {
@@ -30,6 +31,6 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "debug": "^2.6.1",
-    "fie-home": "^2.7.8"
+    "fie-home": "^3.0.1"
   }
 }

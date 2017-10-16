@@ -33,14 +33,14 @@ npm install fie-module --save
 
 ```
 // 名字会自动补齐
-const blue = yield fieModule.get('toolkit-blue');
+const blue = yield fieModule.get('fie-toolkit-blue');
 // blue 为blue套件时是一个对象，下面挂载几个命令对应的函数
 yield blue.build(fieObj, {
   clientArgs: ['index']
 });
 
 // 获取模块手 package.json 信息
-const pkg = yield fieModule.get('toolkit-blue/package.json');
+const pkg = yield fieModule.get('fie-toolkit-blue/package.json');
 console.log(pkg.fieOptions);
 ```
 

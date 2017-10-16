@@ -2,7 +2,7 @@
   "name": "fie-error",
   "main": "lib/index.js",
   "description": "fie 错误个性化提示",
-  "version": "2.7.8",
+  "version": "3.0.4",
   "keywords": [
     "nodejs",
     "fie",
@@ -10,6 +10,7 @@
   ],
   "files": [
     "lib",
+    "locale",
     "LICENSE"
   ],
   "repository": {
@@ -20,11 +21,12 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "co": "^4.6.0",
-    "fie-env": "^2.7.8",
-    "fie-home": "^2.7.8",
-    "fie-log": "^2.7.8",
-    "fie-npm": "^2.7.8",
-    "fie-report": "^2.7.8",
+    "fie-env": "^3.0.1",
+    "fie-home": "^3.0.1",
+    "fie-log": "^3.0.1",
+    "fie-npm": "^3.0.1",
+    "fie-intl": "^3.0.4",
+    "fie-report": "^3.0.2",
     "lodash": "^4.17.2",
     "os": "^0.1.1"
   },

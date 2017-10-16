@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require('request');
-const debug = require('debug')('fie-report');
+const debug = require('debug')('core-report');
 const __WPO = require('../retcode/log-node');
 
 let host = 'http://fie-api.alibaba-inc.com';
@@ -15,12 +15,14 @@ if (process.env.NODE_ENV === 'local') {
  * @param {object} data
  */
 function send(data) {
-  debug('send log for api = %s', host);
+  const url = `${host}/log/cli`;
+  debug('send log for api = %s', url);
   setTimeout(() => {
     request.post({
-      url: `${host}/log/cli`,
+      url,
       json: true,
-      form: data
+      form: data,
+      timeout: 4000,   //4s
     }, (err, result) => {
       if (!err && result.body && result.body.code === 200) {
         debug('日志发送成功');

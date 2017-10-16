@@ -1,7 +1,7 @@
 'use strict';
 
 
-const log = require('fie-log')('fie-user');
+const log = require('fie-log')('core-user');
 const spawn = require('cross-spawn');
 const fieHome = require('fie-home');
 const fs = require('fs-extra');

@@ -1,0 +1,27 @@
+{
+  "name": "fie-argv",
+  "main": "lib/index.js",
+  "description": "fie 执行命令时，初始化相关参数",
+  "version": "3.0.2",
+  "keywords": [
+    "nodejs",
+    "fie-argv",
+    "runtime",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "locale",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "fie-log": "^3.0.1",
+    "fie-report": "^3.0.2",
+    "yargs": "^9.0.1"
+  }
+}
