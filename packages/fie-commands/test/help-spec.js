@@ -79,11 +79,11 @@ describe('# fie-commands/lib/help', () => {
     // 调用了11次console
     expect(spy.callCount).to.be.at.most(20);
 
-    if(locale === 'zh_CN'){
+    if (locale === 'zh_CN') {
       const hasHelp = spy.args.some(val => val[0].indexOf('以下是 fie 自身的命令') !== -1);
       /* eslint-disable no-unused-expressions */
       expect(hasHelp).to.be.true;
-    }else {
+    } else {
       const hasHelp = spy.args.some(val => val[0].indexOf('Commands of fie') !== -1);
       /* eslint-disable no-unused-expressions */
       expect(hasHelp).to.be.true;

@@ -23,21 +23,21 @@ module.exports = {
 
   },
   en_US: {
-    autoUpdate: '{name} automatic updating',
-    autoUpdateZ: 'Automatic updating compatible version {autoZVersion} instead of {localVersion}',
-    autoInstall: 'Automatic installing {name}',
+    autoUpdate: '{name} has set an automatic update and is excuting an update operation...',
+    autoUpdateZ: 'Your local version is {localVersion}, automatically upgrading to compatible version {autoZVersion} for you...',
+    autoInstall: '{name} has not been installed, performing an automatic installation...',
     // install-one.js
-    importPkgError: 'Invaid package name. eg: toolkit-blue，plugin-git',
-    installSuccess: '{name} installed',
-    updateSuccess: '{name} updated',
+    importPkgError: 'Package name is incorrect. Please re-enter the correct package name，eg: toolkit-blue，plugin-git',
+    installSuccess: '{name} install completed',
+    updateSuccess: '{name} update completed',
     // utils.js
-    updateNone: 'No updates detected. All modules are already up to date',
-    updateTo: 'Upgrade {localVersion} to {lastVersion}',
-    updateVersion: 'version {lastVersion} ',
-    localVersion: 'The local version is {localVersion} ',
+    updateNone: 'No update to the module',
+    updateTo: 'Upgrade from {localVersion} to {lastVersion}',
+    updateVersion: '{lastVersion} version',
+    localVersion: ' , The local version is {localVersion} ',
     updateTips: 'Upgrade tips',
-    recommendVersion: 'Recommended version of {name} is {version} ',
+    recommendVersion: '{name}: recommended version is {version}',
     recommendInstall: 'Please execute {icon} {installTip} to upgrade the module',
-    includeUpdate: ' Details:'
+    includeUpdate: 'Include the following updates:'
   },
 };
