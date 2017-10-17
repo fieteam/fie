@@ -115,6 +115,7 @@ intl.prototype = {
       return msg.format(values);
     }
     log.warn(`intl key : ${key} not defined!`);
+    log.debug(`message = %o`,this.message);
     return null;
   }
 };

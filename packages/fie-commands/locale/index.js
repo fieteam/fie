@@ -33,7 +33,7 @@ module.exports = {
     helpToolkit: '   套件 - 若想查看项目中所使用的套件帮助信息,请在项目根目录执行该命令.',
     helpPlugin: '   插件 - 若想查看插件的帮助信息,请使用 {tool} [name] help 命令, eg : {tool} git help',
     helpEnv: '   环境 - 当前FIE开发环境为: {env} , 可使用 $ {tool} switch 进行切换',
-    helpList: ' ------- 以下是 {tool} 自身的命令 ------- ',
+    helpList: '\r\n ------- 以下是 {tool} 自身的命令 ------- ',
     // init.js
     toolkitNotFound: '{toolkit} 套件不存在',
     toolkitInit: '请选择一个适合您项目的套件进行初始化:',
@@ -100,7 +100,7 @@ module.exports = {
     helpToolkit: '   Toolkit - Please run this command at root folder to get help info of toolkits in current project.',
     helpPlugin: '   Plugin - Please run {tool} [name] help to read the help info of the plugins, eg : {tool} git help',
     helpEnv: '   Environment - Current {tool} environment: {env} , use $ {tool} switch to switch environment',
-    helpList: ' ------- Below are {tool} useful command ------- ',
+    helpList: '\r\n ------- Below are {tool} useful command ------- ',
     // init.js
     toolkitNotFound: '{toolkit} toolkit not exist',
     toolkitInit: 'Please choose a toolkit to init the project:',

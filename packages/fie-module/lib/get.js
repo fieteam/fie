@@ -60,7 +60,7 @@ function* get(name) {
         if (semver.lt(localPkg.version, lastPkg.version)) {
           if (localPkg.fieOption && localPkg.fieOption.update) {
             // 自动更新
-            log.info(intl.get('name', { name }));
+            log.info(intl.get('autoUpdate', { name }));
             yield installOne(name, {
               type: 'update',
               localPkg,
