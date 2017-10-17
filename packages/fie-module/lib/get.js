@@ -121,7 +121,8 @@ function* get(name) {
 
     yield installOne(name);
   }
-  const pkg = fs.readJsonSync(pkgPath);
+
+  const pkg = fs.readJsonSync(pkgPath, { throws: false }) || {};
   const mod = require(modulePath);
   const pluginPrefix = utils.pluginPrefix();
   // TODO 发送log记录，由于调用插件时，也会调用到套件，所以这里只有插件调用的时候才发送log
