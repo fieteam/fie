@@ -2,7 +2,7 @@
   "name": "fie-core-config",
   "main": "lib/index.js",
   "description": "fie 运行时的全局配置",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "keywords": [
     "nodejs",
     "fie-intl",

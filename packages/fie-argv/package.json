@@ -2,7 +2,7 @@
   "name": "fie-argv",
   "main": "lib/index.js",
   "description": "fie 执行命令时，初始化相关参数",
-  "version": "3.0.2",
+  "version": "3.0.5",
   "keywords": [
     "nodejs",
     "fie-argv",
@@ -21,7 +21,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "fie-log": "^3.0.1",
-    "fie-report": "^3.0.2",
+    "fie-report": "^3.0.5",
     "yargs": "^9.0.1"
   }
 }

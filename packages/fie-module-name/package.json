@@ -2,7 +2,7 @@
   "name": "fie-module-name",
   "main": "lib/index.js",
   "description": "获取模块名字的相关信息，和 前缀",
-  "version": "3.0.2",
+  "version": "3.0.5",
   "keywords": [
     "nodejs",
     "fie-module-name",
