@@ -65,6 +65,7 @@ describe('# fie-commands/lib/help', () => {
   it('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
     const intl = new Intl(message);
     const locale = intl.getLocale();
+
     const help = proxyquire('../lib/help', {
       'fie-config': {
         getToolkitName() {
@@ -84,7 +85,8 @@ describe('# fie-commands/lib/help', () => {
       /* eslint-disable no-unused-expressions */
       expect(hasHelp).to.be.true;
     } else {
-      const hasHelp = spy.args.some(val => val[0].indexOf('Commands of fie') !== -1);
+
+      const hasHelp = spy.args.some(val => val[0].indexOf('fie useful command') !== -1);
       /* eslint-disable no-unused-expressions */
       expect(hasHelp).to.be.true;
     }

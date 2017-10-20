@@ -1,11 +1,11 @@
 {
-  "name": "fie-utils",
+  "name": "fie-core-config",
   "main": "lib/index.js",
-  "description": "fie 工具类",
+  "description": "fie 运行时的全局配置",
   "version": "3.0.5",
   "keywords": [
     "nodejs",
-    "fie-utils",
+    "fie-intl",
     "fie"
   ],
   "files": [
@@ -17,19 +17,12 @@
     "type": "git",
     "url": "git@github.com:fieteam/fie.git"
   },
-  "author": {
-    "name": "擎空",
-    "email": "zernmal@foxmail.com"
-  },
-  "maintainers": [
-    {
-      "name": "擎空",
-      "email": "zernmal@foxmail.com"
-    }
-  ],
   "readmeFilename": "README.md",
   "dependencies": {
-    "debug": "^2.2.0",
-    "fie-config": "^3.0.5"
+    "fie-home": "^3.0.1",
+    "fie-log": "^3.0.1",
+    "fs-extra": "^4.0.2",
+    "intl-messageformat": "^2.1.0",
+    "os-locale": "^2.1.0"
   }
 }
