@@ -40,15 +40,18 @@ module.exports = function* () {
 
   //获取toolkit
   let toolkitName = config.getToolkitName();
-  toolkitName = fieModuleName.toolkitFullName(toolkitName);
-  try{
-    const pkgPath = path.join(home.getModulesPath(),toolkitName,'package.json');
-    log.debug(`${toolkitName} pacage.json path = ${pkgPath}`);
-    const pkg = require( pkgPath );
-    console.log(chalk.magenta(`${toolkitName} v${pkg.version}`));
-  }catch (e){
-    log.debug(e);
+  if(toolkitName){
+    toolkitName = fieModuleName.toolkitFullName(toolkitName);
+    try{
+      const pkgPath = path.join(home.getModulesPath(),toolkitName,'package.json');
+      log.debug(`${toolkitName} pacage.json path = ${pkgPath}`);
+      const pkg = require( pkgPath );
+      console.log(chalk.magenta(`${toolkitName} v${pkg.version}`));
+    }catch (e){
+      log.debug(e);
+    }
   }
+
 
   if (argv.d || argv.debug) {
     // 其依赖的核心包
