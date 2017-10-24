@@ -2,7 +2,7 @@
   "name": "fie-error",
   "main": "lib/index.js",
   "description": "fie 错误个性化提示",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "keywords": [
     "nodejs",
     "fie",
@@ -25,7 +25,7 @@
     "fie-home": "^3.0.1",
     "fie-log": "^3.0.1",
     "fie-npm": "^3.0.1",
-    "fie-intl": "^3.0.5",
+    "fie-intl": "^3.1.0",
     "fie-report": "^3.0.5",
     "lodash": "^4.17.2",
     "os": "^0.1.1"
