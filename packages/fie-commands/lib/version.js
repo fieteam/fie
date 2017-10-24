@@ -38,16 +38,16 @@ module.exports = function* () {
 
   console.log(chalk.magenta(`${bin} v${process.env.FIE_VERSION}`));
 
-  //获取toolkit
+  // 获取toolkit
   let toolkitName = config.getToolkitName();
-  if(toolkitName){
+  if (toolkitName) {
     toolkitName = fieModuleName.toolkitFullName(toolkitName);
-    try{
-      const pkgPath = path.join(home.getModulesPath(),toolkitName,'package.json');
+    try {
+      const pkgPath = path.join(home.getModulesPath(), toolkitName, 'package.json');
       log.debug(`${toolkitName} pacage.json path = ${pkgPath}`);
-      const pkg = require( pkgPath );
+      const pkg = require(pkgPath);
       console.log(chalk.magenta(`${toolkitName} v${pkg.version}`));
-    }catch (e){
+    } catch (e) {
       log.debug(e);
     }
   }
