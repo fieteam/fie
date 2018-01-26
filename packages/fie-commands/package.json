@@ -2,7 +2,7 @@
   "name": "fie-commands",
   "main": "lib/index.js",
   "description": "fie高阶功能，一般用于命令行直接调用",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "keywords": [
     "nodejs",
     "fie-commands",
@@ -21,7 +21,7 @@
   "dependencies": {
     "chalk": "^2.1.0",
     "co": "^4.6.0",
-    "fie-api": "^3.1.0",
+    "fie-api": "^3.1.1",
     "fie-cache": "^3.0.1",
     "fie-config": "^3.1.0",
     "fie-core-config": "^3.1.0",
@@ -30,7 +30,7 @@
     "fie-home": "^3.0.1",
     "fie-intl": "^3.1.0",
     "fie-log": "^3.0.1",
-    "fie-module": "^3.1.0",
+    "fie-module": "^3.1.1",
     "fie-module-name": "^3.0.5",
     "fie-npm": "^3.0.1",
     "fie-report": "^3.0.5",
