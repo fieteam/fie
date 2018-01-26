@@ -1,6 +1,6 @@
 {
   "name": "lzd",
-  "main": "lib/index.js",
+  "main": "bin/lzd",
   "description": "lazada cli tool",
   "version": "3.1.0",
   "licenses": "GPL-3.0",
