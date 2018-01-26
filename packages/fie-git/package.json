@@ -1,0 +1,36 @@
+{
+  "name": "fie-git",
+  "main": "lib/index.js",
+  "description": "fie git工具集",
+  "version": "3.0.0",
+  "keywords": [
+    "nodejs",
+    "fie-git",
+    "fie"
+  ],
+  "files": [
+    "lib",
+    "locale",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fieteam/fie.git"
+  },
+  "author": {
+    "name": "hugohua",
+    "email": "baofen14787@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "hugohua",
+      "email": "baofen14787@gmail.com"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "git-rev-sync": "^1.9.1",
+    "shelljs": "^0.8.1"
+  }
+}
