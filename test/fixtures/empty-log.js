@@ -8,7 +8,7 @@ function log() {
     error() {},
     warn() {},
     info() {},
-    debug() {}
+    debug() {},
   };
 }
 

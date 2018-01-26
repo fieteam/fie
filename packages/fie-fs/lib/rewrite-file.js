@@ -69,17 +69,20 @@ const hookMatchStr = (content, hookOptions) => {
  * @param {number} options.dist 目标路径, 如果有目标路径的话,会自动将文件写入目标路径
  * @return {string}
  */
-const rewriteFile = (options) => {
+const rewriteFile = options => {
   let content = '';
-  options = Object.assign({
-    src: '',
-    dist: '',
-    hook: '',
-    insertLines: [],
-    place: 'after',
-    noMatchActive: '',
-    srcMode: 0 // 0 src是文件路径, 1 src 是文件内容
-  }, options);
+  options = Object.assign(
+    {
+      src: '',
+      dist: '',
+      hook: '',
+      insertLines: [],
+      place: 'after',
+      noMatchActive: '',
+      srcMode: 0, // 0 src是文件路径, 1 src 是文件内容
+    },
+    options
+  );
 
   log.debug('options = %o', options);
 
@@ -108,6 +111,4 @@ const rewriteFile = (options) => {
   return content;
 };
 
-
 module.exports = rewriteFile;
-

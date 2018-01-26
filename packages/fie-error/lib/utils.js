@@ -35,5 +35,5 @@ module.exports = {
   },
   getHandleList() {
     return handleList;
-  }
+  },
 };

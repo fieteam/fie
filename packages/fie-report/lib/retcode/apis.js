@@ -8,10 +8,8 @@
 
 'use strict';
 
-
-module.exports = function (wpo, undef) {
-  let startTime,
-    scriptStart;
+module.exports = function(wpo, undef) {
+  let startTime, scriptStart;
 
   if (wpo.startTime) {
     startTime = wpo.startTime;
@@ -24,7 +22,7 @@ module.exports = function (wpo, undef) {
     }
   }
 
-  const send = function (params, sampling) {
+  const send = function(params, sampling) {
     sampling = sampling || wpo.config.sample;
 
     if (wpo.sampling(sampling) == (wpo.config.modVal || 1)) {
@@ -40,10 +38,10 @@ module.exports = function (wpo, undef) {
    * @param  {object} value    [自定义值，如果type为count，自动忽略该值]
    * @return {void}
    */
-  wpo.custom = function (category, key, value) {
+  wpo.custom = function(category, key, value) {
     let customParam = {
         type: 'custom',
-        usernick: wpo.getNick()
+        usernick: wpo.getNick(),
       },
       arr = ['time', 'count'];
 
@@ -66,10 +64,10 @@ module.exports = function (wpo, undef) {
    * @param  {string} msg      [自定义错误信息]
    * @return {void}
    */
-  wpo.error = function (category, msg, file, line) {
+  wpo.error = function(category, msg, file, line) {
     const errorParam = {
       type: 'jserror',
-      usernick: encodeURIComponent(wpo.getNick())
+      usernick: encodeURIComponent(wpo.getNick()),
     };
 
     if (arguments.length == 1) {
@@ -103,9 +101,9 @@ module.exports = function (wpo, undef) {
    * @param  {object} params [性能相关信息]
    * @return {void}
    */
-  wpo.performance = function (params) {
+  wpo.performance = function(params) {
     const perParam = {
-      type: 'per'
+      type: 'per',
     };
 
     send(wpo.extend(perParam, params));
@@ -119,15 +117,15 @@ module.exports = function (wpo, undef) {
    * @param  {string} msg      [自定义消息]
    * @return {void}
    */
-  wpo.retCode = function (api, issucess, delay, msg) {
+  wpo.retCode = function(api, issucess, delay, msg) {
     const retParam = {
       type: 'retcode',
       api: encodeURIComponent(api),
       issucess,
       usernick: wpo.getNick(),
-      delay: typeof delay === 'number' ? parseInt(delay, 10) : (new Date() - startTime),
+      delay: typeof delay === 'number' ? parseInt(delay, 10) : new Date() - startTime,
       msg: encodeURIComponent(msg),
-      sampling: this.config.retCode[api]
+      sampling: this.config.retCode[api],
     };
 
     if (typeof retParam.delay !== 'undefined') {
@@ -135,9 +133,9 @@ module.exports = function (wpo, undef) {
     }
   };
 
-  const sendSpeed = function () {
+  const sendSpeed = function() {
     let perParam = {
-        type: 'speed'
+        type: 'speed',
       },
       val;
 
@@ -159,7 +157,7 @@ module.exports = function (wpo, undef) {
    * @param  {boolean} _immediately [内部使用，是否强制发送，不强制发送会尽量收集3s内的所有点的数据一次性发送]
    * @return {void}
    */
-  wpo.speed = function (pos, delay, _immediately) {
+  wpo.speed = function(pos, delay, _immediately) {
     let sArr;
 
     if (typeof pos === 'string') {
@@ -191,11 +189,11 @@ module.exports = function (wpo, undef) {
    * @param  {number} sampling [可以自定义发送的抽样]
    * @return {void}
    */
-  wpo.log = function (msg, sampling) {
+  wpo.log = function(msg, sampling) {
     const param = {
       type: 'log',
       msg: encodeURIComponent(msg),
-      usernick: encodeURIComponent(wpo.getNick())
+      usernick: encodeURIComponent(wpo.getNick()),
     };
 
     send(param, sampling);

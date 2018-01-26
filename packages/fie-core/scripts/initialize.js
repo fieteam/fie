@@ -18,8 +18,7 @@ function onError(err) {
   console.error(err.stack || err);
 }
 
-
-co(function* () {
+co(function*() {
   const hasInitEnv = fieEnv.hasConfigFile();
   const pingRes = yield ping.promise.probe('fie-api.alibaba-inc.com');
   const isIntranet = pingRes && pingRes.alive;
@@ -35,7 +34,7 @@ co(function* () {
       // 若内网环境下，没有登录的话，则登录一下
       if (!fs.existsSync(userFile)) {
         yield npm.install('@ali/fie-auth', {
-          cwd: path.join(__dirname, '..')
+          cwd: path.join(__dirname, '..'),
         });
 
         const auth = require('@ali/fie-auth');
@@ -51,4 +50,3 @@ co(function* () {
     log.success(`也可以使用 ${chalk.yellow.bold('$ fie switch')} 命令进行FIE开发环境的切换!`);
   }
 }).catch(onError);
-

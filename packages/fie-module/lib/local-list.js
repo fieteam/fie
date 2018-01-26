@@ -24,26 +24,24 @@ function localList(options) {
   const tPrefix = utils.toolkitPrefix();
   const pPrefix = utils.pluginPrefix();
   const moduleCwd = isIntranet ? path.resolve(fieModulesPath, '@ali') : fieModulesPath;
-  const modules = globby.sync([
-    `${tPrefix}*`,
-    `${pPrefix}*`,
-    '!.*',
-    '!*.*'
-  ], {
-    cwd: moduleCwd
+  const modules = globby.sync([`${tPrefix}*`, `${pPrefix}*`, '!.*', '!*.*'], {
+    cwd: moduleCwd,
   });
   let modulePkgs = [];
 
   log.debug('modules path = %s', moduleCwd);
 
-  modules.forEach((item) => {
+  modules.forEach(item => {
     const pkgPath = path.resolve(moduleCwd, item, 'package.json');
     if (fs.existsSync(pkgPath)) {
       const modPkg = fs.readJsonSync(pkgPath);
       modulePkgs.push({
         name: modPkg.name,
         description: modPkg.description,
-        chName: (modPkg.fieOption && modPkg.fieOption.chName) ? modPkg.fieOption.chName : modPkg.description
+        chName:
+          modPkg.fieOption && modPkg.fieOption.chName
+            ? modPkg.fieOption.chName
+            : modPkg.description,
       });
     }
   });
@@ -54,6 +52,5 @@ function localList(options) {
 
   return modulePkgs;
 }
-
 
 module.exports = localList;

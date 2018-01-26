@@ -4,7 +4,6 @@ const path = require('path');
 const proxyquire = require('proxyquire');
 const fs = require('fs-extra');
 
-
 describe('# fie-cache', () => {
   let mockPath;
   let cacheFile;
@@ -17,8 +16,8 @@ describe('# fie-cache', () => {
       'fie-home': {
         getHomePath() {
           return mockPath;
-        }
-      }
+        },
+      },
     });
   });
 
@@ -120,12 +119,12 @@ describe('# fie-cache', () => {
       const value = Math.random();
 
       cache.set(key, value, {
-        expires: 20
+        expires: 20,
       });
 
       expect(cache.get('testKey2')).to.be.equal(value);
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           expect(cache.get('testKey2')).to.be.equal(null);
           resolve();

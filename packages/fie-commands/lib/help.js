@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
 const fieModuleName = require('fie-module-name');
@@ -12,7 +11,6 @@ const fieEnv = require('fie-env');
 const chalk = require('chalk');
 const Intl = require('fie-intl');
 const message = require('../locale/index');
-
 
 /**
  * 获取fie的实际命令
@@ -51,11 +49,12 @@ function isGenerator(obj) {
 function isGeneratorFunction(obj) {
   const constructor = obj.constructor;
   if (!constructor) return false;
-  if (constructor.name === 'GeneratorFunction' || constructor.displayName === 'GeneratorFunction') return true;
+  if (constructor.name === 'GeneratorFunction' || constructor.displayName === 'GeneratorFunction')
+    return true;
   return isGenerator(constructor.prototype);
 }
 
-module.exports = function* () {
+module.exports = function*() {
   const toolkit = fieConfig.getToolkitName();
   const intl = new Intl(message);
   const tool = getFieBin();

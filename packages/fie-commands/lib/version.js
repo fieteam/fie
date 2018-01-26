@@ -26,14 +26,14 @@ function getPackagesVersion() {
     'fie-task',
     'fie-fs',
     'fie-report',
-    'fie-error'
-  ].forEach((item) => {
+    'fie-error',
+  ].forEach(item => {
     str += `${item} ${require(path.join(`../node_modules/${item}/package.json`)).version}\n`;
   });
   return str;
 }
 
-module.exports = function* () {
+module.exports = function*() {
   const bin = coreConfig.getBinName();
 
   console.log(chalk.magenta(`${bin} v${process.env.FIE_VERSION}`));
@@ -52,16 +52,17 @@ module.exports = function* () {
     }
   }
 
-
   if (argv.d || argv.debug) {
     // 其依赖的核心包
-    console.log(chalk.magenta(
-      `
+    console.log(
+      chalk.magenta(
+        `
 core package:
 
 ${getPackagesVersion()}
 
 `
-    ));
+      )
+    );
   }
 };

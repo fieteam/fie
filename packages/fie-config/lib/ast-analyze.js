@@ -12,7 +12,7 @@ const toSource = require('tosource');
  * @param value key对应的值
  * @returns {*}
  */
-module.exports = function (code, key, value) {
+module.exports = function(code, key, value) {
   let ast;
   // 支持 tasks.start 这种写法
   const keyArr = key.split('.');
@@ -32,7 +32,10 @@ module.exports = function (code, key, value) {
   // 查找fie.config中是否存在这个key
   const matches = esquery(ast, keySelect.join('>'));
   // fie 最外层的对象
-  const topMatches = esquery(ast, 'Program > ExpressionStatement > AssignmentExpression > ObjectExpression');
+  const topMatches = esquery(
+    ast,
+    'Program > ExpressionStatement > AssignmentExpression > ObjectExpression'
+  );
   // 如果已经存在key的话,则替换值
   if (matches.length && matches[0].value) {
     matches[0].value = pushAST;
@@ -42,9 +45,9 @@ module.exports = function (code, key, value) {
       type: 'Property',
       key: {
         type: 'Identifier',
-        name: key
+        name: key,
       },
-      value: pushAST
+      value: pushAST,
     });
   } else {
     // 不存在key的情况
@@ -56,9 +59,9 @@ module.exports = function (code, key, value) {
         type: 'Property',
         key: {
           type: 'Identifier',
-          name: keyArr[1]
+          name: keyArr[1],
         },
-        value: pushAST
+        value: pushAST,
       });
     } else {
       // 不存在xxx 且不存在 yyy
@@ -66,19 +69,21 @@ module.exports = function (code, key, value) {
         type: 'Property',
         key: {
           type: 'Identifier',
-          name: keyArr[0]
+          name: keyArr[0],
         },
         value: {
           type: 'ObjectExpression',
-          properties: [{
-            type: 'Property',
-            key: {
-              type: 'Identifier',
-              name: keyArr[1]
+          properties: [
+            {
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: keyArr[1],
+              },
+              value: pushAST,
             },
-            value: pushAST
-          }]
-        }
+          ],
+        },
       });
     }
   }

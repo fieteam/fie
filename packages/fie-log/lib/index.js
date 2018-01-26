@@ -11,7 +11,6 @@ const debug = require('debug');
 const fieHome = require('fie-home');
 const util = require('util');
 
-
 // 定义 Object 类型的格式化工具函数
 const formatters = {
   o(v) {
@@ -19,14 +18,13 @@ const formatters = {
   },
   O(v) {
     return util.inspect(v);
-  }
+  },
 };
-
 
 /**
  * @exports fie-log
  */
-module.exports = (moduleName) => {
+module.exports = moduleName => {
   /**
    * 根据颜色打印
    * @param content
@@ -106,23 +104,30 @@ module.exports = (moduleName) => {
     const methods = { info: 'magenta', success: 'green', warn: 'yellow', error: 'red' };
     const leaves = {};
 
-    Object.keys(methods).forEach((key) => {
+    Object.keys(methods).forEach(key => {
       function leafFunc() {
         const color = methods[key];
         const args = Array.prototype.slice.call(arguments);
-        return message.apply({
-          entryType,
-          color
-        }, args);
+        return message.apply(
+          {
+            entryType,
+            color,
+          },
+          args
+        );
       }
       leaves[key] = leafFunc;
     });
     return leaves;
   }
 
-  return Object.assign({}, {
-    cli: getLeaves('cli'),
-    func: getLeaves('func'),
-    debug: debug(moduleName)
-  }, getLeaves('all'));
+  return Object.assign(
+    {},
+    {
+      cli: getLeaves('cli'),
+      func: getLeaves('func'),
+      debug: debug(moduleName),
+    },
+    getLeaves('all')
+  );
 };

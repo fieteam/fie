@@ -16,7 +16,7 @@ function getFieBin() {
 /**
  * 初始化环境
  */
-module.exports = function* () {
+module.exports = function*() {
   const hasInitEnv = fieEnv.hasConfigFile();
   const intl = new Intl(message);
   const tool = getFieBin();

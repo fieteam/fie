@@ -4,13 +4,11 @@
 
 'use strict';
 
-
 const path = require('path');
 const fs = require('fs-extra');
 
 let spy;
 let spyError;
-
 
 describe('# fie-commands/lib/main', () => {
   let mockCwd;
@@ -36,7 +34,7 @@ describe('# fie-commands/lib/main', () => {
     spyError.restore();
   });
 
-  it('# 存在fie.confie.js，无套件且存在start任务流时', function* () {
+  it('# 存在fie.confie.js，无套件且存在start任务流时', function*() {
     yield require('../lib/main')('start', []);
     /* eslint-disable no-unused-expressions */
     expect(console.log).to.have.been.called;

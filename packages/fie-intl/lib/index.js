@@ -30,7 +30,6 @@ function intl(message, locale) {
 }
 
 intl.prototype = {
-
   /**
    * 初始化语言文件
    */
@@ -87,7 +86,7 @@ intl.prototype = {
   setLocale(locale) {
     const localeFile = path.join(home.getHomePath(), FILE_LOCALE);
     const localeData = {
-      locale
+      locale,
     };
     log.debug('set fie locale data : %o', localeData);
     log.debug('set fie to : %s', localeFile);
@@ -109,7 +108,6 @@ intl.prototype = {
       msg = localeMessage[key];
     }
 
-
     if (msg) {
       msg = new IntlMessageFormat(msg, this.locale);
       return msg.format(values);
@@ -117,7 +115,7 @@ intl.prototype = {
     log.warn(`intl key : ${key} not defined!`);
     log.debug('message = %o', this.message);
     return null;
-  }
+  },
 };
 
 module.exports = intl;

@@ -6,7 +6,6 @@
  * @exports copy-tpl
  */
 
-
 'use strict';
 
 const fs = require('fs-extra');
@@ -33,7 +32,6 @@ function copyTpl(options) {
   options.stringReplace = options.stringReplace || [];
   options.encoding = options.encoding || 'utf-8';
 
-
   if (!fs.existsSync(options.src)) {
     log.error(`${options.src} 文件不存在`);
     return;
@@ -53,7 +51,10 @@ function copyTpl(options) {
     log.error(`${options.src} template fail, Please check the template and the data is correct`);
   }
   for (let j = 0; j < options.stringReplace.length; j += 1) {
-    content = content.replace(new RegExp(options.stringReplace[j].placeholder, 'g'), options.stringReplace[j].value);
+    content = content.replace(
+      new RegExp(options.stringReplace[j].placeholder, 'g'),
+      options.stringReplace[j].value
+    );
   }
 
   // 若没有目录文件需要创建,最终创建文件
@@ -63,4 +64,3 @@ function copyTpl(options) {
 }
 
 module.exports = copyTpl;
-

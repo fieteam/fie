@@ -1,6 +1,5 @@
 'use strict';
 
-
 const getModule = require('./get');
 const install = require('./install');
 const unInstall = require('./un-install');
@@ -11,7 +10,6 @@ const localExist = require('./local-exist');
 const onlineExist = require('./online-exist');
 const exist = require('./exist');
 
-
 module.exports = {
   get: getModule,
   install,
@@ -21,6 +19,6 @@ module.exports = {
   localList,
   localExist,
   onlineExist,
-  getReallyName: exist
+  getReallyName: exist,
   // break已移除 fullName,toolkitFullName,pluginFullName
 };

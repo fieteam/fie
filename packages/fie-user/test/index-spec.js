@@ -6,11 +6,10 @@ const fieUser = require('../lib/index');
 
 const mockPath = path.resolve(__dirname, 'fixtures');
 
-
 describe('# fie-user/lib/index 获取用户信息', () => {
   const user = {
     email: 'fie-test@alibaba-inc.com',
-    name: 'fie-user'
+    name: 'fie-user',
   };
   // 测试前先准备一下环境
   before(() => {
@@ -43,4 +42,3 @@ describe('# fie-user/lib/index 获取用户信息', () => {
     expect(name).to.be.equal(user.name);
   });
 });
-

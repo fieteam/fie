@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 const inquirer = require('inquirer');
 const log = require('fie-log')('core-commands');
 const Intl = require('fie-intl');
@@ -12,24 +11,28 @@ const message = require('../locale/index');
 /**
  * 初始化环境
  */
-module.exports = function* () {
+module.exports = function*() {
   const intl = new Intl(message);
   const divider = '-    ';
-  const answers = yield inquirer.prompt([{
-    type: 'list',
-    name: 'name',
-    message: intl.get('switchLocaleTips'),
-    choices: [{
-      name: `zh_CN    ${divider}中文`,
-      value: 'zh_CN',
-      short: 'zh_CN'
-
-    }, {
-      name: `en_US    ${divider}英文`,
-      value: 'en_US',
-      short: 'en_US'
-    }]
-  }]);
+  const answers = yield inquirer.prompt([
+    {
+      type: 'list',
+      name: 'name',
+      message: intl.get('switchLocaleTips'),
+      choices: [
+        {
+          name: `zh_CN    ${divider}中文`,
+          value: 'zh_CN',
+          short: 'zh_CN',
+        },
+        {
+          name: `en_US    ${divider}英文`,
+          value: 'en_US',
+          short: 'en_US',
+        },
+      ],
+    },
+  ]);
 
   // 设置env环境
   intl.setLocale(answers.name);

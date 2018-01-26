@@ -5,13 +5,12 @@ const proxyquire = require('proxyquire');
 const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-
 describe('# move 移动文件', () => {
   const beforeMove = path.resolve(__dirname, 'fixtures', 'before-move');
   const afterMove = path.resolve(__dirname, 'fixtures', 'before-move');
   const tmpData = { a: Math.random() };
   const move = proxyquire('../lib/move', {
-    'fie-log': emptyLog
+    'fie-log': emptyLog,
   });
 
   before(() => {

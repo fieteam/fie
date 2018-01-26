@@ -6,12 +6,10 @@
 'use strict';
 
 module.exports = {
-
   /**
    * 获取运行时的cli名称
    */
   getBinName() {
     return process.env.FIE_BIN || 'fie';
-  }
-
+  },
 };

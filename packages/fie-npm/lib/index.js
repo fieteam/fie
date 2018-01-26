@@ -13,7 +13,9 @@ const fieEnv = require('fie-env');
  */
 function getRegistry() {
   const isIntranet = fieEnv.isIntranet();
-  const registry = isIntranet ? 'http://registry.npm.alibaba-inc.com/' : 'http://registry.npm.taobao.org/';
+  const registry = isIntranet
+    ? 'http://registry.npm.alibaba-inc.com/'
+    : 'http://registry.npm.taobao.org/';
   log.debug(registry);
   return registry;
 }
@@ -31,7 +33,7 @@ function* runInstall(installer, paths, options) {
     registry,
     china: true,
     stdio: 'inherit',
-    cwd: process.cwd()
+    cwd: process.cwd(),
   });
 
   // 云构建下，使用npminstall包，有时候会卡住装不上。
@@ -50,24 +52,25 @@ function* runInstall(installer, paths, options) {
     paths = paths.split(' ') || [];
   }
 
-
   // TODO 确认一下是不是这样用法
-  const args = paths.concat(dargs(option, {
-    aliases: {
-      S: '-save',
-      D: '-save-dev',
-      O: '-save-optional',
-      E: '-save-exact'
-    }
-  }));
+  const args = paths.concat(
+    dargs(option, {
+      aliases: {
+        S: '-save',
+        D: '-save-dev',
+        O: '-save-optional',
+        E: '-save-exact',
+      },
+    })
+  );
   log.debug('args = %o', args);
   log.debug('options = %o', option);
   return new Promise((resolve, reject) => {
     spawn(installer, args, option)
-      .on('error', (e) => {
+      .on('error', e => {
         reject(e);
       })
-      .on('exit', (err) => {
+      .on('exit', err => {
         if (err) {
           reject(new Error(`install ${paths} error`));
         } else {
@@ -83,7 +86,7 @@ module.exports = {
    * @param pkg {string|array} 需要安装的包或包列表, 需要带版本号直接在包名后面 @ 版本号即可
    * @param options
    */
-  * install(pkg, options) {
+  *install(pkg, options) {
     const installer = require.resolve('npminstall/bin/install.js');
 
     yield runInstall(installer, pkg, options);
@@ -92,7 +95,7 @@ module.exports = {
   /**
    * 移除npm包
    */
-  * unInstall(pkg, options) {
+  *unInstall(pkg, options) {
     const installer = require.resolve('npminstall/bin/uninstall.js');
     yield runInstall(installer, pkg, options);
   },
@@ -100,7 +103,7 @@ module.exports = {
   /**
    * 安装package.json 中的依赖
    */
-  * installDependencies(options) {
+  *installDependencies(options) {
     const installer = require.resolve('npminstall/bin/install.js');
     yield runInstall(installer, [], options);
   },
@@ -108,12 +111,16 @@ module.exports = {
   /**
    * 获取最新的包信息
    */
-  * latest(name, options) {
+  *latest(name, options) {
     const registry = getRegistry();
-    options = Object.assign({}, {
-      registry,
-      version: 'latest'
-    }, options);
+    options = Object.assign(
+      {},
+      {
+        registry,
+        version: 'latest',
+      },
+      options
+    );
 
     let body = null;
     try {
@@ -135,17 +142,21 @@ module.exports = {
    * 是否存在模块
    * @param name
    */
-  * has(name, options) {
+  *has(name, options) {
     const registry = getRegistry();
-    options = Object.assign({}, {
-      registry
-    }, options);
+    options = Object.assign(
+      {},
+      {
+        registry,
+      },
+      options
+    );
     const url = `${options.registry}${encodeURIComponent(name)}/latest`;
     log.debug('check module has =%s', url);
     const res = yield request({
       url: `${options.registry}${encodeURIComponent(name)}/latest`,
-      method: 'HEAD'
+      method: 'HEAD',
     });
     return /4\d\d/.test(res.statusCode) === false;
-  }
+  },
 };
