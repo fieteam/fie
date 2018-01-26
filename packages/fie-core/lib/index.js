@@ -1,15 +1,16 @@
 'use strict';
 require('../lib/config');
 
+const co = require('co');
 const home = require('fie-home');
+const fieError = require('fie-error');
 const log = require('fie-log')('core-core');
 const Intl = require('fie-intl');
 const fieCommands = require('fie-commands');
 
-
-module.exports = {
-  run : function* (command , newArgv) {
-    // fie 家目录存在性检查
+function run(command , newArgv) {
+  co(function* () {
+// fie 家目录存在性检查
     home.initHomeDir();
 
     //初始化语言环境
@@ -29,5 +30,11 @@ module.exports = {
       // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
       yield fieCommands[command].apply(null, [newArgv]);
     }
-  }
+  }).catch((err) => {
+    fieError.handle(err);
+  });
+}
+
+module.exports = {
+  run
 }

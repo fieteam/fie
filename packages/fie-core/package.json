@@ -2,7 +2,7 @@
   "name": "fie",
   "main": "lib/index.js",
   "description": "fie 阿里巴巴 国际UED体验技术部 前端工程化工具",
-  "version": "3.1.0-beta",
+  "version": "3.1.0-beta-2",
   "licenses": "GPL-3.0",
   "bin": {
     "fie": "./bin/fie"

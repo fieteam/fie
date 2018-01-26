@@ -18,6 +18,7 @@ const npm = require('fie-npm');
 const task = require('fie-task');
 const user = require('fie-user');
 const Intl = require('fie-intl');
+const git = require('fie-git');
 const coreConfig = require('fie-core-config');
 
 module.exports = {
@@ -29,6 +30,7 @@ module.exports = {
   task,
   user,
   config,
+  git,
   env,
   module: fieModule,
   moduleName: fieModuleName,
