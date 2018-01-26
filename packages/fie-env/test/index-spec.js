@@ -21,7 +21,6 @@ describe('# fie-env', () => {
     delete process.env.FIE_HOME;
   });
 
-
   describe('# setEnv', () => {
     it('# setEnv 设置内网环境', () => {
       fieEnv.setEnv('intranet');
@@ -59,7 +58,6 @@ describe('# fie-env', () => {
       expect(fileData).to.deep.equal({ env: 'extranet' });
     });
   });
-
 
   describe('# isIntranet', () => {
     it('# 判断是否是内网', () => {

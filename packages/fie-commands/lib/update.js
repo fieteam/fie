@@ -6,7 +6,7 @@
 
 const fieModule = require('fie-module');
 
-module.exports = function* (cliArgs) {
+module.exports = function*(cliArgs) {
   const name = cliArgs.pop();
   yield fieModule.update(name);
 };

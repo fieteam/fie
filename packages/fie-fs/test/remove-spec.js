@@ -5,11 +5,10 @@ const proxyquire = require('proxyquire');
 const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-
 describe('# remove 删除文件', () => {
   const beforeDelete = path.resolve(__dirname, 'fixtures', 'before-delete');
   const remove = proxyquire('../lib/remove', {
-    'fie-log': emptyLog
+    'fie-log': emptyLog,
   });
 
   before(() => {

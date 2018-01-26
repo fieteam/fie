@@ -5,7 +5,6 @@
 
 'use strict';
 
-
 const fieHome = require('fie-home');
 const log = require('fie-log')('core-commands');
 const fieEnv = require('fie-env');
@@ -13,7 +12,7 @@ const cache = require('fie-cache');
 const Intl = require('fie-intl');
 const message = require('../locale/index');
 
-module.exports = function* () {
+module.exports = function*() {
   const intl = new Intl(message);
 
   log.info(intl.get('startClear'));
@@ -23,4 +22,3 @@ module.exports = function* () {
   cache.clear();
   log.success(intl.get('finishClear'));
 };
-

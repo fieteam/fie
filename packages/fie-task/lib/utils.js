@@ -8,7 +8,7 @@ module.exports = {
     const before = [];
     const after = [];
 
-    tasks.forEach((item) => {
+    tasks.forEach(item => {
       if (item.command && item.command === TOOLKIT_COMMAND_HOOK) {
         match = true;
       } else if (match) {
@@ -20,7 +20,7 @@ module.exports = {
 
     return {
       before,
-      after
+      after,
     };
-  }
+  },
 };

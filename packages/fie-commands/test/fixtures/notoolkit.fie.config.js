@@ -3,12 +3,14 @@
 module.exports = {
   // abc 插件
   abc: {
-    xyz: 22
+    xyz: 22,
   },
   // 任务列表
   tasks: {
-    start: [{
-      command: 'echo 33'
-    }]
-  }
+    start: [
+      {
+        command: 'echo 33',
+      },
+    ],
+  },
 };

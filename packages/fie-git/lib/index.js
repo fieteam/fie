@@ -13,21 +13,21 @@ function getBranch(filePath) {
 }
 
 function getCommitId(filePath) {
-  return process.env.BUILD_GIT_COMMITID ? process.env.BUILD_GIT_COMMITID : oldLong(filePath)
+  return process.env.BUILD_GIT_COMMITID ? process.env.BUILD_GIT_COMMITID : oldLong(filePath);
 }
 
 function getShortCommitId(dir) {
   return getCommitId(dir).substr(0, 7);
 }
 
-const parseStatus = function (str) {
+const parseStatus = function(str) {
   let branch_line;
   const status = {
     local_branch: null,
     remote_branch: null,
     remote_diff: null,
     clean: true,
-    files: []
+    files: [],
   };
   let result;
   const initial_commit_rx = /^## Initial commit on ([^\n]+)\s?$/;
@@ -51,7 +51,7 @@ const parseStatus = function (str) {
     result = branches[1].match(/\[([^\]]+)\]/);
     status.remote_diff = result ? result[1] : null;
   }
-  lines.forEach((s) => {
+  lines.forEach(s => {
     if (s.match(/\S/)) {
       status.files.push(s);
     }
@@ -70,22 +70,26 @@ const parseStatus = function (str) {
      files: []
    }
  */
-git.status = function (cwd) {
+git.status = function(cwd) {
   cwd = cwd || root;
-  const result = (shelljs.exec('git status --porcelain -b', { silent: true, cwd }).stdout.toString() || '').trim();
+  const result = (
+    shelljs.exec('git status --porcelain -b', { silent: true, cwd }).stdout.toString() || ''
+  ).trim();
   return parseStatus(result);
 };
-
 
 /**
  * 获取项目URL
  * @returns {*}
  */
-git.repository = function (cwd) {
+git.repository = function(cwd) {
   cwd = cwd || root;
   let repository;
   try {
-    repository = (shelljs.exec('git config --get remote.origin.url', { silent: true, cwd }).stdout.toString() || '').trim();
+    repository = (
+      shelljs.exec('git config --get remote.origin.url', { silent: true, cwd }).stdout.toString() ||
+      ''
+    ).trim();
     // 有些git的url是http开头的，需要格式化为git@格式，方便统一处理
     const match = repository.match(/^(http|https):\/\/(gitlab.alibaba-inc.com|github.com)\/(.*)/);
     if (match && match.length > 3) {
@@ -100,7 +104,7 @@ git.repository = function (cwd) {
 /**
  * 获取项目的project name 和 group name
  */
-git.project = function (cwd) {
+git.project = function(cwd) {
   cwd = cwd || root;
   const repository = git.repository(cwd);
   const match = repository.match(/git@(.*):(.*)/);

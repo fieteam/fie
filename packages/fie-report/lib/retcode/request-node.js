@@ -15,21 +15,20 @@ const http = require('https');
  * @param {string} url
  * @returns {void}
  */
-const httpRequest = function (url) {
+const httpRequest = function(url) {
   if (url.indexOf('https:') != 0 && url.indexOf('//') == 0) {
     url = `https:${url}`;
   }
 
-  const sendRequest = http.request(url, (res) => {
+  const sendRequest = http.request(url, res => {
     // 发送即可暂时考虑不需做处理
   });
 
   // 加异常捕获避免影响业务
-  sendRequest.on('error', (err) => {
+  sendRequest.on('error', err => {
     // 暂时考虑不需做处理
   });
   sendRequest.end();
 };
-
 
 module.exports = httpRequest;

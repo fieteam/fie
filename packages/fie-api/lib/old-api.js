@@ -37,15 +37,15 @@ const apiList = {
    */
   getFieModule(name, cb) {
     return new Promise((resolve, reject) => {
-      co(function* () {
+      co(function*() {
         const mod = yield fieModule.get(name);
         const options = yield fieModule.get(`${name}/package.json`);
         typeof cb === 'function' && cb(null, mod, options);
         resolve({
           mod,
-          options
+          options,
         });
-      }).catch((err) => {
+      }).catch(err => {
         reject(err);
       });
     });
@@ -59,7 +59,7 @@ const apiList = {
    */
   tnpmInstall(options, cb) {
     return new Promise((resolve, reject) => {
-      co(function* () {
+      co(function*() {
         if (typeof options === 'function') {
           cb = options;
           options = {};
@@ -73,7 +73,7 @@ const apiList = {
             pkgName = `${pkgName}@${options.version}`;
           }
           const newOption = {};
-          Object.keys(options).forEach((key) => {
+          Object.keys(options).forEach(key => {
             if (key === 'name' || key === 'version') {
               return;
             }
@@ -118,10 +118,10 @@ const apiList = {
     const oldStringReplace = options.sstrReplace || options.sstrRpelace;
     if (oldStringReplace && oldStringReplace.length) {
       options.stringReplace = [];
-      oldStringReplace.forEach((item) => {
+      oldStringReplace.forEach(item => {
         options.stringReplace.push({
           placeholder: item.str,
-          value: item.replacer
+          value: item.replacer,
         });
       });
     }
@@ -153,7 +153,7 @@ const apiList = {
 
   open,
 
-  inquirer
+  inquirer,
 };
 
 module.exports = {
@@ -164,8 +164,7 @@ module.exports = {
     if (!moduleName) {
       moduleName = 'core-core';
     } else {
-      moduleName = moduleName
-        .replace('@ali/', '');
+      moduleName = moduleName.replace('@ali/', '');
     }
 
     const log = fieLog(moduleName);
@@ -176,6 +175,5 @@ module.exports = {
     apiList.logDebug = log.debug;
 
     return apiList;
-  }
+  },
 };
-

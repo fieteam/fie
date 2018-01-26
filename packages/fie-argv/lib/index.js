@@ -9,7 +9,6 @@ const argv = require('yargs').help(false).argv;
 const report = require('fie-report');
 const log = require('fie-log')('core-argv');
 
-
 module.exports = () => {
   // fie所需的命令
   let command;
@@ -43,7 +42,6 @@ module.exports = () => {
   log.debug('即将执行的fie命令: %o', command);
   log.debug('fie命令的参数: %o', newArgv);
 
-
   // 初次执行命令, FIE_IS_CHILD_ENTRY 将会传到子进程
   // 用于初次执行命令的上报
   log.debug(`是否子命令 ${process.env.FIE_IS_CHILD_ENTRY}`);
@@ -54,6 +52,6 @@ module.exports = () => {
 
   return {
     command,
-    argv: newArgv
+    argv: newArgv,
   };
 };

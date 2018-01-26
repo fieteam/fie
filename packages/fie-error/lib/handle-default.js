@@ -9,12 +9,9 @@ const env = require('fie-env');
 const Intl = require('fie-intl');
 const message = require('../locale/index');
 
-
-module.exports = function* (e) {
+module.exports = function*(e) {
   const intl = new Intl(message);
-  const ERROR_MSG = env.isIntranet() ?
-    intl.get('intranetTips') :
-    intl.get('extranetTips');
+  const ERROR_MSG = env.isIntranet() ? intl.get('intranetTips') : intl.get('extranetTips');
 
   log.error(ERROR_MSG);
   e.stack && console.log(e.stack);

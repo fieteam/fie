@@ -12,11 +12,10 @@
 
 'use strict';
 
-
 module.exports = {
   copyDirectory: require('./copy-directory'),
   copyTpl: require('./copy-tpl'),
   rewriteFile: require('./rewrite-file'),
   remove: require('./remove'),
-  move: require('./move')
+  move: require('./move'),
 };

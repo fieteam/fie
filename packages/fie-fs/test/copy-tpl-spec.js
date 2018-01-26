@@ -5,13 +5,12 @@ const proxyquire = require('proxyquire');
 const fs = require('fs');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-
 describe('# copy-tpl 复制文件', () => {
   const copySrc = path.resolve(__dirname, 'fixtures', 'copy-src.js');
   const copyDist = path.resolve(__dirname, 'fixtures', 'copy-dist.js');
   const dist = path.resolve(__dirname, 'fixtures', 'copy-dist-result.js');
   const copyTpl = proxyquire('../lib/copy-tpl', {
-    'fie-log': emptyLog
+    'fie-log': emptyLog,
   });
 
   after(() => {
@@ -26,12 +25,14 @@ describe('# copy-tpl 复制文件', () => {
       src: copySrc,
       dist,
       data: {
-        name: 'test'
+        name: 'test',
       },
-      stringReplace: [{
-        placeholder: 'PLACEHOLDER',
-        value: 'theReplaceValue'
-      }]
+      stringReplace: [
+        {
+          placeholder: 'PLACEHOLDER',
+          value: 'theReplaceValue',
+        },
+      ],
     });
 
     const content = fs.readFileSync(dist);

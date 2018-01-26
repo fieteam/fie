@@ -21,5 +21,4 @@ function has(tasks, when) {
   return !!utils.classify(tasks)[when].length;
 }
 
-
 module.exports = has;

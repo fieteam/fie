@@ -5,7 +5,6 @@
 
 'use strict';
 
-
 /**
  * @exports fie-commands
  */
@@ -21,5 +20,5 @@ module.exports = {
   switch: require('./switch'),
   update: require('./update'),
   version: require('./version'),
-  locale: require('./locale')
+  locale: require('./locale'),
 };

@@ -15,7 +15,6 @@ const path = require('path');
 const FILE_ENV = 'fie.env.json';
 let cacheEnv = null;
 
-
 /**
  * 设置FIE的运行环境,设置成功后写入到FILE_ENV文件里
  * @param {('extranet'|'intranet')} env - 内外网环境变量,枚举可选的值有:extranet / intranet
@@ -25,7 +24,7 @@ function setEnv(env) {
   home.initHomeDir();
   const envFile = path.join(home.getHomePath(), FILE_ENV);
   const envData = {
-    env
+    env,
   };
   debug('set fie env data : %o', envData);
   debug('set fie to : %s', envFile);
@@ -37,13 +36,11 @@ function setEnv(env) {
  * @exports fie-env
  */
 module.exports = {
-
   /**
    * 设置FIE的运行环境,设置成功后写入到FILE_ENV文件里
    * @param {('extranet'|'intranet')} env - 内外网环境变量,枚举可选的值有:extranet / intranet
    */
   setEnv,
-
 
   /**
    * 设置FIE的运行环境为外网环境
@@ -106,6 +103,5 @@ module.exports = {
   removeConfigFile() {
     fs.removeSync(path.join(home.getHomePath(), FILE_ENV));
     cacheEnv = null;
-  }
-
+  },
 };

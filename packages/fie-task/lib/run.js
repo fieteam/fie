@@ -12,7 +12,6 @@ const utils = require('./utils');
 const COMMAND_PARAM_HOOK = '$$';
 const spawn = npmRun.spawn;
 
-
 /**
  * 运行单个任务
  * @param task
@@ -26,7 +25,7 @@ function* oneTask(task, args, hookParam) {
   if (task.func) {
     const res = yield runFunction({
       method: task.func,
-      args
+      args,
     });
     return res;
   } else if (task.command) {
@@ -37,7 +36,7 @@ function* oneTask(task, args, hookParam) {
       const oldEnv = {};
       const resetEnv = () => {
         // 这里一定要用 oldEnv 的key ,否则任务体里面添加新的环境变量会被变成 undefined 的
-        Object.keys(oldEnv).forEach((item) => {
+        Object.keys(oldEnv).forEach(item => {
           process.env[item] = oldEnv[item];
         });
       };
@@ -54,7 +53,7 @@ function* oneTask(task, args, hookParam) {
         }
       }
 
-      Object.keys(env).forEach((item) => {
+      Object.keys(env).forEach(item => {
         oldEnv[item] = process.env[item];
         process.env[item] = env[item];
       });
@@ -70,17 +69,16 @@ function* oneTask(task, args, hookParam) {
       const child = spawn(cliBin, command, {
         cwd: process.cwd(),
         env: process.env,
-        stdio: 'inherit'
+        stdio: 'inherit',
       });
 
       // 任务流执行失败
-      child.on('error', (err) => {
+      child.on('error', err => {
         resetEnv();
         reject(err);
       });
 
-
-      child.on('close', (status) => {
+      child.on('close', status => {
         // 插件自己要退出,则不抛出异常
         // TODO 找潕量的插件验证一下, 还要考虑 eslint 等情况
         if (status === 10) {
@@ -109,7 +107,7 @@ function* oneTask(task, args, hookParam) {
 function getHookParam(command) {
   let match = false;
   const param = [];
-  process.argv.forEach((item) => {
+  process.argv.forEach(item => {
     if (item === command) {
       match = true;
     } else if (match) {
@@ -126,10 +124,10 @@ function getHookParam(command) {
 function* run(options) {
   // 筛选出对应的任务
   const intl = new Intl(message);
-  const tasks = options.tasks || [];              // 任务流
-  const when = options.when || 'before';          // 前置任务还是后置,默认是前置任务
-  const args = options.args || [];                // 任务流传进来的参数
-  const command = options.command || '';          // 运行的命令
+  const tasks = options.tasks || []; // 任务流
+  const when = options.when || 'before'; // 前置任务还是后置,默认是前置任务
+  const args = options.args || []; // 任务流传进来的参数
+  const command = options.command || ''; // 运行的命令
   const newTasks = utils.classify(tasks)[when];
   const hookParam = getHookParam(command);
   const whenTips = when === 'after' ? intl.get('nextTask') : intl.get('preTask');
@@ -137,11 +135,10 @@ function* run(options) {
   log.info(intl.get('runCommand', { command, whenTips }));
   // log.info(`正在执行行${command}${(when === 'after' ? '后置' : '前置')}任务`);
 
-
   for (let i = 0; i < newTasks.length; i += 1) {
     if (newTasks[i].async) {
       // 异步执行
-      co(function* () {
+      co(function*() {
         yield oneTask(newTasks[i], args, hookParam);
       });
     } else {

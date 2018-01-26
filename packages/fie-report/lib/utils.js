@@ -15,24 +15,36 @@ const cache = require('fie-cache');
  */
 const cacheEnvGetter = {
   fieVersion() {
-    return process.env.FIE_VERSION || execSync('npm view fie version').toString().replace(/[\nv]/g, '');
+    return (
+      process.env.FIE_VERSION ||
+      execSync('npm view fie version')
+        .toString()
+        .replace(/[\nv]/g, '')
+    );
   },
   email() {
     return fieUser.getEmail();
   },
   nodeVersion() {
-    return execSync('node -v').toString().replace(/[\nv]/g, '');
+    return execSync('node -v')
+      .toString()
+      .replace(/[\nv]/g, '');
   },
   npmVersion() {
     try {
-      return execSync('npm -v').toString().replace('\n', '');
+      return execSync('npm -v')
+        .toString()
+        .replace('\n', '');
     } catch (e) {
       return null;
     }
   },
   tnpmVersion() {
     try {
-      return execSync('tnpm -v').toString().split('\n')[0].match(/\d+\.\d+\.\d+/)[0];
+      return execSync('tnpm -v')
+        .toString()
+        .split('\n')[0]
+        .match(/\d+\.\d+\.\d+/)[0];
     } catch (ex) {
       // 外网无tnpm
       return null;
@@ -40,7 +52,7 @@ const cacheEnvGetter = {
   },
   system() {
     return `${os.platform()} ${os.release()}`;
-  }
+  },
 };
 
 /**
@@ -48,7 +60,7 @@ const cacheEnvGetter = {
  * @param cwd
  * @returns {string}
  */
-exports.getCurBranch = function (cwd) {
+exports.getCurBranch = function(cwd) {
   const headerFile = path.join(cwd, '.git/HEAD');
   let version = '';
   if (fs.existsSync(headerFile)) {
@@ -61,15 +73,18 @@ exports.getCurBranch = function (cwd) {
   return version.trim();
 };
 
-
 /**
  * 获取项目URL
  * @returns {*}
  */
-exports.getProjectUrl = function () {
+exports.getProjectUrl = function() {
   let url;
   try {
-    url = (spawn.sync('git', ['config', '--get', 'remote.origin.url'], { silent: true }).stdout.toString() || '').trim();
+    url = (
+      spawn
+        .sync('git', ['config', '--get', 'remote.origin.url'], { silent: true })
+        .stdout.toString() || ''
+    ).trim();
     // 有些git的url是http开头的，需要格式化为git@格式，方便统一处理
     const match = url.match(/http:\/\/gitlab.alibaba-inc.com\/(.*)/);
     if (match && match[1]) {
@@ -85,7 +100,7 @@ exports.getProjectUrl = function () {
 /**
  * 获取项目相关环境
  */
-exports.getProjectInfo = function (cwd) {
+exports.getProjectInfo = function(cwd) {
   const branch = exports.getCurBranch(cwd);
   const pkgPath = path.join(cwd, 'package.json');
   const CONFIG_FILE = process.env.FIE_CONFIG_FILE || 'fie.config.js';
@@ -94,11 +109,11 @@ exports.getProjectInfo = function (cwd) {
   let pkg;
   let fie;
   let repository = exports.getProjectUrl();
-    // 判断pkg是否存在
+  // 判断pkg是否存在
   if (fs.existsSync(pkgPath)) {
     pkg = fs.readJsonSync(pkgPath, { throws: false });
   }
-    // 判断fie.config.js是否存在
+  // 判断fie.config.js是否存在
   if (fs.existsSync(fiePath)) {
     delete require.cache[fiePath];
     try {
@@ -118,7 +133,7 @@ exports.getProjectInfo = function (cwd) {
     branch,
     pkg,
     fie,
-    repository
+    repository,
   };
 };
 
@@ -128,13 +143,13 @@ exports.getProjectInfo = function (cwd) {
  * 对 tnpm, node 版本等重新获取,一般在报错的时候才传入 true
  * @returns {*}
  */
-exports.getProjectEnv = function (force) {
+exports.getProjectEnv = function(force) {
   let cacheEnv = cache.get('reportEnvCache');
 
   if (!cacheEnv || force) {
     cacheEnv = {};
     const cacheEnvKeys = Object.keys(cacheEnvGetter);
-    cacheEnvKeys.forEach((item) => {
+    cacheEnvKeys.forEach(item => {
       cacheEnv[item] = cacheEnvGetter[item]();
     });
     // 缓存三天
@@ -146,9 +161,9 @@ exports.getProjectEnv = function (force) {
 /**
  * 获取当前执行的命令,移除用户路径
  */
-exports.getCommand = function (arg) {
+exports.getCommand = function(arg) {
   let argv = arg || process.argv;
-  argv = argv.map((item) => {
+  argv = argv.map(item => {
     const match = item.match(/\\bin\\(((?!bin).)*)$|\/bin\/(.*)/);
 
     // mac
@@ -172,7 +187,7 @@ exports.getCommand = function (arg) {
 /**
  * 获取模块的类型和版本
  */
-exports.getFieModuleVersion = function (mod) {
+exports.getFieModuleVersion = function(mod) {
   const modPkgPath = path.join(fieHome.getModulesPath(), mod, 'package.json');
   let pkg = {};
   if (fs.existsSync(modPkgPath)) {
