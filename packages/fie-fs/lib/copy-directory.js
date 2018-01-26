@@ -9,7 +9,6 @@
  * @exports copy-directory
  */
 
-
 'use strict';
 
 const fs = require('fs-extra');
@@ -47,7 +46,10 @@ function copyDirectory(options) {
 
       for (let i = 0; i < dirFiles.length; i += 1) {
         if (options.ignore.indexOf(dirFiles[i]) === -1) {
-          recursiveDir(path.resolve(curSrcPath, dirFiles[i]), path.resolve(curDistPath, dirFiles[i]));
+          recursiveDir(
+            path.resolve(curSrcPath, dirFiles[i]),
+            path.resolve(curDistPath, dirFiles[i])
+          );
         }
       }
     } else {
@@ -66,7 +68,10 @@ function copyDirectory(options) {
       fileContent = _.template(fileContent)(options.data);
 
       for (let j = 0; j < options.stringReplace.length; j += 1) {
-        fileContent = fileContent.replace(new RegExp(options.stringReplace[j].placeholder, 'g'), options.stringReplace[j].value);
+        fileContent = fileContent.replace(
+          new RegExp(options.stringReplace[j].placeholder, 'g'),
+          options.stringReplace[j].value
+        );
       }
 
       const writeErr = fs.writeFileSync(curDistPath, fileContent);
@@ -81,12 +86,18 @@ function copyDirectory(options) {
   options = options || {};
 
   if (!options.src || !options.dist) {
-    log.error('Please import the source file directory path (src) and the target directory path (dist)');
+    log.error(
+      'Please import the source file directory path (src) and the target directory path (dist)'
+    );
     return;
   }
 
   if (!fs.existsSync(options.src)) {
-    log.error(`The source file directory does not exist， src = ${options.src} This directory or file does not exist`);
+    log.error(
+      `The source file directory does not exist， src = ${
+        options.src
+      } This directory or file does not exist`
+    );
     return;
   }
 

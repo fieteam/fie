@@ -3,10 +3,9 @@
 const fieGit = require('../lib/index');
 
 describe('# fie-git', () => {
-
   it('branch() returns a string with non-zero length', () => {
     const branch = fieGit.branch();
-    expect(branch).to.be.a('string')
+    expect(branch).to.be.a('string');
   });
 
   it('long() returns string of length 39+', () => {
@@ -16,7 +15,9 @@ describe('# fie-git', () => {
 
   it('status() 获取git提交状态', () => {
     const status = fieGit.status();
-    expect(status).to.be.an('object').to.have.a.property('local_branch');
+    expect(status)
+      .to.be.an('object')
+      .to.have.a.property('local_branch');
   });
 
   it('repository() 获取仓库地址', () => {
@@ -28,6 +29,4 @@ describe('# fie-git', () => {
     const project = fieGit.project();
     expect(project).to.be.eq('fieteam/fie');
   });
-
-
 });

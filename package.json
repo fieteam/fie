@@ -13,7 +13,8 @@
     "link": "cd packages/fie-core && npm link",
     "link-lzd": "cd packages/lzd-core && npm link",
     "publish-tnpm": "node scripts/publishTnpm.js",
-    "publish-lzd": "node scripts/publishTnpmForLzd.js"
+    "publish-lzd": "node scripts/publishTnpmForLzd.js",
+    "prettier": "./node_modules/prettier/bin/prettier.js --parser flow --write \"**/*.{js,jsx}\""
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -33,7 +34,8 @@
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
-    "supertest": "^2.0.1"
+    "supertest": "^2.0.1",
+    "prettier": "1.9.2"
   },
   "engine": {
     "node": ">4.2.1"

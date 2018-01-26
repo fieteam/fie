@@ -5,14 +5,12 @@ const proxyquire = require('proxyquire');
 const fs = require('fs-extra');
 const emptyLog = require('../../../test/fixtures/empty-log');
 
-
 describe('# copy-directory 复制目录', () => {
   const dirSrc = path.resolve(__dirname, 'fixtures', 'dir-src');
   const dirDist = path.resolve(__dirname, 'fixtures', 'dir-dist');
   const copyDirectory = proxyquire('../lib/copy-directory', {
-    'fie-log': emptyLog
+    'fie-log': emptyLog,
   });
-
 
   before(() => {
     if (fs.existsSync(dirDist)) {
@@ -24,7 +22,7 @@ describe('# copy-directory 复制目录', () => {
       src: dirSrc,
       dist: dirDist,
       data: {
-        name: 'test'
+        name: 'test',
       },
       ignore: ['zzz.js'],
       filenameTransformer(filename) {
@@ -33,10 +31,12 @@ describe('# copy-directory 复制目录', () => {
         }
         return filename;
       },
-      stringReplace: [{
-        placeholder: 'PLACEHOLDER',
-        value: 'theReplaceValue'
-      }]
+      stringReplace: [
+        {
+          placeholder: 'PLACEHOLDER',
+          value: 'theReplaceValue',
+        },
+      ],
     });
   });
 
@@ -46,11 +46,9 @@ describe('# copy-directory 复制目录', () => {
     }
   });
 
-
   it('# 创建目标目录', () => {
     expect(fs.existsSync(dirDist)).to.be.equals(true);
   });
-
 
   it('# 创建目标目录下需要复制过来的文件', () => {
     const abc = path.resolve(dirDist, 'abc.js');
@@ -63,11 +61,9 @@ describe('# copy-directory 复制目录', () => {
     expect(fs.existsSync(abc)).to.be.equals(fs.existsSync(abcDist));
   });
 
-
   it('# 不在目标目录下面创建需要忽略的文件', () => {
     expect(fs.existsSync(path.resolve(dirDist, 'zzz.js'))).to.be.equals(false);
   });
-
 
   it('# 对文件名进行替换', () => {
     const yyy = path.resolve(dirDist, 'yyy.js');

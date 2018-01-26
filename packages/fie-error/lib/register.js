@@ -18,7 +18,7 @@ const utils = require('./utils');
  */
 function register(handle) {
   if (Array.isArray(handle)) {
-    handle.forEach((item) => {
+    handle.forEach(item => {
       utils.register(item);
     });
   } else {

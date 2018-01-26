@@ -19,13 +19,12 @@ function handleSolution(port) {
 }
 
 // 处理
-module.exports = function* (e) {
+module.exports = function*(e) {
   if (e.code !== 'EADDRINUSE') {
     return false;
   }
 
   const match = e.message.match(/listen EADDRINUSE(.*):(\d+)/);
-
 
   if (match && match[2]) {
     const port = match[2];

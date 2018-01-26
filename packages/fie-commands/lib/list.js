@@ -31,25 +31,22 @@ function getPadding(str, width) {
   return padding;
 }
 
-
 function printListByType(type, modules) {
   let tmpString;
   const prefix = fieModuleName.prefix();
-  modules.filter(item => !!item.name.match(`${prefix}-${type}`))
-    .forEach((item) => {
-      const padding = getPadding(item.name, 35);
+  modules.filter(item => !!item.name.match(`${prefix}-${type}`)).forEach(item => {
+    const padding = getPadding(item.name, 35);
 
-      tmpString = [
-        '  ',
-        chalk.green(item.name),
-        chalk.gray(padding),
-        item.chName ? item.chName : '暂无描述'
-      ].join('');
+    tmpString = [
+      '  ',
+      chalk.green(item.name),
+      chalk.gray(padding),
+      item.chName ? item.chName : '暂无描述',
+    ].join('');
 
-      console.log(tmpString);
-    });
+    console.log(tmpString);
+  });
 }
-
 
 /**
  * 显示套件列表
@@ -57,14 +54,14 @@ function printListByType(type, modules) {
  * @param options
  * @param options.callback
  */
-module.exports = function* (cliArgs, options) {
+module.exports = function*(cliArgs, options) {
   const type = cliArgs.pop();
   const intl = new Intl(message);
   const fixType = type === 'plugin' || type === 'toolkit' ? type : null;
   const textMap = {
     plugin: intl.get('plugin'),
     toolkit: intl.get('toolkit'),
-    all: intl.get('toolkitAndPlugin')
+    all: intl.get('toolkitAndPlugin'),
   };
   const text = textMap[fixType || 'all'];
   const star = fixType ? '**' : '';
@@ -77,12 +74,12 @@ module.exports = function* (cliArgs, options) {
   let newList = [];
 
   // merge list
-  const onlineKeys = online.map((item) => {
+  const onlineKeys = online.map(item => {
     newList.push(item);
     return item.name;
   });
 
-  local.forEach((item) => {
+  local.forEach(item => {
     if (onlineKeys.indexOf(item.name) === -1) {
       newList.push(item);
     }
@@ -90,7 +87,11 @@ module.exports = function* (cliArgs, options) {
 
   newList = newList.filter(item => !!(argv.all || item.shared));
 
-  console.log(chalk.italic.magenta(`\r\n${star}************** ${text} ${intl.get('list')} ******************${star}\r\n`));
+  console.log(
+    chalk.italic.magenta(
+      `\r\n${star}************** ${text} ${intl.get('list')} ******************${star}\r\n`
+    )
+  );
 
   if (!type) {
     console.log(chalk.magenta(intl.get('toolkitList')));

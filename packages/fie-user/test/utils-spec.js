@@ -8,50 +8,51 @@ const mockPath = path.resolve(__dirname, 'fixtures');
 
 const fieUser1 = proxyquire('../lib/utils', {
   'cross-spawn': {
-    sync: () => ({ stdout: null })
-  }
+    sync: () => ({ stdout: null }),
+  },
 });
 
 const fieUser2 = proxyquire('../lib/utils', {
   'cross-spawn': {
-    sync: () => { throw Error('控制台抛出导异常'); }
-  }
+    sync: () => {
+      throw Error('控制台抛出导异常');
+    },
+  },
 });
 
 const fieUser3 = proxyquire('../lib/utils', {
   'cross-spawn': {
-    sync: () => ({ stdout: 'has git but not config email and name' })
-  }
+    sync: () => ({ stdout: 'has git but not config email and name' }),
+  },
 });
 
 const fieUser4 = proxyquire('../lib/utils', {
   'cross-spawn': {
-    sync: () => ({ stdout: `
+    sync: () => ({
+      stdout: `
         core.trustctime=false
         credential.helper=osxkeychain\nuse.name=fie.test.user\nuse.email=fie.test.user@alibaba-inc.com\nuser.name=fie.test.user\nuser.email=fie.test.user@alibaba-inc.com
         core.excludesfile=/Users/alexyu/.gitignore
-      `
-    })
-  }
+      `,
+    }),
+  },
 });
-
 
 const fieUser5 = proxyquire('../lib/utils', {
   'fie-home': {
     getHomePath() {
       return mockPath;
-    }
-  }
+    },
+  },
 });
 
 const fieUser6 = proxyquire('../lib/utils', {
   'fie-home': {
     getHomePath() {
       return path.resolve(__dirname);
-    }
-  }
+    },
+  },
 });
-
 
 describe('# fie-use/lib/utils', () => {
   describe('# getUserFromGit 获取用户信息', () => {
@@ -90,7 +91,7 @@ describe('# fie-use/lib/utils', () => {
   describe('# getUserFromFile 获取用户信息', () => {
     const user = {
       email: 'fie-test@alibaba-inc.com',
-      name: 'fie-user'
+      name: 'fie-user',
     };
     // 测试前先准备一下环境
     before(() => {
@@ -109,7 +110,6 @@ describe('# fie-use/lib/utils', () => {
       expect(userInfo.email).to.be.equals(user.email);
     });
 
-
     it('没有fie.user.json文件,返回用户信息为空', () => {
       const userInfo = fieUser6.getUserFromFile();
       expect(userInfo).to.be.an('object');
@@ -118,4 +118,3 @@ describe('# fie-use/lib/utils', () => {
     });
   });
 });
-

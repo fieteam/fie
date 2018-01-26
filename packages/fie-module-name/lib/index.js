@@ -7,7 +7,6 @@
 const env = require('fie-env');
 
 const utils = {
-
   /**
    * 获取模块的前缀
    * @returns {string|string}
@@ -15,7 +14,6 @@ const utils = {
   prefix() {
     return process.env.FIE_MODULE_PREFIX || 'fie';
   },
-
 
   /**
    * 获取套件的前缀
@@ -54,7 +52,6 @@ const utils = {
     return isIntranet ? `@ali/${full}` : full;
   },
 
-
   /**
    * 获取插件模块完整名字
    * 传入的可能是 @ali/fie-plugin-xxx plugin-xxx
@@ -69,14 +66,14 @@ const utils = {
     // fie-plugin-xxx 的情况，和 另外有个 lzd-plugin-xxx 的情况(即name不是prefix开头的)
     if (name.indexOf(pPrefix) === 0 || name.indexOf('plugin') > 0) {
       full = name;
-    } else if (name.indexOf('plugin') === 0) {  // plugin-xxx 的情况
+    } else if (name.indexOf('plugin') === 0) {
+      // plugin-xxx 的情况
       full = `${prefix}-${name}`;
     } else {
       full = `${pPrefix}${name}`;
     }
     return isIntranet ? `@ali/${full}` : full;
   },
-
 
   /**
    * 根据传入的插件名称缩写,获取模块名称
@@ -91,9 +88,6 @@ const utils = {
     }
     return name;
   },
-
-
 };
 
 module.exports = utils;
-

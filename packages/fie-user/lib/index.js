@@ -9,7 +9,6 @@
 
 const utils = require('./utils');
 
-
 function getUser() {
   let userInfo = utils.getUserFromFile();
   if (!userInfo.email) {
@@ -17,7 +16,6 @@ function getUser() {
   }
   return userInfo;
 }
-
 
 /**
  * @exports fie-user
@@ -48,5 +46,5 @@ module.exports = {
   getName() {
     const user = getUser();
     return user.name;
-  }
+  },
 };

@@ -33,7 +33,6 @@ module.exports = {
       data = {};
     }
 
-
     // 有效期判断
     if (data.__expires && data.__expires[key]) {
       if (data.__expires[key] < Date.now()) {
@@ -59,9 +58,13 @@ module.exports = {
 
     const cacheFile = this.getCacheFile();
 
-    options = Object.assign({}, {
-      expires: null
-    }, options);
+    options = Object.assign(
+      {},
+      {
+        expires: null,
+      },
+      options
+    );
 
     let data = {};
     if (fs.existsSync(cacheFile)) {
@@ -98,5 +101,5 @@ module.exports = {
    */
   getCacheFile() {
     return path.resolve(home.getHomePath(), 'fie.cache.json');
-  }
+  },
 };

@@ -1,6 +1,5 @@
 'use strict';
 
-
 const log = require('fie-log')('core-user');
 const spawn = require('cross-spawn');
 const fieHome = require('fie-home');
@@ -10,10 +9,10 @@ const path = require('path');
 /**
  * 从配置文件中获取用户信息
  */
-exports.getUserFromFile = function () {
+exports.getUserFromFile = function() {
   const userInfo = {
     name: '',
-    email: ''
+    email: '',
   };
   // 获取home下的fie.user.json
   const userFile = path.join(fieHome.getHomePath(), 'fie.user.json');
@@ -29,10 +28,10 @@ exports.getUserFromFile = function () {
 /**
  * 从git的配置文件中获取用户信息
  */
-exports.getUserFromGit = function () {
+exports.getUserFromGit = function() {
   const userInfo = {
     name: '',
-    email: ''
+    email: '',
   };
 
   const reg = /user\.name=([^\n]+)\nuser\.email=([^\n]+)/;
@@ -57,4 +56,3 @@ exports.getUserFromGit = function () {
   }
   return userInfo;
 };
-

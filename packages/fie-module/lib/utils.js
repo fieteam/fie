@@ -40,8 +40,9 @@ function updateLog(name, opt) {
   }
 
   if (opt.lastPkg.changeLog) {
-    const changeLog = opt.lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
-
+    const changeLog = opt.lastPkg.changeLog.sort(
+      (a, b) => (semver.lt(a.version, b.version) ? 1 : -1)
+    );
 
     // 在警告模式下加重提示样式
     if (opt.level === 'warn') {
@@ -50,13 +51,24 @@ function updateLog(name, opt) {
       const installTip = `${tool} install ${opt.lastPkg.name}`;
 
       console.log('\n');
-      ulog(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get('updateTips')}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
-      ulog(`${intl.get('recommendVersion', { name, version: chalk.green(lastVersion) })}${localVTip}`);
-      ulog(intl.get('recommendInstall', { icon: emoji.get('point_right'), installTip: chalk.bgRed.bold(installTip) }));
+      ulog(
+        `******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get(
+          'updateTips'
+        )}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`
+      );
+      ulog(
+        `${intl.get('recommendVersion', { name, version: chalk.green(lastVersion) })}${localVTip}`
+      );
+      ulog(
+        intl.get('recommendInstall', {
+          icon: emoji.get('point_right'),
+          installTip: chalk.bgRed.bold(installTip),
+        })
+      );
     }
 
     ulog(`${name} ${pre}${intl.get('includeUpdate')}`);
-    changeLog.forEach((item) => {
+    changeLog.forEach(item => {
       if (!item.log || !item.log.length) {
         return;
       }
@@ -69,19 +81,22 @@ function updateLog(name, opt) {
       }
 
       // 显示未更新的这几个版本log
-      item.log.forEach((itemLog) => {
+      item.log.forEach(itemLog => {
         ulog(` --${itemLog}`);
       });
     });
 
     // 在警告模式下加重提示样式
     if (opt.level === 'warn') {
-      ulog(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
+      ulog(
+        `******************************${emoji.get('point_up_2')} ${emoji.get(
+          'point_up_2'
+        )} ******************************`
+      );
       console.log('\n');
     }
   }
 }
-
 
 const utils = {
   moduleFilter(list, type) {
@@ -98,7 +113,7 @@ const utils = {
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
   updateLog,
-  NO_TIP_PERIOD: 3600000
+  NO_TIP_PERIOD: 3600000,
 };
 
 module.exports = utils;

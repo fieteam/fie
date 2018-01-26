@@ -7,11 +7,10 @@ const originLog = console.log;
 const ENTRY_MODULE_ENV_NAME = fieHome.getEntryModuleEnvName();
 const originEnvModule = process.env[ENTRY_MODULE_ENV_NAME];
 const testStringHook = '__fieLogTestHook__';
-const setModuleEnv = (moduleName) => {
+const setModuleEnv = moduleName => {
   process.env[ENTRY_MODULE_ENV_NAME] = moduleName;
 };
 const logSpy = sinon.spy();
-
 
 function mockLog() {
   const args = Array.prototype.slice.call(arguments);
@@ -33,7 +32,7 @@ describe('# fie-log', () => {
     setModuleEnv(originEnvModule);
   });
 
-  it('# entryType 不传时, 任何时候都打印', function* () {
+  it('# entryType 不传时, 任何时候都打印', function*() {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const log2 = fieLog('xyz');
@@ -43,8 +42,7 @@ describe('# fie-log', () => {
     expect(result2).to.be.equal(true);
   });
 
-
-  it('# entryType = 1, 只有当前模块做为入口模块时才打印', function* () {
+  it('# entryType = 1, 只有当前模块做为入口模块时才打印', function*() {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const log2 = fieLog('xyz');
@@ -54,8 +52,7 @@ describe('# fie-log', () => {
     expect(result2).to.be.equal(false);
   });
 
-
-  it('# entryType = 2, 只有当前模块不是入口模块时才打印', function* () {
+  it('# entryType = 2, 只有当前模块不是入口模块时才打印', function*() {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const log2 = fieLog('xyz');
@@ -65,8 +62,7 @@ describe('# fie-log', () => {
     expect(result2).to.be.equal(true);
   });
 
-
-  it('# 能正常打印占位符字符串', function* () {
+  it('# 能正常打印占位符字符串', function*() {
     setModuleEnv('abc');
     const log1 = fieLog('abc');
     const result1 = log1.info(`${testStringHook} %o`, { a: 'b' });

@@ -1,6 +1,5 @@
 const fieModuleName = require('../lib/index');
 
-
 describe('# fie-module-name', () => {
   before(() => {
     process.env.FIE_MODULE_PREFIX = 'abc';

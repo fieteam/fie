@@ -4,21 +4,19 @@ const proxyquire = require('proxyquire');
 const Intl = require('fie-intl');
 const message = require('../locale/index');
 
-
 let fieError;
 const handleEnoent = proxyquire('../lib/handle-eaddrinuse', {
-  'fie-log': function () {
+  'fie-log': function() {
     return {
       error(e) {
         fieError = e;
-      }
+      },
     };
-  }
+  },
 });
 
-
 describe('#处理 EADDRINUSE 的异常', () => {
-  it('#listen EADDRINUSE :::9000', function* () {
+  it('#listen EADDRINUSE :::9000', function*() {
     const intl = new Intl(message);
     const locale = intl.getLocale();
     yield handleEnoent({
@@ -34,7 +32,7 @@ Error: listen EADDRINUSE :::9000
     at Object.Commands.open (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:43:18)
     at Promise (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:140:30)
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
-`
+`,
     });
     if (locale === 'zh_CN') {
       expect(fieError).to.be.contain('检测到当前端口号');
@@ -44,7 +42,7 @@ Error: listen EADDRINUSE :::9000
     expect(fieError).to.be.contain('9000');
   });
 
-  it('#listen EADDRINUSE 127.0.0.1:3000', function* () {
+  it('#listen EADDRINUSE 127.0.0.1:3000', function*() {
     const intl = new Intl(message);
     const locale = intl.getLocale();
     yield handleEnoent({
@@ -60,7 +58,7 @@ Error: listen EADDRINUSE 127.0.0.1:3000
     at Object.Commands.open (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:43:18)
     at Promise (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:140:30)
     at module.exports (/Users/hugo/.fie/node_modules/._@ali_fie-plugin-server@1.2.3@@ali/fie-plugin-server/index.js:134:10)
-`
+`,
     });
     if (locale === 'zh_CN') {
       expect(fieError).to.be.contain('检测到当前端口号');
@@ -70,4 +68,3 @@ Error: listen EADDRINUSE 127.0.0.1:3000
     expect(fieError).to.be.contain('3000');
   });
 });
-

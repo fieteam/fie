@@ -27,7 +27,7 @@ function* runInit(name) {
     yield task.runFunction({
       method: moduleInfo.init,
       // 这里是为了兼容fie老版本传入fie对象进去，新版本建议是使用fie-api包
-      args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)]
+      args: moduleInfo.init.length > 1 ? [api.getApi(name), {}] : [api.getApi(name)],
     });
   } else {
     const msg = intl.get('toolkitNotFound', { toolkit: module.fullName });
@@ -36,7 +36,6 @@ function* runInit(name) {
   }
 }
 
-
 function* getName() {
   const choices = [];
   const onlineList = yield fieModule.onlineList({ type: 'toolkit' });
@@ -44,36 +43,37 @@ function* getName() {
   const toolkitPrefix = fieModuleName.toolkitPrefix();
   const intl = new Intl(message);
   const onlineMap = {};
-  const addChoice = (item) => {
+  const addChoice = item => {
     const n = item.name.replace('@ali/', '').replace(toolkitPrefix, '');
     choices.push({
       name: n + chalk.gray(` -  ${item.chName}`),
-      value: n
+      value: n,
     });
   };
 
-  onlineList.forEach((item) => {
+  onlineList.forEach(item => {
     addChoice(item);
     onlineMap[item.name] = true;
   });
 
-  localList.forEach((item) => {
+  localList.forEach(item => {
     if (!onlineMap[item.name]) {
       addChoice(item);
     }
   });
 
-
-  const answers = yield inquirer.prompt([{
-    type: 'list',
-    name: 'name',
-    message: intl.get('toolkitInit'),
-    choices
-  }]);
+  const answers = yield inquirer.prompt([
+    {
+      type: 'list',
+      name: 'name',
+      message: intl.get('toolkitInit'),
+      choices,
+    },
+  ]);
   return answers.name;
 }
 
-module.exports = function* (args) {
+module.exports = function*(args) {
   let name = args.pop();
   const intl = new Intl(message);
   if (!name) {
@@ -98,11 +98,13 @@ module.exports = function* (args) {
 
   if (files.length > 0) {
     log.warn(intl.get('fileExist'));
-    const questions = [{
-      type: 'input',
-      name: 'check',
-      message: intl.get('confirmInit')
-    }];
+    const questions = [
+      {
+        type: 'input',
+        name: 'check',
+        message: intl.get('confirmInit'),
+      },
+    ];
     const answers = yield inquirer.prompt(questions);
     if (answers.check === 'y' || answers.check === 'Y') {
       yield runInit(name);

@@ -44,7 +44,6 @@ function* get(name) {
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
 
-
   if (fs.existsSync(pkgPath)) {
     log.debug(`存在本地模块 ${pkgPath}`);
     // 本地存在, 判断是否需要更新
@@ -64,7 +63,7 @@ function* get(name) {
             yield installOne(name, {
               type: 'update',
               localPkg,
-              lastPkg
+              lastPkg,
             });
             isNeedSetCache = false;
           } else {
@@ -72,10 +71,14 @@ function* get(name) {
             let autoZVersion = '';
             if (lastPkg.changeLog) {
               // 在 changeLog 里面检测是否有末位更新的版本
-              lastPkg.changeLog = lastPkg.changeLog.sort((a, b) => (semver.lt(a.version, b.version) ? 1 : -1));
+              lastPkg.changeLog = lastPkg.changeLog.sort(
+                (a, b) => (semver.lt(a.version, b.version) ? 1 : -1)
+              );
               for (let j = 0; j < lastPkg.changeLog.length; j += 1) {
-                if (semver.satisfies(lastPkg.changeLog[j].version, `~${localPkg.version}`)
-                  && lastPkg.changeLog[j].version !== localPkg.version) {
+                if (
+                  semver.satisfies(lastPkg.changeLog[j].version, `~${localPkg.version}`) &&
+                  lastPkg.changeLog[j].version !== localPkg.version
+                ) {
                   autoZVersion = lastPkg.changeLog[j].version;
                   break;
                 }
@@ -83,14 +86,16 @@ function* get(name) {
             }
 
             if (autoZVersion) {
-              log.info(`autoUpdateZ localVersion: ${localPkg.version}, autoZVersion: ${autoZVersion}` );
+              log.info(
+                `autoUpdateZ localVersion: ${localPkg.version}, autoZVersion: ${autoZVersion}`
+              );
               const comPkg = yield npm.latest(name, {
-                version: autoZVersion
+                version: autoZVersion,
               });
               yield installOne(name, {
                 type: 'update',
                 localPkg,
-                lastPkg: comPkg
+                lastPkg: comPkg,
               });
               isNeedSetCache = false;
             }
@@ -102,14 +107,14 @@ function* get(name) {
               utils.updateLog(name, {
                 localPkg: newLocalPkg,
                 lastPkg,
-                level: 'warn'
+                level: 'warn',
               });
             }
 
             // 设置缓存, 1小时内不再检查
             if (isNeedSetCache) {
               cache.set(`${utils.UPDATE_CHECK_PRE}${name}`, true, {
-                expires: utils.NO_TIP_PERIOD
+                expires: utils.NO_TIP_PERIOD,
               });
             }
           }

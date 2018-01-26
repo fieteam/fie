@@ -5,7 +5,8 @@
 module.exports = {
   zh_CN: {
     // handle-default.js
-    intranetTips: '运行报错, 请在 https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 或钉钉群 11751953 反馈问题',
+    intranetTips:
+      '运行报错, 请在 https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 或钉钉群 11751953 反馈问题',
     extranetTips: '运行报错, 请在这里反馈问题给 hugohua https://github.com/fieteam/fie/issues/new ',
     winPidTips: `   # 看下是哪个PID占用的端口
    $ lsof -i :{port}
@@ -28,16 +29,19 @@ module.exports = {
     moduleNotFound: '运行插件或套件时出现了错误, 未找到 {module} 模块! 正在尝试自动修复...',
     installSuccess: '成功安装当前项目中的依赖,请重新运行命令!',
     installDone: '已将 {module} 模块安装至 {moduleCwd} ,自动修复成功,请重新运行命令!',
-    installDoneTips: '若重新运行仍然出现问题，请在命令前面加上：DEBUG=core-error 来获取详细错误堆栈',
+    installDoneTips:
+      '若重新运行仍然出现问题，请在命令前面加上：DEBUG=core-error 来获取详细错误堆栈',
     installError: 'sorry 自动修复失败, 请手动修复',
     notFound: '运行时出现了错误, 未找到 {file} 文件,请确认 {file} 是否存在!',
     detailError: '详细错误堆栈信息如下:',
-    npmNotFound: '安装 {module} 出错,请确认网络是否正常及包名是否输入正确'
+    npmNotFound: '安装 {module} 出错,请确认网络是否正常及包名是否输入正确',
   },
   en_US: {
-// handle-default.js
-    intranetTips: 'Runtime Error, please report the issue to https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or dingding group 11751953',
-    extranetTips: 'Runtime Error, please report the issue to hugohua https://github.com/fieteam/fie/issues/new ',
+    // handle-default.js
+    intranetTips:
+      'Runtime Error, please report the issue to https://aone.alibaba-inc.com/project/500969/issue/new?toPage=1 or dingding group 11751953',
+    extranetTips:
+      'Runtime Error, please report the issue to hugohua https://github.com/fieteam/fie/issues/new ',
     winPidTips: `   # Look up for the PID which occupies the port
    $ lsof -i :{port}
    # Kill process
@@ -53,16 +57,23 @@ Fix suggestions：
  
 {solution}  
 `,
-    commandNotFound: 'The {module} command was not found, there was an error when running the plugin or toolkit. Please see if there is an installation!',
+    commandNotFound:
+      'The {module} command was not found, there was an error when running the plugin or toolkit. Please see if there is an installation!',
     fixLocalTips: 'Fix Suggestions: Try {installer} install {runModule} in terminal!',
     fixGlobalTips: 'Fix Suggestions: Try {installer} install -g {module} in terminal!',
-    moduleNotFound: 'the {module} module was not found, there was an error when running the plugin or toolkit! Trying to fix it automatically ...',
-    installSuccess: 'Re-run the command to successfully install dependencies in the current project!',
-    installDone: 'The {module} module has been installed to {moduleCwd} and the automatic repair is successful. Please re-run the command!',
-    installDoneTips: 'If there is still a problem while re-run, please add: DEBUG = core-error to the beginning of your command to get the detailed error stack',
+    moduleNotFound:
+      'the {module} module was not found, there was an error when running the plugin or toolkit! Trying to fix it automatically ...',
+    installSuccess:
+      'Re-run the command to successfully install dependencies in the current project!',
+    installDone:
+      'The {module} module has been installed to {moduleCwd} and the automatic repair is successful. Please re-run the command!',
+    installDoneTips:
+      'If there is still a problem while re-run, please add: DEBUG = core-error to the beginning of your command to get the detailed error stack',
     installError: 'sorry, the automatic repair failed, please repair manually',
-    notFound: 'The {file} file was not found, there was an error in the run. Please make sure {file} exists!',
+    notFound:
+      'The {file} file was not found, there was an error in the run. Please make sure {file} exists!',
     detailError: 'Detailed error stack information is as follows:',
-    npmNotFound: 'Install {module} error, please check whether the network is normal and the package name is correct'
+    npmNotFound:
+      'Install {module} error, please check whether the network is normal and the package name is correct',
   },
 };

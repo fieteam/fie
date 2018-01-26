@@ -31,7 +31,8 @@ module.exports = {
 `,
     helpTips: ' 提示: ',
     helpToolkit: '   套件 - 若想查看项目中所使用的套件帮助信息,请在项目根目录执行该命令.',
-    helpPlugin: '   插件 - 若想查看插件的帮助信息,请使用 {tool} [name] help 命令, eg : {tool} git help',
+    helpPlugin:
+      '   插件 - 若想查看插件的帮助信息,请使用 {tool} [name] help 命令, eg : {tool} git help',
     helpEnv: '   环境 - 当前FIE开发环境为: {env} , 可使用 $ {tool} switch 进行切换',
     helpList: '\r\n ------- 以下是 {tool} 自身的命令 ------- ',
     // init.js
@@ -52,13 +53,14 @@ module.exports = {
     pluginList: '\r\n- 插件列表 \r\n',
     // main.js
     pluginNotFound: '{plugin} 插件不存在',
-    pluginCommandNotFound : '未找到 {module} 插件对应的命令 {pluginCmd}',
+    pluginCommandNotFound: '未找到 {module} 插件对应的命令 {pluginCmd}',
     moduleVersion: '\n {module} 对应版本为 {version}\n',
     localNotFound: '本地未安装 toolkit-{name} 或 plugin-{name} 模块',
     configFileNotFound: '未检测到 {file} 文件, 请确认当前命令是否在项目根目录下执行',
     runPlugin: '请输入您要运行的插件名',
     notRunTips: '未找到 {command} 对应的套件命令,后置任务无法执行',
-    startNotRunTips: '该套件尚未实现 {command} 命令，请检查拼写是否正确或执行 {tool} -h 查看可用命令',
+    startNotRunTips:
+      '该套件尚未实现 {command} 命令，请检查拼写是否正确或执行 {tool} -h 查看可用命令',
     configNotRunTips: '{file} 文件中尚不存在 {command} 命令，请检查拼写是否正确',
     // switch
     switchEnvTips: '请选择开发环境:',
@@ -69,9 +71,7 @@ module.exports = {
     initEnvSuccess: '成功初始化开发环境!',
     // locale
     switchLocaleTips: '初始化语言环境',
-    initLocalSuccess: '成功初始化语言环境'
-
-
+    initLocalSuccess: '成功初始化语言环境',
   },
   en_US: {
     startClear: 'Start clearing the app cache...',
@@ -98,16 +98,20 @@ module.exports = {
 
 `,
     helpTips: ' Tips: ',
-    helpToolkit: '   Toolkit - Please run this command at root folder to get help info of toolkits in current project.',
-    helpPlugin: '   Plugin - Please run {tool} [name] help to read the help info of the plugins, eg : {tool} git help',
-    helpEnv: '   Environment - Current {tool} environment: {env} , use $ {tool} switch to switch environment',
+    helpToolkit:
+      '   Toolkit - Please run this command at root folder to get help info of toolkits in current project.',
+    helpPlugin:
+      '   Plugin - Please run {tool} [name] help to read the help info of the plugins, eg : {tool} git help',
+    helpEnv:
+      '   Environment - Current {tool} environment: {env} , use $ {tool} switch to switch environment',
     helpList: '\r\n ------- Below are {tool} useful command ------- ',
     // init.js
     toolkitNotFound: '{toolkit} toolkit not exist',
     toolkitInit: 'Please choose a toolkit to init the project:',
     toolkitReportInit: 'The project is already initialized, no need to init again',
     toolkitInitTips: 'Please remove {file}, if you need to re-initialize the project',
-    fileExist: 'Current folder is not empty, continuing the init procedure would replace existing files',
+    fileExist:
+      'Current folder is not empty, continuing the init procedure would replace existing files',
     confirmInit: 'Confirm if you need to continue init, type in (y)',
     // install.js
     installTips: 'Please input the module name that you need to install!',
@@ -120,13 +124,14 @@ module.exports = {
     pluginList: '\r\n- Plugin List \r\n',
     // main.js
     pluginNotFound: '{plugin} plugin no exist',
-    pluginCommandNotFound : '{module} plugin {pluginCmd} command no exist',
+    pluginCommandNotFound: '{module} plugin {pluginCmd} command no exist',
     moduleVersion: '\n {module} version is {version}\n',
     localNotFound: 'No toolkit-{name} or  plugin-{name} installed',
     configFileNotFound: 'Cannot find {file}, Please make sure your are in root folder',
     runPlugin: 'Please input the toolkit name',
     notRunTips: 'Can not find {command} for toolkit, stop progressing',
-    startNotRunTips: 'No {command} exist for current toolkit，Please check your spell or run {tool} -h to list all usable command',
+    startNotRunTips:
+      'No {command} exist for current toolkit，Please check your spell or run {tool} -h to list all usable command',
     configNotRunTips: '{file} does not have {command} command，Please check your spell',
     // switch
     switchEnvTips: 'Please choose the development environment:',
@@ -137,7 +142,6 @@ module.exports = {
     initEnvSuccess: 'Init environment succeed!',
     // locale
     switchLocaleTips: 'Init language environment',
-    initLocalSuccess: 'Init language environment succeed!'
-
-  }
+    initLocalSuccess: 'Init language environment succeed!',
+  },
 };

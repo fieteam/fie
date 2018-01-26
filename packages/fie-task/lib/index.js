@@ -9,9 +9,8 @@
 
 'use strict';
 
-
 module.exports = {
   run: require('./run'),
   runFunction: require('./run-function'),
-  has: require('./has')
+  has: require('./has'),
 };

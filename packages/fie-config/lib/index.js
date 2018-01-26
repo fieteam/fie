@@ -14,13 +14,10 @@ const Intl = require('fie-intl');
 const message = require('../locale/index');
 const astAnalyze = require('./ast-analyze');
 
-
 // 先从环境变量里获取fie配置文件的目录，这样方便做调试
 const CWD = process.cwd();
 
-
 const fieConfig = {
-
   /**
    * 当前目录下是否存在fie.config.js文件
    * @param {string} dir 需要判断文件是否存在的目录,可选,默认取值:当前运行目录
@@ -120,8 +117,7 @@ const fieConfig = {
    */
   getConfigPath() {
     return process.env.FIE_CONFIG_PATH || CWD;
-  }
-
+  },
 };
 
 /**
