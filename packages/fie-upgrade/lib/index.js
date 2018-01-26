@@ -20,12 +20,11 @@ function* updateTip(data) {
     return;
   }
 
-
   const latest = yield npm.latest(data.name);
 
   // 缓存设置为3小时，过了3小时才重新提示升级 FIE
   cache.set(TIP_CACHE_KEY, true, {
-    expires: 108000000
+    expires: 108000000,
   });
 
   // latest 没有值，可能没有网络
@@ -41,13 +40,32 @@ function* updateTip(data) {
   const installer = data.name.indexOf('@ali') !== -1 ? 'tnpm' : 'npm';
   const intl = new Intl(message);
   console.log('\n');
-  log.warn(`******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get('updateTips')}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`);
-  log.warn(intl.get('recommendVersion', { latest: chalk.green.bold(latest.version), localVersion: data.version }));
-  log.warn(intl.get('updateCommand', { icon: emoji.get('point_right'), command: chalk.bgRed.bold(` ${installer} install -g ${data.name} `) }));
-  log.warn(`${intl.get('ifUpdateError')} ${chalk.red.bold(`sudo ${installer} install -g ${data.name} `)}`);
-  log.warn(`******************************${emoji.get('point_up_2')} ${emoji.get('point_up_2')} ******************************`);
+  log.warn(
+    `******************** ${emoji.get('warning')} ${emoji.get('warning')}   ${intl.get(
+      'updateTips'
+    )}  ${emoji.get('warning')} ${emoji.get('warning')} **********************`
+  );
+  log.warn(
+    intl.get('recommendVersion', {
+      latest: chalk.green.bold(latest.version),
+      localVersion: data.version,
+    })
+  );
+  log.warn(
+    intl.get('updateCommand', {
+      icon: emoji.get('point_right'),
+      command: chalk.bgRed.bold(` ${installer} install -g ${data.name} `),
+    })
+  );
+  log.warn(
+    `${intl.get('ifUpdateError')} ${chalk.red.bold(`sudo ${installer} install -g ${data.name} `)}`
+  );
+  log.warn(
+    `******************************${emoji.get('point_up_2')} ${emoji.get(
+      'point_up_2'
+    )} ******************************`
+  );
   console.log('\n');
 }
-
 
 module.exports = updateTip;

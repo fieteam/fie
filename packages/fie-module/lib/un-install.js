@@ -9,7 +9,7 @@ function* unInstall(name) {
     return;
   }
   yield npm.unInstall(name, {
-    cwd: home.getHomePath()
+    cwd: home.getHomePath(),
   });
 }
 

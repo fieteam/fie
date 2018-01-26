@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 const path = require('path');
 const fs = require('fs-extra');
 const proxyquire = require('proxyquire');
@@ -15,18 +14,17 @@ let spy;
 
 const testObject = {
   FIE_MODULE_PREFIX: 'hugo',
-  FIE_ENV: 'extranet'
+  FIE_ENV: 'extranet',
 };
 
-
 function initConfig(obj) {
-  Object.keys(obj).forEach((item) => {
+  Object.keys(obj).forEach(item => {
     process.env[item] = obj[item];
   });
 }
 
 function clearConfig(obj) {
-  Object.keys(obj).forEach((item) => {
+  Object.keys(obj).forEach(item => {
     delete process.env[item];
   });
 }
@@ -53,8 +51,7 @@ describe('# fie-commands/lib/help', () => {
     clearConfig(testObject);
   });
 
-
-  it('# 非fie项目下，只输出fie帮助信息', function* () {
+  it('# 非fie项目下，只输出fie帮助信息', function*() {
     yield require('../lib/help')();
     /* eslint-disable no-unused-expressions */
     expect(console.log).to.have.been.called;
@@ -62,7 +59,7 @@ describe('# fie-commands/lib/help', () => {
     expect(spy.callCount).to.be.at.most(5);
   });
 
-  it('# fie项目下，同时输出套件信息和fie帮助信息', function* () {
+  it('# fie项目下，同时输出套件信息和fie帮助信息', function*() {
     const intl = new Intl(message);
     const locale = intl.getLocale();
 
@@ -70,8 +67,8 @@ describe('# fie-commands/lib/help', () => {
       'fie-config': {
         getToolkitName() {
           return 'hugo-toolkit-empty-module';
-        }
-      }
+        },
+      },
     });
     yield help();
 

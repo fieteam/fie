@@ -1,4 +1,3 @@
-
 const sudoBlock = require('sudo-block');
 
 const fiePkg = require('../package.json');
@@ -11,7 +10,7 @@ sudoBlock();
  * @param obj
  */
 function initConfig(obj) {
-  Object.keys(obj).forEach((item) => {
+  Object.keys(obj).forEach(item => {
     if (!process.env[item]) {
       process.env[item] = obj[item];
     }
@@ -24,5 +23,5 @@ initConfig({
   FIE_PACKAGE: fiePkg.name,
   FIE_MODULE_PREFIX: 'fie',
   FIE_CONFIG_FILE: 'fie.config.js',
-  FIE_HOME_FOLDER: '.fie'
+  FIE_HOME_FOLDER: '.fie',
 });

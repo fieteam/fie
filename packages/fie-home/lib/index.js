@@ -19,7 +19,6 @@ let userHome;
  * @exports fie-home
  */
 const fieHome = {
-
   /**
    * 获取FIE的home路径
    * FIE_HOME_FOLDER 作用：可以自定义fie的核心目录，方便开发第三方cli工具进行定制
@@ -72,11 +71,9 @@ const fieHome = {
     if (fs.existsSync(fieModulesPath)) {
       debug('remove fie modules path = %s', fieModulesPath);
       // 清除fie.*.json的配置文件
-      const paths = globby.sync([
-        `${fieHomePath}/fie.*.json`
-      ]);
+      const paths = globby.sync([`${fieHomePath}/fie.*.json`]);
       debug('clear fie.*.json = %o', paths);
-      paths.forEach((item) => {
+      paths.forEach(item => {
         fs.removeSync(item);
       });
       // TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
@@ -89,7 +86,7 @@ const fieHome = {
    */
   getEntryModuleEnvName() {
     return 'FIE_ENTRY_MODULE';
-  }
+  },
 };
 
 module.exports = fieHome;

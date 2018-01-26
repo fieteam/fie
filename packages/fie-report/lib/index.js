@@ -24,7 +24,7 @@ const cwd = process.cwd();
  * @param {number} flowlog.beginTime 执行开始, 格式Date.now()
  * @param {number} flowlog.endTime 执行结束时间, 格式Date.now()
  * @param {number} flowlog.status 操作状态
-*/
+ */
 const generateEntityAndSend = (type, flowlog, foces) => {
   const isIntranet = fieEnv.isIntranet();
   const project = utils.getProjectInfo(cwd);
@@ -33,7 +33,7 @@ const generateEntityAndSend = (type, flowlog, foces) => {
   const map = {
     'fie-core-command': 1,
     'fie-module-use': 2,
-    'fie-error': 3
+    'fie-error': 3,
   };
 
   // log.debug(`当前项目信息 = %o`,project);
@@ -49,18 +49,20 @@ const generateEntityAndSend = (type, flowlog, foces) => {
     git: project.repository,
     branch: project.branch,
     command,
-    content: Object.assign({
-      cwd: project.cwd,
-      pkg: project.pkg,
-      fie: project.fie
-    }, flowlog.content),
-    type // 操作类型
+    content: Object.assign(
+      {
+        cwd: project.cwd,
+        pkg: project.pkg,
+        fie: project.fie,
+      },
+      flowlog.content
+    ),
+    type, // 操作类型
   };
 
   const data = Object.assign({}, defaultData, flowlog);
 
   debug('最终发送的数据 = %o', data);
-
 
   if (isIntranet) {
     debug('内网发送...');
@@ -68,7 +70,7 @@ const generateEntityAndSend = (type, flowlog, foces) => {
   } else {
     debug('外网发送...');
     let logMsg = '';
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach(key => {
       logMsg += `${key}=${JSON.stringify(data[key])}`;
     });
     __WPO.setConfig({ spmId: map[type] });
@@ -80,12 +82,10 @@ const generateEntityAndSend = (type, flowlog, foces) => {
   };
 };
 
-
 /**
  * @exports fie-report
  */
 module.exports = {
-
   /**
    * 根据核心命令发送日志(spmId: fie-core-command)
    */
@@ -107,12 +107,12 @@ module.exports = {
     if (name.indexOf(pluginPrefix) !== -1) {
       data = {
         fiePluginName: name,
-        fiePluginVersion: moduleVersion
+        fiePluginVersion: moduleVersion,
       };
     } else if (name.indexOf(toolkitPrefix) !== -1) {
       data = {
         fieToolkitName: name,
-        fieToolKitVersion: moduleVersion
+        fieToolKitVersion: moduleVersion,
       };
     }
     // TODO 判断如果名称一致的话，则不显示入口
@@ -130,9 +130,13 @@ module.exports = {
    * @param focus bool 是否重新获取系统相关信息而不是读缓存
    */
   error(type, err, focus) {
-    return generateEntityAndSend(3, {
-      errorType: type,
-      error: err
-    }, focus);
-  }
+    return generateEntityAndSend(
+      3,
+      {
+        errorType: type,
+        error: err,
+      },
+      focus
+    );
+  },
 };

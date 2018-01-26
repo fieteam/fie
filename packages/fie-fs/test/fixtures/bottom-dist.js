@@ -1,5 +1,5 @@
 module.exports = {
   name: 'hook',
-  description: 'la la la'
+  description: 'la la la',
 };
 // yiii

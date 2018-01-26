@@ -11,7 +11,7 @@ const Intl = require('fie-intl');
 const message = require('../locale/index');
 
 // 处理
-module.exports = function* (e) {
+module.exports = function*(e) {
   if (e.code !== 'MODULE_NOT_FOUND') {
     return false;
   }
@@ -35,7 +35,7 @@ module.exports = function* (e) {
     try {
       // 安装所需的依赖
       yield fieNpm.install(module, {
-        cwd: moduleCwd
+        cwd: moduleCwd,
       });
       log.success(intl.get('installDone', { module, moduleCwd }));
       log.success(intl.get('installDoneTips'));

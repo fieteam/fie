@@ -68,7 +68,7 @@ function* runPlugin(name, cliArgs) {
       }
     }
     if (!method) {
-      const msg = `未找到 ${module.reallyName} 插件对应的命令 ${pluginCmd}`;
+      const msg = intl.get('pluginCommandNotFound', { module: module.reallyName, pluginCmd });
       log.error(msg);
       report.error(module.reallyName, msg);
       return;
@@ -79,7 +79,8 @@ function* runPlugin(name, cliArgs) {
 
     yield fieTask.runFunction({
       method,
-      args: method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)]
+      args:
+        method.length > 1 ? [fieObject, optionsArg] : [Object.assign({}, fieObject, optionsArg)],
     });
   } else {
     const msg = intl.get('pluginNotFound', { plugin: module.fullName });
@@ -95,17 +96,21 @@ function* runPlugin(name, cliArgs) {
 function* showVersion(name) {
   let existsOne = false;
   const intl = new Intl(message);
-  const logOne = function* (n) {
+  const logOne = function*(n) {
     n = fieModuleName.fullName(n);
     const prefix = fieModuleName.prefix();
     const localExist = fieModule.localExist(n);
     let mod = '';
 
     if (localExist) {
-      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), { throws: false });
+      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), {
+        throws: false,
+      });
     } else if (prefix !== 'fie') {
       n = n.replace(prefix, 'fie');
-      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), { throws: false });
+      mod = fs.readJsonSync(path.resolve(fieHome.getModulesPath(), n, 'package.json'), {
+        throws: false,
+      });
     }
     if (mod && mod.version) {
       existsOne = true;
@@ -126,7 +131,6 @@ function* showVersion(name) {
     report.error('plugin-not-found', msg);
   }
 }
-
 
 /**
  * 当遇到 start , build 命令时,判断用户是否在正确的目录
@@ -150,7 +154,7 @@ function isErrorDirectory(command) {
  * @param cliArgs
  * @returns {*}
  */
-module.exports = function* (command, cliArgs) {
+module.exports = function*(command, cliArgs) {
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
@@ -193,20 +197,21 @@ module.exports = function* (command, cliArgs) {
 
     const optionsArg = {
       clientArgs: cliArgs,
-      clientOptions
+      clientOptions,
     };
 
     yield fieTask.run({
       tasks: tasks[command],
       args: [Object.assign({}, api.getApi(), optionsArg), optionsArg],
       when: 'before',
-      command
+      command,
     });
   }
 
-
   // -------------- 执行套件任务 ---------------
-  let toolkitName = fieConfig.exist() ? (fieConfig.get('toolkit') || fieConfig.get('toolkitName')) : '';
+  let toolkitName = fieConfig.exist()
+    ? fieConfig.get('toolkit') || fieConfig.get('toolkitName')
+    : '';
   // let toolkitExist;
   let toolkit = null;
   if (toolkitName) {
@@ -236,21 +241,22 @@ module.exports = function* (command, cliArgs) {
     const afterToolCommand = () => {
       // -------------- 执行后置任务 ---------------
       // next 是异步的方法, run 是 generator方法,所以需要用 co 包一层
-      hasAfterTask && co(function* () {
-        // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
-        const optionsArg = {
-          clientArgs: cliArgs,
-          clientOptions
-        };
-        yield fieTask.run({
-          tasks: tasks[command],
-          args: [Object.assign({}, fieObject, optionsArg), optionsArg],
-          when: 'after',
-          command
+      hasAfterTask &&
+        co(function*() {
+          // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
+          const optionsArg = {
+            clientArgs: cliArgs,
+            clientOptions,
+          };
+          yield fieTask.run({
+            tasks: tasks[command],
+            args: [Object.assign({}, fieObject, optionsArg), optionsArg],
+            when: 'after',
+            command,
+          });
+        }).catch(err => {
+          fieError.handle(err);
         });
-      }).catch((err) => {
-        fieError.handle(err);
-      });
     };
 
     // 传入 callback ,兼容未使用 generator 版本套件和插件
@@ -258,9 +264,12 @@ module.exports = function* (command, cliArgs) {
     const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
     yield fieTask.runFunction({
       method: toolkit[command],
-      args: toolkit[command].length > 1 ? [fieObject, optionsArg, afterToolCommand] : [Object.assign({}, fieObject, optionsArg)],
+      args:
+        toolkit[command].length > 1
+          ? [fieObject, optionsArg, afterToolCommand]
+          : [Object.assign({}, fieObject, optionsArg)],
       // fieTask 模块调用
-      next: afterToolCommand
+      next: afterToolCommand,
     });
     return;
   } else if (hasAfterTask) {

@@ -13,9 +13,9 @@
  * @param {Object} 对象
  * @returns {Object} 对象原型附上sampling 方法
  */
-const sampling = function (wpo) {
+const sampling = function(wpo) {
   const map = {};
-  wpo.sampling = function (mod) {
+  wpo.sampling = function(mod) {
     if (mod == 1) {
       // 100%
       return 1;

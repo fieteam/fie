@@ -9,8 +9,7 @@ const _ = require('lodash');
 const Intl = require('fie-intl');
 const message = require('../locale/index');
 
-
-module.exports = function* (e) {
+module.exports = function*(e) {
   if (e.code !== 'ENOENT') {
     return false;
   }

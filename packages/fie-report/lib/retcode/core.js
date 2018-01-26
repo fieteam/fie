@@ -8,7 +8,7 @@
 
 'use strict';
 
-module.exports = function (wpo, root, conf) {
+module.exports = function(wpo, root, conf) {
   let cookies = {},
     config = {
       imgUrl: '//retcode.taobao.com/r.png?',
@@ -16,7 +16,7 @@ module.exports = function (wpo, root, conf) {
       modVal: 1,
       // startTime: null, // 设置统计起始时间
       dynamic: false, // 是否开启动态配置功能
-      retCode: {}
+      retCode: {},
     },
     uid,
     guid = 0,
@@ -24,17 +24,19 @@ module.exports = function (wpo, root, conf) {
 
   const sendRequest = conf.sendRequest;
 
-  const _send = function () {
-    let params,
-      obj;
+  const _send = function() {
+    let params, obj;
 
-    while (params = core.dequeue()) {
-      obj = core.extend({
-        uid,
-        spm: config.spmId || core.getSpmId(),
-        times: params.times ? params.times : 1,
-        _t: ~new Date() + (guid++).toString()
-      }, params);
+    while ((params = core.dequeue())) {
+      obj = core.extend(
+        {
+          uid,
+          spm: config.spmId || core.getSpmId(),
+          times: params.times ? params.times : 1,
+          _t: ~new Date() + (guid++).toString(),
+        },
+        params
+      );
 
       if (!obj.spm) {
         break;
@@ -49,7 +51,7 @@ module.exports = function (wpo, root, conf) {
     timer = null;
   };
 
-  const _wait = function (_clear) {
+  const _wait = function(_clear) {
     if (_clear && timer) {
       clearTimeout(timer);
       _send();
@@ -63,9 +65,7 @@ module.exports = function (wpo, root, conf) {
     ver: '0.1.3',
     _key: 'wpokey',
     getCookie(name) {
-      let reg,
-        matches,
-        cookie;
+      let reg, matches, cookie;
 
       if (!cookies[name]) {
         reg = new RegExp(`${name}=([^;]+)`);
@@ -75,9 +75,7 @@ module.exports = function (wpo, root, conf) {
         //
         try {
           cookie = conf.getCookie(this);
-        } catch (e) {
-
-        }
+        } catch (e) {}
 
         matches = reg.exec(cookie);
         if (matches) {
@@ -90,13 +88,13 @@ module.exports = function (wpo, root, conf) {
     setCookie(key, value, expires, domain, path) {
       let str = `${key}=${value}`;
       if (domain) {
-        str += (`; domain=${domain}`);
+        str += `; domain=${domain}`;
       }
       if (path) {
-        str += (`; path=${path}`);
+        str += `; path=${path}`;
       }
       if (expires) {
-        str += (`; expires=${expires}`);
+        str += `; expires=${expires}`;
       }
       document.cookie = str;
     },
@@ -115,9 +113,9 @@ module.exports = function (wpo, root, conf) {
       return target;
     },
     guid() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        let r = Math.random() * 16 | 0,
-          v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        let r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       });
     },
@@ -147,7 +145,7 @@ module.exports = function (wpo, root, conf) {
         }
 
         return obj;
-      }
+      },
     },
     getSpmId() {
       if (config.spmId) {
@@ -159,17 +157,21 @@ module.exports = function (wpo, root, conf) {
     },
     on(el, type, func, isRemoving) {
       if (el.addEventListener) {
-        el.addEventListener(type,
-          isRemoving ? () => {
-            el.removeEventListener(type, func, false);
-            func();
-          } : func,
-          false);
+        el.addEventListener(
+          type,
+          isRemoving
+            ? () => {
+                el.removeEventListener(type, func, false);
+                func();
+              }
+            : func,
+          false
+        );
       } else if (el.attachEvent) {
-        el.attachEvent(`on${type}`, function () {
+        el.attachEvent(`on${type}`, function() {
           if (isRemoving) {
             // noinspection JSAnnotator
-						el.detachEvent(`on${type}`, arguments.callee);
+            el.detachEvent(`on${type}`, arguments.callee);
           }
           func();
         });
@@ -197,7 +199,7 @@ module.exports = function (wpo, root, conf) {
         this.setCookie(this._key, config, new Date(obj.expTime));
       }
       this.setConfig({
-        sample: parseInt(obj.sample, 10)
+        sample: parseInt(obj.sample, 10),
       });
       this.ready();
     },
@@ -269,7 +271,7 @@ module.exports = function (wpo, root, conf) {
     //
     // dynamically updates itself without queue
     //
-    requestQueue: wpo.requestQueue || []
+    requestQueue: wpo.requestQueue || [],
   };
 
   // core.getSpmId = conf.getSpmId.bind(core);

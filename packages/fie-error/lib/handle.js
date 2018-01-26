@@ -18,7 +18,7 @@ const innerList = [
   require('./handle-module-not-found'),
   require('./handle-enoent'),
   require('./handle-eaddrinuse'),
-  require('./handle-default')
+  require('./handle-default'),
 ];
 
 /**
@@ -26,7 +26,7 @@ const innerList = [
  * @param {error} e 错误对象
  */
 function handle(e) {
-  co(function* () {
+  co(function*() {
     log.debug('error code = %s', e.code);
     log.debug(e.stack || e);
     const handList = utils.getHandleList().concat(innerList);
@@ -40,7 +40,9 @@ function handle(e) {
         return;
       }
     }
-  }).catch((err) => { console.log(err); });
+  }).catch(err => {
+    console.log(err);
+  });
 }
 
 module.exports = handle;

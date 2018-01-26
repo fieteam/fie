@@ -7,13 +7,12 @@ const fiePkg = require('../package.json');
 
 sudoBlock();
 
-
 /**
  * 初始化开发环境
  * @param obj
  */
 function initConfig(obj) {
-  Object.keys(obj).forEach((item) => {
+  Object.keys(obj).forEach(item => {
     if (!process.env[item]) {
       process.env[item] = obj[item];
     }
@@ -29,5 +28,5 @@ initConfig({
   FIE_CONFIG_FILE: 'lzd.config.js',
   FIE_HOME_FOLDER: '.lzd',
   FIE_ENV: 'intranet',
-  FIE_LOCALE: 'en_US'      // 默认语言
+  FIE_LOCALE: 'en_US', // 默认语言
 });

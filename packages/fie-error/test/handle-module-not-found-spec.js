@@ -12,15 +12,14 @@ const installDependencies = sinon.spy();
 const handleModuleNotFound = proxyquire('../lib/handle-module-not-found', {
   'fie-log': emptyLog,
   'fie-npm': {
-    * install() {
+    *install() {
       install.apply(this, [].slice.call(arguments));
     },
-    * installDependencies() {
+    *installDependencies() {
       installDependencies.apply(this, [].slice.call(arguments));
-    }
-  }
+    },
+  },
 });
-
 
 describe('# 处理 MODULE_NOT_FOUND 异常', () => {
   before(() => {
@@ -35,7 +34,7 @@ describe('# 处理 MODULE_NOT_FOUND 异常', () => {
     fs.removeSync(path.join(cwd, 'node_modules/@ali'));
   });
 
-  it('# 发现模块不存在时, 执行 install', function* () {
+  it('# 发现模块不存在时, 执行 install', function*() {
     const notExist = 'this-is-non-exist-module';
     try {
       require(notExist);

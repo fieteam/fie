@@ -12,7 +12,7 @@ const log = require('fie-log')('core-module');
  */
 function* update(name) {
   const options = {
-    type: 'update'
+    type: 'update',
   };
   if (name) {
     log.debug(`单独更新模块 ${name}`);

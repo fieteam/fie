@@ -17,7 +17,8 @@ function isGenerator(obj) {
 function isGeneratorFunction(obj) {
   const constructor = obj.constructor;
   if (!constructor) return false;
-  if (constructor.name === 'GeneratorFunction' || constructor.displayName === 'GeneratorFunction') return true;
+  if (constructor.name === 'GeneratorFunction' || constructor.displayName === 'GeneratorFunction')
+    return true;
   return isGenerator(constructor.prototype);
 }
 

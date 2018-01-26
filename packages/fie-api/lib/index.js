@@ -35,5 +35,5 @@ module.exports = {
   module: fieModule,
   moduleName: fieModuleName,
   Intl,
-  coreConfig
+  coreConfig,
 };

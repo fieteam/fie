@@ -12,9 +12,13 @@ function* installOne(name, options) {
   const prefix = utils.modPrefix();
   const intl = new Intl(message);
   let pureName = '';
-  options = Object.assign({}, {
-    type: 'install'
-  }, options);
+  options = Object.assign(
+    {},
+    {
+      type: 'install',
+    },
+    options
+  );
   // name = utils.fullName(name);
   // 匹配套件名称，其中需要判断前缀是否是自定义的
   const match = name.match(/^(@ali\/)?([A-Za-z0-9_-]*)-(toolkit|plugin)-/);
@@ -41,12 +45,12 @@ function* installOne(name, options) {
   // 开始安装
   log.debug(`开始安装 ${name}`);
   yield npm.install(name, {
-    cwd: home.getHomePath()
+    cwd: home.getHomePath(),
   });
 
   // 设置缓存, 1小时内不再检查
   cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
-    expires: utils.NO_TIP_PERIOD
+    expires: utils.NO_TIP_PERIOD,
   });
 
   // 提示安装成功
@@ -66,7 +70,7 @@ function* installOne(name, options) {
   utils.updateLog(name, {
     localPkg: options.localPkg,
     lastPkg: options.lastPkg,
-    level: 'success'
+    level: 'success',
   });
 }
 

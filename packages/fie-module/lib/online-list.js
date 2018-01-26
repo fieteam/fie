@@ -7,13 +7,14 @@ const request = require('co-request');
 const utils = require('./utils');
 const ping = require('ping');
 
-
 const searchApi = () => {
   const isIntranet = env.isIntranet();
   const prefix = encodeURIComponent(`${utils.modPrefix()}-`);
   const end = `browse/keyword/${prefix}?type=json&__t=${Date.now()}`;
   // TODO 删除pre.
-  const listApi = isIntranet ? `http://fie-api.alibaba-inc.com/modules/simple?type=${prefix}` : `https://npm.taobao.org/${end}`;
+  const listApi = isIntranet
+    ? `http://fie-api.alibaba-inc.com/modules/simple?type=${prefix}`
+    : `https://npm.taobao.org/${end}`;
   log.debug(`获取列表访问的 api 地址: ${listApi}`);
   return listApi;
 };
@@ -23,12 +24,18 @@ const searchApi = () => {
  * @returns {*|Request|Array}
  */
 function* onlineList(options) {
-  options = Object.assign({}, {
-    cache: true
-  }, options);
+  options = Object.assign(
+    {},
+    {
+      cache: true,
+    },
+    options
+  );
 
   const isIntranet = env.isIntranet();
-  const cacheKey = isIntranet ? utils.ONLINE_MODULE_CACHE_KEY_IN : utils.ONLINE_MODULE_CACHE_KEY_OUT;
+  const cacheKey = isIntranet
+    ? utils.ONLINE_MODULE_CACHE_KEY_IN
+    : utils.ONLINE_MODULE_CACHE_KEY_OUT;
 
   log.debug('get online list from cache %o', cache.get(cacheKey));
 
@@ -51,7 +58,7 @@ function* onlineList(options) {
       const res = yield request({
         url: searchApi(),
         method: 'get',
-        json: true
+        json: true,
       });
 
       log.debug('search body = ', res.body);
@@ -62,15 +69,16 @@ function* onlineList(options) {
       const tPrefix = utils.toolkitPrefix();
       const pPrefix = utils.pluginPrefix();
       const pkgPrefix = isIntranet ? '@ali/' : '';
-      list.forEach((item) => {
+      list.forEach(item => {
         // 内外网数据源不同,格式稍有差异
         item.name = isIntranet ? item.moduleName : item.name;
         item.chName = item.chName ? item.chName : item.description;
         item.shared = isIntranet ? item.shared : true;
 
         // 名字不符合规则 或 已删除的包不再显示
-        if (item.description !== 'delete' &&
-            (item.name.indexOf(`${pkgPrefix}${tPrefix}`) === 0 ||
+        if (
+          item.description !== 'delete' &&
+          (item.name.indexOf(`${pkgPrefix}${tPrefix}`) === 0 ||
             item.name.indexOf(`${pkgPrefix}${pPrefix}` === 0))
         ) {
           moduleList.push(item);
@@ -80,7 +88,7 @@ function* onlineList(options) {
       // 如果没有列表，就不缓存了
       if (!moduleList.length) {
         cache.set(cacheKey, moduleList, {
-          expires: 3600000
+          expires: 3600000,
         });
       }
     }
@@ -88,7 +96,6 @@ function* onlineList(options) {
     // 返回数据出错, 可能是没网
     log.debug(e);
   }
-
 
   moduleList = options.type ? utils.moduleFilter(moduleList, options.type) : moduleList;
 
