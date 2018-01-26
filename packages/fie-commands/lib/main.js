@@ -68,7 +68,7 @@ function* runPlugin(name, cliArgs) {
       }
     }
     if (!method) {
-      const msg = `未找到 ${module.reallyName} 插件对应的命令 ${pluginCmd}`;
+      const msg = intl.get('pluginCommandNotFound', { module: module.reallyName , pluginCmd });
       log.error(msg);
       report.error(module.reallyName, msg);
       return;

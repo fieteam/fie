@@ -52,6 +52,7 @@ module.exports = {
     pluginList: '\r\n- 插件列表 \r\n',
     // main.js
     pluginNotFound: '{plugin} 插件不存在',
+    pluginCommandNotFound : '未找到 {module} 插件对应的命令 {pluginCmd}',
     moduleVersion: '\n {module} 对应版本为 {version}\n',
     localNotFound: '本地未安装 toolkit-{name} 或 plugin-{name} 模块',
     configFileNotFound: '未检测到 {file} 文件, 请确认当前命令是否在项目根目录下执行',
@@ -119,6 +120,7 @@ module.exports = {
     pluginList: '\r\n- Plugin List \r\n',
     // main.js
     pluginNotFound: '{plugin} plugin no exist',
+    pluginCommandNotFound : '{module} plugin {pluginCmd} command no exist',
     moduleVersion: '\n {module} version is {version}\n',
     localNotFound: 'No toolkit-{name} or  plugin-{name} installed',
     configFileNotFound: 'Cannot find {file}, Please make sure your are in root folder',
