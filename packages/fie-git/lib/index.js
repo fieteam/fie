@@ -5,6 +5,21 @@ const shelljs = require('shelljs');
 
 const root = process.cwd();
 
+const oldBranch = git.branch;
+const oldLong = git.long;
+function getBranch(filePath) {
+  // 云构建的话 就直接返回云构建的分支
+  return process.env.BUILD_GIT_BRANCH ? process.env.BUILD_GIT_BRANCH : oldBranch(filePath);
+}
+
+function getCommitId(filePath) {
+  return process.env.BUILD_GIT_COMMITID ? process.env.BUILD_GIT_COMMITID : oldLong(filePath)
+}
+
+function getShortCommitId(dir) {
+  return getCommitId(dir).substr(0, 7);
+}
+
 const parseStatus = function (str) {
   let branch_line;
   const status = {
@@ -72,9 +87,9 @@ git.repository = function (cwd) {
   try {
     repository = (shelljs.exec('git config --get remote.origin.url', { silent: true, cwd }).stdout.toString() || '').trim();
     // 有些git的url是http开头的，需要格式化为git@格式，方便统一处理
-    const match = repository.match(/^(http|https):\/\/gitlab.alibaba-inc.com\/(.*)/);
-    if (match && match[2]) {
-      repository = `git@gitlab.alibaba-inc.com:${match[2]}`;
+    const match = repository.match(/^(http|https):\/\/(gitlab.alibaba-inc.com|github.com)\/(.*)/);
+    if (match && match.length > 3) {
+      repository = `git@${match[2]}:${match[3]}`;
     }
   } catch (err) {
     console.error('git config 错误：', err.message);
@@ -93,6 +108,10 @@ git.project = function (cwd) {
     return match[2].replace('.git', '');
   }
 };
+
+git.branch = getBranch;
+git.long = getCommitId;
+git.short = getShortCommitId;
 
 /**
  * @exports fie-git
