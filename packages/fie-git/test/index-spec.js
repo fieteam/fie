@@ -29,4 +29,9 @@ describe('# fie-git', () => {
     const project = fieGit.project();
     expect(project).to.be.eq('fieteam/fie');
   });
+
+  it('tag() 获取远程最新的一个tag', () => {
+    const tag = fieGit.tag();
+    expect(tag).to.be.a('string');
+  });
 });
