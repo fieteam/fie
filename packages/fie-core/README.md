@@ -69,10 +69,12 @@ fie 使用帮助:  $ fie [command] [options]
 	$ fie build
 	```	
 
-## 技术支持
-1. 使用过程中遇到的相关问题，可在github上提相关的issues : https://github.com/fieteam/fie/issues/new
-2. 也可通过钉钉或旺旺联系：@擎空、@宇果
 
+## Support
 
+使用过程中遇到的相关问题，及BUG反馈，可联系: hugohua <baofen14787@gmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)
 
+## License
+
+[GNU GPLv3](LICENSE)
 

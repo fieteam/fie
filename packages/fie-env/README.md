@@ -87,11 +87,11 @@ fieEnv.removeConfigFile();
 fieEnv.hasConfigFile();  //=> false
 ```
 
+
 ## Support
 
-使用过程中遇到的相关问题，及BUG反馈，可联系: 宇果 <baofen14787@gmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)
+使用过程中遇到的相关问题，及BUG反馈，可联系: hugohua <baofen14787@gmail.com> ，也可直接提[issues](https://github.com/fieteam/fie/issues/new)
 
 ## License
 
 [GNU GPLv3](LICENSE)
-
