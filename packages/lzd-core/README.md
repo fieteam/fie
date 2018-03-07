@@ -34,10 +34,14 @@ lzd usage:  $ lzd [command] [options]
 ```
 
 
+
 ## Support
-1. DingTalk contact @宇果
+1. DingTalk contact @宇果(Hugo)
 
 
+## License
+
+[GNU GPLv3](LICENSE)
 
 
 
