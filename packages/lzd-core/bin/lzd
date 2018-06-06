@@ -13,7 +13,6 @@ const argv = require('fie-argv');
 const fiePkg = require('../package.json');
 
 
-
 /**
  * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
  */

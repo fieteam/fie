@@ -27,10 +27,10 @@ function getRegistry() {
  * @param options
  */
 function* runInstall(installer, paths, options) {
-  const registry = getRegistry();
+  // const registry = getRegistry();
   // npm默认值
   const option = _.defaults(options || {}, {
-    registry,
+    registry : 'http://registry.npm.alibaba-inc.com/?bucket=alinpm-us1',
     china: true,
     stdio: 'inherit',
     cwd: process.cwd(),
@@ -46,6 +46,7 @@ function* runInstall(installer, paths, options) {
   }
 
   log.debug('installer = %s', installer);
+  log.debug('options = %s',option);
 
   // 将pkg进行扁平化
   if (!Array.isArray(paths) && paths) {
