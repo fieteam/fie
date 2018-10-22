@@ -85,6 +85,13 @@ git.status = function(cwd) {
 git.repository = function(cwd) {
   cwd = cwd || root;
   let repository;
+
+  // 阿里云构建环境下则取阿里云的项目信息
+  if (process.env.BUILD_GIT_GROUP && process.env.BUILD_GIT_PROJECT) {
+    repository = `git@gitlab.alibaba-inc.com:${process.env.BUILD_GIT_GROUP}/${process.env.BUILD_GIT_PROJECT}`;
+    return repository;
+  }
+
   try {
     repository = (
       shelljs.exec('git config --get remote.origin.url', { silent: true, cwd }).stdout.toString() ||

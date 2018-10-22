@@ -67,7 +67,7 @@ function updateLog(name, opt) {
       );
     }
 
-    ulog(`${name} ${pre}${intl.get('includeUpdate')}`);
+    ulog(`${name} ${pre}, ${intl.get('includeUpdate')}`);
     changeLog.forEach(item => {
       if (!item.log || !item.log.length) {
         return;
