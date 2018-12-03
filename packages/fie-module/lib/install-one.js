@@ -51,13 +51,14 @@ function* installOne(name, options) {
   if (!/^(@ali\/)?.+@.+$/.test(name)) {
     // 没带版本号
     pureName = name;
+
     if (options.lastPkg && options.lastPkg.version) {
       version = options.lastPkg.version;
     }
     name += `@${version}`;
   } else {
     pureName = name.split('@');
-    pureName.pop();
+    version = pureName.pop();
     pureName = pureName.join('@');
   }
 
@@ -67,9 +68,6 @@ function* installOne(name, options) {
   yield npm.installDependencies({
     cwd : homeCwd
   });
-  // yield npm.install(name, {
-  //   cwd: home.getHomePath(),
-  // });
 
   // 设置缓存, 1小时内不再检查
   cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
