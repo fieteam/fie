@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs-extra');
-const path = require('path');
 const home = require('fie-home');
 const npm = require('fie-npm');
 const log = require('fie-log')('core-module');
@@ -10,22 +8,7 @@ const Intl = require('fie-intl');
 const message = require('../locale/index');
 const utils = require('./utils');
 
-/**
- * 解决npminstall不存在package.json时依赖无法正常安装的问题
- * @param cwd
- * @param name
- * @param version
- */
-function addModuleToDependencies(cwd, name, version) {
-  version = version || 'latest';
-  let pkgFile = { dependencies: {} };
-  const pkgPath = path.join(cwd, 'package.json');
-  if (fs.existsSync(pkgPath)) {
-    pkgFile = fs.readJsonSync(pkgPath);
-  }
-  pkgFile.dependencies[name] = version;
-  fs.outputJsonSync(pkgPath, pkgFile);
-}
+
 
 function* installOne(name, options) {
   const prefix = utils.modPrefix();
@@ -64,7 +47,7 @@ function* installOne(name, options) {
 
   // 开始安装
   log.debug(`开始安装 ${name}`);
-  addModuleToDependencies(homeCwd, pureName, version);
+  utils.addModuleToDependencies(homeCwd, pureName, version);
   yield npm.installDependencies({
     cwd: homeCwd,
   });
