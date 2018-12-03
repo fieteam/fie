@@ -71,7 +71,7 @@ const fieHome = {
     if (fs.existsSync(fieModulesPath)) {
       debug('remove fie modules path = %s', fieModulesPath);
       // 清除fie.*.json的配置文件
-      const paths = globby.sync([`${fieHomePath}/fie.*.json`]);
+      const paths = globby.sync([`${fieHomePath}/fie.*.json`, `${fieHomePath}/package.json`]);
       debug('clear fie.*.json = %o', paths);
       paths.forEach(item => {
         fs.removeSync(item);

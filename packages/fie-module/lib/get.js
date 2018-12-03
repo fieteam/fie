@@ -86,7 +86,7 @@ function* get(name) {
             }
 
             if (autoZVersion) {
-              log.info(intl.get('autoUpdateZ',{localVersion : localPkg.version,autoZVersion}));
+              log.info(intl.get('autoUpdateZ', { localVersion: localPkg.version, autoZVersion }));
               const comPkg = yield npm.latest(name, {
                 version: autoZVersion,
               });

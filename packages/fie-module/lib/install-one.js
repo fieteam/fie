@@ -8,8 +8,12 @@ const Intl = require('fie-intl');
 const message = require('../locale/index');
 const utils = require('./utils');
 
+
+
 function* installOne(name, options) {
   const prefix = utils.modPrefix();
+  const homeCwd = home.getHomePath();
+  let version = 'latest';
   const intl = new Intl(message);
   let pureName = '';
   options = Object.assign(
@@ -19,7 +23,6 @@ function* installOne(name, options) {
     },
     options
   );
-  // name = utils.fullName(name);
   // 匹配套件名称，其中需要判断前缀是否是自定义的
   const match = name.match(/^(@ali\/)?([A-Za-z0-9_-]*)-(toolkit|plugin)-/);
   // 判断逻辑：前缀存在 且 前缀为自定义设置的 或者前缀是fie
@@ -31,21 +34,22 @@ function* installOne(name, options) {
   if (!/^(@ali\/)?.+@.+$/.test(name)) {
     // 没带版本号
     pureName = name;
+
     if (options.lastPkg && options.lastPkg.version) {
-      name += `@${options.lastPkg.version}`;
-    } else {
-      name += '@latest';
+      version = options.lastPkg.version;
     }
+    name += `@${version}`;
   } else {
     pureName = name.split('@');
-    pureName.pop();
+    version = pureName.pop();
     pureName = pureName.join('@');
   }
 
   // 开始安装
   log.debug(`开始安装 ${name}`);
-  yield npm.install(name, {
-    cwd: home.getHomePath(),
+  utils.addModuleToDependencies(homeCwd, pureName, version);
+  yield npm.installDependencies({
+    cwd: homeCwd,
   });
 
   // 设置缓存, 1小时内不再检查

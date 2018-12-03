@@ -59,7 +59,7 @@ Fix suggestions：
     moduleNotFound: 'the {module} module was not found, there was an error when running the plugin or toolkit! Trying to fix it automatically ...',
     installSuccess: 'Re-run the command to successfully install dependencies in the current project!',
     installDone: 'The {module} module has been installed to {moduleCwd} and the automatic repair is successful. Please re-run the command!',
-    installDoneTips: 'If there is still a problem while re-run, please add: DEBUG = core-error to the beginning of your command to get the detailed error stack',
+    installDoneTips: 'If there is still a problem while re-run, please add: 【 DEBUG=core-error 】 to the beginning of your command to get the detailed error stack',
     installError: 'sorry, the automatic repair failed, please repair manually',
     notFound: 'The {file} file was not found, there was an error in the run. Please make sure {file} exists!',
     detailError: 'Detailed error stack information is as follows:',

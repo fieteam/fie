@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs-extra');
+const path = require('path');
 const semver = require('semver');
 const log = require('fie-log')('core-module');
 const chalk = require('chalk');
@@ -98,6 +100,25 @@ function updateLog(name, opt) {
   }
 }
 
+
+/**
+ * 解决npminstall不存在package.json时依赖无法正常安装的问题
+ * @param cwd
+ * @param name
+ * @param version
+ */
+function addModuleToDependencies(cwd, name, version) {
+  version = version || 'latest';
+  let pkgFile = { dependencies: {} };
+  const pkgPath = path.join(cwd, 'package.json');
+  if (fs.existsSync(pkgPath)) {
+    pkgFile = fs.readJsonSync(pkgPath);
+  }
+  pkgFile.dependencies[name] = version;
+  fs.outputJsonSync(pkgPath, pkgFile);
+}
+
+
 const utils = {
   moduleFilter(list, type) {
     return list.filter(item => item.name.indexOf(`${type}-`) > -1);
@@ -113,6 +134,7 @@ const utils = {
   ONLINE_MODULE_CACHE_KEY_IN: 'onlineModuleListIn',
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
   updateLog,
+  addModuleToDependencies,
   NO_TIP_PERIOD: 3600000,
 };
 
