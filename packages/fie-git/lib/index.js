@@ -88,9 +88,7 @@ git.repository = function(cwd) {
 
   // 阿里云构建环境下则取阿里云的项目信息
   if (process.env.BUILD_GIT_GROUP && process.env.BUILD_GIT_PROJECT) {
-    repository = `git@gitlab.alibaba-inc.com:${process.env.BUILD_GIT_GROUP}/${
-      process.env.BUILD_GIT_PROJECT
-    }`;
+    repository = `git@gitlab.alibaba-inc.com:${process.env.BUILD_GIT_GROUP}/${process.env.BUILD_GIT_PROJECT}`;
     return repository;
   }
 
