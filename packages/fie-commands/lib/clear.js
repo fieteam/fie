@@ -17,7 +17,7 @@ const message = require('../locale/index');
 
 module.exports = function*() {
   const intl = new Intl(message);
-  const cdnPath = path.join(fieHome.getHomePath(),'LocalCDNPath');
+  const cdnPath = path.join(fieHome.getHomePath(), 'LocalCDNPath');
   log.info(intl.get('startClear'));
   fieHome.cleanHomeDir();
   fieEnv.removeConfigFile();

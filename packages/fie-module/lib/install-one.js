@@ -16,15 +16,15 @@ const utils = require('./utils');
  * @param name
  * @param version
  */
-function addModuleToDependencies(cwd,name, version) {
-  version = version || "latest";
-  let pkgFile = {dependencies: {}};
-  const pkgPath = path.join(cwd,'package.json');
+function addModuleToDependencies(cwd, name, version) {
+  version = version || 'latest';
+  let pkgFile = { dependencies: {} };
+  const pkgPath = path.join(cwd, 'package.json');
   if (fs.existsSync(pkgPath)) {
     pkgFile = fs.readJsonSync(pkgPath);
   }
   pkgFile.dependencies[name] = version;
-  fs.outputJsonSync(pkgPath,pkgFile);
+  fs.outputJsonSync(pkgPath, pkgFile);
 }
 
 function* installOne(name, options) {
@@ -64,9 +64,9 @@ function* installOne(name, options) {
 
   // 开始安装
   log.debug(`开始安装 ${name}`);
-  addModuleToDependencies(homeCwd,pureName,version);
+  addModuleToDependencies(homeCwd, pureName, version);
   yield npm.installDependencies({
-    cwd : homeCwd
+    cwd: homeCwd,
   });
 
   // 设置缓存, 1小时内不再检查
