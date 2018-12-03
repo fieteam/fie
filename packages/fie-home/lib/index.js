@@ -68,6 +68,7 @@ const fieHome = {
   cleanHomeDir: () => {
     const fieHomePath = fieHome.getHomePath();
     const fieModulesPath = fieHome.getModulesPath();
+    const pkgPath = path.join(fieHomePath,'package.json');
     if (fs.existsSync(fieModulesPath)) {
       debug('remove fie modules path = %s', fieModulesPath);
       // 清除fie.*.json的配置文件
@@ -78,6 +79,10 @@ const fieHome = {
       });
       // TODO windows下可能存在路径过长无法清除的情况，报错后则直接改个文件夹名字
       rimraf.sync(fieModulesPath);
+    }
+    // 移除package.json
+    if(fs.existsSync(pkgPath)){
+      fs.removeSync(pkgPath);
     }
   },
 

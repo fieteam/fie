@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs-extra');
+const path = require('path');
 const home = require('fie-home');
 const npm = require('fie-npm');
 const log = require('fie-log')('core-module');
@@ -8,8 +10,27 @@ const Intl = require('fie-intl');
 const message = require('../locale/index');
 const utils = require('./utils');
 
+/**
+ * 解决npminstall不存在package.json时依赖无法正常安装的问题
+ * @param cwd
+ * @param name
+ * @param version
+ */
+function addModuleToDependencies(cwd,name, version) {
+  version = version || "latest";
+  let pkgFile = {dependencies: {}};
+  const pkgPath = path.join(cwd,'package.json');
+  if (fs.existsSync(pkgPath)) {
+    pkgFile = fs.readJsonSync(pkgPath);
+  }
+  pkgFile.dependencies[name] = version;
+  fs.outputJsonSync(pkgPath,pkgFile);
+}
+
 function* installOne(name, options) {
   const prefix = utils.modPrefix();
+  const homeCwd = home.getHomePath();
+  let version = 'latest';
   const intl = new Intl(message);
   let pureName = '';
   options = Object.assign(
@@ -19,7 +40,6 @@ function* installOne(name, options) {
     },
     options
   );
-  // name = utils.fullName(name);
   // 匹配套件名称，其中需要判断前缀是否是自定义的
   const match = name.match(/^(@ali\/)?([A-Za-z0-9_-]*)-(toolkit|plugin)-/);
   // 判断逻辑：前缀存在 且 前缀为自定义设置的 或者前缀是fie
@@ -32,10 +52,9 @@ function* installOne(name, options) {
     // 没带版本号
     pureName = name;
     if (options.lastPkg && options.lastPkg.version) {
-      name += `@${options.lastPkg.version}`;
-    } else {
-      name += '@latest';
+      version = options.lastPkg.version;
     }
+    name += `@${version}`;
   } else {
     pureName = name.split('@');
     pureName.pop();
@@ -44,9 +63,13 @@ function* installOne(name, options) {
 
   // 开始安装
   log.debug(`开始安装 ${name}`);
-  yield npm.install(name, {
-    cwd: home.getHomePath(),
+  addModuleToDependencies(homeCwd,pureName,version);
+  yield npm.installDependencies({
+    cwd : homeCwd
   });
+  // yield npm.install(name, {
+  //   cwd: home.getHomePath(),
+  // });
 
   // 设置缓存, 1小时内不再检查
   cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
