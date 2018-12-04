@@ -118,6 +118,16 @@ function addModuleToDependencies(cwd, name, version) {
   fs.outputJsonSync(pkgPath, pkgFile);
 }
 
+function removeModuleToDependencies(cwd , name) {
+  let pkgFile;
+  const pkgPath = path.join(cwd, 'package.json');
+  if (!fs.existsSync(pkgPath)) return;
+  pkgFile = fs.readJsonSync(pkgPath);
+  delete pkgFile.dependencies[name];
+  fs.outputJsonSync(pkgPath, pkgFile);
+}
+
+
 
 const utils = {
   moduleFilter(list, type) {
@@ -135,6 +145,7 @@ const utils = {
   ONLINE_MODULE_CACHE_KEY_OUT: 'onlineModuleListOut',
   updateLog,
   addModuleToDependencies,
+  removeModuleToDependencies,
   NO_TIP_PERIOD: 3600000,
 };
 

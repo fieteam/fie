@@ -19,7 +19,8 @@ module.exports = {
     updateTips: '升级提示',
     recommendVersion: '{name} 推荐的版本是 {version}',
     recommendInstall: '请执行 {icon}  {installTip} 来升级模块',
-    includeUpdate: '包含以下更新:'
+    includeUpdate: '包含以下更新:',
+    installError: '{name} 安装报错，请确认该package是否存在!'
 
   },
   en_US: {
@@ -38,6 +39,7 @@ module.exports = {
     updateTips: 'Upgrade tips',
     recommendVersion: '{name}: recommended version is {version}',
     recommendInstall: 'Please execute {icon} {installTip} to upgrade the module',
-    includeUpdate: 'Include the following updates:'
+    includeUpdate: 'Include the following updates:',
+    installError: 'Install {name} package error, please confirm whether the package exists!'
   },
 };
