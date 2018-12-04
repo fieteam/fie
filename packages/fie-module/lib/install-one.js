@@ -48,9 +48,17 @@ function* installOne(name, options) {
   // 开始安装
   log.debug(`开始安装 ${name}`);
   utils.addModuleToDependencies(homeCwd, pureName, version);
-  yield npm.installDependencies({
-    cwd: homeCwd,
-  });
+  try{
+    yield npm.installDependencies({
+      cwd: homeCwd,
+    });
+  }catch (e) {
+    utils.removeModuleToDependencies(homeCwd,pureName);
+    log.error(intl.get('installError',{name : pureName}));
+  }finally{
+    process.exit(1);
+  }
+
 
   // 设置缓存, 1小时内不再检查
   cache.set(`${utils.UPDATE_CHECK_PRE}${pureName}`, true, {
