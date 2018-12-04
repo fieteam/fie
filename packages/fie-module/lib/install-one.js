@@ -55,7 +55,6 @@ function* installOne(name, options) {
   }catch (e) {
     utils.removeModuleToDependencies(homeCwd,pureName);
     log.error(intl.get('installError',{name : pureName}));
-  }finally{
     process.exit(1);
   }
 
