@@ -1,5 +1,8 @@
 {
   "extends": "eslint-config-ais/es6",
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
   "globals": {
     "it": true,
     "describe": true,

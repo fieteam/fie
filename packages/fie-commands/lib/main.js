@@ -22,6 +22,8 @@ const path = require('path');
 const chalk = require('chalk');
 const report = require('fie-report');
 const Intl = require('fie-intl');
+const ruleDispatcher = require('../../fie-rule-dispatcher'); // TODO: 心法
+
 const message = require('../locale/index');
 
 let fieObject;
@@ -96,7 +98,7 @@ function* runPlugin(name, cliArgs) {
 function* showVersion(name) {
   let existsOne = false;
   const intl = new Intl(message);
-  const logOne = function*(n) {
+  const logOne = function* (n) {
     n = fieModuleName.fullName(n);
     const prefix = fieModuleName.prefix();
     const localExist = fieModule.localExist(n);
@@ -154,7 +156,11 @@ function isErrorDirectory(command) {
  * @param cliArgs
  * @returns {*}
  */
-module.exports = function*(command, cliArgs) {
+module.exports = function* (command, cliArgs) {
+  // 保证所有的fie命令都会执行到.
+
+  yield ruleDispatcher.init();
+
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
@@ -191,7 +197,7 @@ module.exports = function*(command, cliArgs) {
     return;
   }
 
-  // ------------- 执行前置任务 ---------------
+  // ------------- 执行前置任务: 业务工程自定义任务 ---------------
   if (hasBeforeTask) {
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
 
@@ -239,10 +245,10 @@ module.exports = function*(command, cliArgs) {
     report.moduleUsage(toolkitName);
     setEntryModule(toolkitName);
     const afterToolCommand = () => {
-      // -------------- 执行后置任务 ---------------
+      log.debug('-------------- 执行后置任务 ---------------');
       // next 是异步的方法, run 是 generator方法,所以需要用 co 包一层
       hasAfterTask &&
-        co(function*() {
+        co(function* () {
           // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
           const optionsArg = {
             clientArgs: cliArgs,
@@ -254,14 +260,25 @@ module.exports = function*(command, cliArgs) {
             when: 'after',
             command,
           });
-        }).catch(err => {
+        }).catch((err) => {
           fieError.handle(err);
         });
+
+      log.debug('再运行后置规则...');
+      ruleDispatcher.execRules({
+        toolkit: toolkitName, command, preriod: 'after'
+      });
     };
 
     // 传入 callback ,兼容未使用 generator 版本套件和插件
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
     const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
+
+    log.debug('先运行前置规则...');
+    ruleDispatcher.execRules({
+      toolkit: toolkitName, command, preriod: 'before'
+    });
+    // 命令执行
     yield fieTask.runFunction({
       method: toolkit[command],
       args:
@@ -271,6 +288,8 @@ module.exports = function*(command, cliArgs) {
       // fieTask 模块调用
       next: afterToolCommand,
     });
+
+
     return;
   } else if (hasAfterTask) {
     log.debug('未找到对应的套件及方法');
