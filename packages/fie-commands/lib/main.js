@@ -8,7 +8,7 @@
 'use strict';
 
 const co = require('co');
-const log = require('fie-log')('core-commands');
+const log = require('fie-log')('fie-commands');
 const fieTask = require('fie-task');
 const fieConfig = require('fie-config');
 const fieModule = require('fie-module');
@@ -200,7 +200,7 @@ module.exports = function* (command, cliArgs) {
   // ------------- 执行前置任务: 业务工程自定义任务 ---------------
   if (hasBeforeTask) {
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
-
+    log.debug('-------------- 执行前置任务 ---------------');
     const optionsArg = {
       clientArgs: cliArgs,
       clientOptions,
@@ -274,7 +274,7 @@ module.exports = function* (command, cliArgs) {
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
     const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
 
-    log.debug('先运行前置规则...');
+    log.debug('执行前置规则...');
     ruleDispatcher.execRules({
       toolkit: toolkitName, command, preriod: 'before'
     });
@@ -319,5 +319,9 @@ module.exports = function* (command, cliArgs) {
   if (!hasBeforeTask && !hasAfterTask) {
     log.debug('尝试执行插件方法');
     yield runPlugin(command, cliArgs);
+    log.debug('插件执行完毕. 执行后置规则');
+    ruleDispatcher.execRules({
+      toolkit: toolkitName, command, preriod: 'after'
+    });
   }
 };
