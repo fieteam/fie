@@ -6,6 +6,7 @@ const fieModule = require('fie-module');
 const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
 const { exec } = require('child_process');
+const vm = require('vm');
 
 const co = require('co');
 const log = require('fie-log')('fie-rule-dispatcher');
@@ -82,19 +83,19 @@ async function installPluginsIfNeed(plugin) {
 }
 
 // 执行一段sh命令
-async function execScript({ script, async = false, silent = true }) {
-  log.debug(`execScript: ${script}`, `. async=${async}, silent=${silent}`);  // silent暂不实现.
+async function execShell({ script, async = false, silent = true }) {
+  log.debug(`execShell: ${script}`, `. async=${async}, silent=${silent}`);  // silent暂不实现.
 
   let process = null;
   if (async) {  // 异步
     return new Promise(() => {
-      log.debug(`execScript, will spawn:  ${script}`);
+      log.debug(`execShell, will spawn:  ${script}`);
       process = exec(script, { cwd }, (err, stdout, stderr) => {
         if (err) {
-          log.debug(`execScript执行命令出错, ${script}, ${err}`);
+          log.debug(`execShell执行命令出错, ${script}, ${err}`);
         }
-        if (stdout) { log.debug(`execScript执行命令成功, ${script}, ${stdout}`); }
-        if (stderr) { log.debug(`execScript执行命令成功, ${script}, ${stderr}`); }
+        if (stdout) { log.debug(`execShell执行命令成功, ${script}, ${stdout}`); }
+        if (stderr) { log.debug(`execShell执行命令成功, ${script}, ${stderr}`); }
       });
 
       log.debug('exec script in child process:', process.pid);
@@ -106,13 +107,23 @@ async function execScript({ script, async = false, silent = true }) {
   const { code, stdout } = process;
   const success = code === 0;
   if (!success) {
-    log.debug(`execScript执行命令出错, ${script}`);
+    log.debug(`execShell执行命令出错, ${script}`);
   }
   return {
     code,
     success,
     message: stdout.toString() || ''
   };
+}
+
+function execJS({ script, async = false, silent = true, plugin }) {
+  const vmscript = new vm.Script(script);
+  const sandbox = {
+    curFiePlugin: plugin
+  };
+  const result = vmscript.runInNewContext(sandbox);
+  log.debug(`execJS: script =${script} ,result = ${result}`);
+  return result;
 }
 
 function execRules({ toolkit, command, preriod }) {
@@ -125,18 +136,20 @@ function execRules({ toolkit, command, preriod }) {
   if (!rules) return;
   rules.forEach(async (rule) => {
     const { plugin, script, async, type = 'shell', silent } = rule;
+    let fiePlugin;
     if (plugin) {
-      const fiePlugin = await installPluginsIfNeed(plugin);
+      fiePlugin = await installPluginsIfNeed(plugin);
       log.debug('plugin existed or installed:', fiePlugin);
     }
     switch (type) {
       case 'shell': {
-        execScript({ script, async, silent }); break;
+        execShell({ script, async, silent }); break;
       }
-      case 'node':
-        break;
+      case 'node': {
+        execJS({ script, async, silent, plugin: fiePlugin }); break;
+      }
       default: {
-        execScript({ script, async, silent });
+        execShell({ script, async, silent });
       }
     }
     return true;
