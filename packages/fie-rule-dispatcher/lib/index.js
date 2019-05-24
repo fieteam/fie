@@ -2,6 +2,7 @@
 'use strict';
 
 const request = require('axios');
+const { env } = require('fie-api');
 const fieModule = require('fie-module');
 const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
@@ -49,6 +50,7 @@ function readRuleDataFromCache() {
 
 async function syncRules() {
   log.debug('syncRules');
+  if (!env.isIntranet()) return []; // 外网环境无需同步规则
   let data = readRuleDataFromCache();
   if (!data || forceUpdateRules) {
     try {
