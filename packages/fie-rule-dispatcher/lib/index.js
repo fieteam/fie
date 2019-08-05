@@ -6,7 +6,7 @@ const { env } = require('fie-api');
 const fieModule = require('fie-module');
 const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
-const { exec } = require('child_process');
+const { exec, execSync } = require('child_process');
 const vm = require('vm');
 
 const co = require('co');
@@ -16,7 +16,7 @@ const log = require('fie-log')('fie-rule-dispatcher');
 const cwd = process.cwd();
 const ruleDataCacheKey = 'dynamic-rules';
 const ruleDataCacheExpire = 3600000; // 1小时
-const publisherUrl = 'https://mocks.alibaba-inc.com/mock/fie-config-platform/config?_tag=%E6%B5%8B%E8%AF%95%E5%8B%BF%E8%BD%BB%E6%98%93%E5%8A%A8';
+const publisherUrl = 'http://app-494.shuttle.alibaba.net/openapi/config/fie/online'; // 'http://127.0.0.1:6001/openapi/config/fie/online';// 'http://fiecfg.alibaba-inc.com/api/config/fie/online';
 
 // fie.config.js中的插件配置
 // forceUpdateRules: 强制更新数据
@@ -29,10 +29,15 @@ const {
 let fieAllRules = {};
 
 async function fetchRulesOnline() {
-  const resp = await request(publisherUrl);
-  const _data = resp.data;
-  const { data } = _data; // {code,data}
-
+  let data = null;
+  try {
+    const resp = await request(publisherUrl);
+    const body = resp.data;
+    const _data = body.data;
+    data = _data.constructor.name === 'Array' ? _data[0] : _data; // {code,data}
+  } catch (e) {
+    log.error(e);
+  }
   return data;
 }
 
@@ -48,6 +53,7 @@ function readRuleDataFromCache() {
   return cache;
 }
 
+/** 同步线上规则到本地 */
 async function syncRules() {
   log.debug('syncRules');
   if (!env.isIntranet()) return []; // 外网环境无需同步规则
@@ -60,7 +66,7 @@ async function syncRules() {
       log.error('fie同步规则出错', e);
     }
   }
-  fieAllRules = data ? data.rules : [];
+  fieAllRules = data ? data.value : {};
 
   return fieAllRules;
 }
@@ -85,16 +91,16 @@ async function installPluginsIfNeed(plugin) {
 }
 
 // 执行一段sh命令
-async function execShell({ script, async = false, silent = true }) {
+async function execShell({ script, async = true, silent = true }) {
   log.debug(`execShell: ${script}`, `. async=${async}, silent=${silent}`);  // silent暂不实现.
 
   let process = null;
   if (async) {  // 异步
     return new Promise(() => {
       log.debug(`execShell, will spawn:  ${script}`);
-      process = exec(script, { cwd }, (err, stdout, stderr) => {
+      process = exec(script, { cwd, stdio: [0, 1, 2] }, (err, stdout, stderr) => {
         if (err) {
-          log.debug(`execShell执行命令出错, ${script}, ${err}`);
+          log.debug(`execShell异步执行命令出错, ${script}, ${err}`);
         }
         if (stdout) { log.debug(`execShell执行命令成功, ${script}, ${stdout}`); }
         if (stderr) { log.debug(`execShell执行命令成功, ${script}, ${stderr}`); }
@@ -104,18 +110,20 @@ async function execShell({ script, async = false, silent = true }) {
     });
   }
   // 同步
-  process = exec(script, { cwd }); // {silent,}
-  log.debug('exec script in child process:', process);
-  const { code, stdout } = process;
-  const success = code === 0;
-  if (!success) {
-    log.debug(`execShell执行命令出错, ${script}`);
-  }
-  return {
-    code,
-    success,
-    message: stdout.toString() || ''
+  const result = {
+    success: true,
+    message: ''
   };
+  try {
+    log.debug('execSync script in child process:');
+    process = execSync(script, { cwd, stdio: [0, 1, 2] }); // {silent,}
+  } catch (e) {
+    result.success = false;
+    result.message = e;
+    log.debug('execSync script 出错', e);
+  }
+
+  return result;
 }
 
 function execJS({ script, async = false, silent = true, plugin }) {
@@ -128,6 +136,7 @@ function execJS({ script, async = false, silent = true, plugin }) {
   return result;
 }
 
+/** * 执行一个套件的指定规则 */
 function execRules({ toolkit, command, preriod }) {
   if (disableDynamicRules) {
     return;
@@ -158,12 +167,14 @@ function execRules({ toolkit, command, preriod }) {
   });
 }
 
+/** 初始化 规则管理插件 */
+async function init() {
+  log.debug('fie-rule-dispatcher init');
+  return await syncRules();
+}
 
 const dispatcher = {
-  async init() {
-    log.debug('fie-rule-dispatcher init');
-    return await syncRules();
-  },
+  init,
   syncRules,
   execRules
 };

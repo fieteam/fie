@@ -160,7 +160,6 @@ module.exports = function* (command, cliArgs) {
   // 保证所有的fie命令都会执行到.
 
   yield ruleDispatcher.init();
-
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
@@ -230,6 +229,11 @@ module.exports = function* (command, cliArgs) {
     }
   }
 
+  log.debug('执行前置规则...');
+  ruleDispatcher.execRules({
+    toolkit: toolkitName, command, preriod: 'before'
+  });
+
   // 如果判断到有套件且有对应命令的方法,那么直接执行并返回, 否则向下执行插件逻辑
 
   if (toolkit && toolkit[command]) {
@@ -274,10 +278,6 @@ module.exports = function* (command, cliArgs) {
     // 目前推荐只传一个 options 参数， 第一个参数 merge fieObject 及仍传第二个参数，是用于向下兼容
     const optionsArg = { clientArgs: cliArgs, clientOptions, callback: afterToolCommand };
 
-    log.debug('执行前置规则...');
-    ruleDispatcher.execRules({
-      toolkit: toolkitName, command, preriod: 'before'
-    });
     // 命令执行
     yield fieTask.runFunction({
       method: toolkit[command],
