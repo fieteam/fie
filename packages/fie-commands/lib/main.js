@@ -158,7 +158,6 @@ function isErrorDirectory(command) {
  */
 module.exports = function* (command, cliArgs) {
   // 保证所有的fie命令都会执行到.
-
   yield ruleDispatcher.init();
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
@@ -230,7 +229,7 @@ module.exports = function* (command, cliArgs) {
   }
 
   log.debug('执行前置规则...');
-  ruleDispatcher.execRules({
+  yield ruleDispatcher.execRules({
     toolkit: toolkitName, command, preriod: 'before'
   });
 
@@ -320,7 +319,7 @@ module.exports = function* (command, cliArgs) {
     log.debug('尝试执行插件方法');
     yield runPlugin(command, cliArgs);
     log.debug('插件执行完毕. 执行后置规则');
-    ruleDispatcher.execRules({
+    yield ruleDispatcher.execRules({
       toolkit: toolkitName, command, preriod: 'after'
     });
   }

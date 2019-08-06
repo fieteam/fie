@@ -6,7 +6,7 @@ const { env } = require('fie-api');
 const fieModule = require('fie-module');
 const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
-const { exec, execSync } = require('child_process');
+const { exec, execSync, spawn, spawnSync } = require('child_process');
 const vm = require('vm');
 
 const co = require('co');
@@ -16,7 +16,7 @@ const log = require('fie-log')('fie-rule-dispatcher');
 const cwd = process.cwd();
 const ruleDataCacheKey = 'dynamic-rules';
 const ruleDataCacheExpire = 3600000; // 1小时
-const publisherUrl = 'http://app-494.shuttle.alibaba.net/openapi/config/fie/online'; // 'http://127.0.0.1:6001/openapi/config/fie/online';// 'http://fiecfg.alibaba-inc.com/api/config/fie/online';
+const publisherUrl = 'http://app-494.shuttle.alibaba.net/openapi/config/fie/4'; // 'http://127.0.0.1:6001/openapi/config/fie/online';// 'http://fiecfg.alibaba-inc.com/api/config/fie/online';
 
 // fie.config.js中的插件配置
 // forceUpdateRules: 强制更新数据
@@ -36,7 +36,7 @@ async function fetchRulesOnline() {
     const _data = body.data;
     data = _data.constructor.name === 'Array' ? _data[0] : _data; // {code,data}
   } catch (e) {
-    log.error(e);
+    log.error('FIE配置数据接口无法访问:', e);
   }
   return data;
 }
@@ -93,20 +93,30 @@ async function installPluginsIfNeed(plugin) {
 // 执行一段sh命令
 async function execShell({ script, async = true, silent = true }) {
   log.debug(`execShell: ${script}`, `. async=${async}, silent=${silent}`);  // silent暂不实现.
-
+  const words = script.split(' ');
+  const [command, ...args] = words;
   let process = null;
   if (async) {  // 异步
-    return new Promise(() => {
-      log.debug(`execShell, will spawn:  ${script}`);
-      process = exec(script, { cwd, stdio: [0, 1, 2] }, (err, stdout, stderr) => {
-        if (err) {
-          log.debug(`execShell异步执行命令出错, ${script}, ${err}`);
-        }
-        if (stdout) { log.debug(`execShell执行命令成功, ${script}, ${stdout}`); }
-        if (stderr) { log.debug(`execShell执行命令成功, ${script}, ${stderr}`); }
+    return new Promise((resolve, reject) => {
+      log.debug(`execShell异步执行:  ${script}`);
+      process = spawn(command, args, { encoding: 'utf8', stdio: 'inherit' });
+
+      process.stdout && process.stdout.on('data', (data) => { // process.stdout is null when spawn option have : stdio: 'inherit'
+        const msg = String(data);
+        log.info(`execShell 成功, ${script}`);
+        log.debug(msg);
       });
 
-      log.debug('exec script in child process:', process.pid);
+      process.stderr && process.stderr.on('data', (data) => {
+        const msg = String(data);
+        log.error(`execShell 失败, ${script}`);
+        log.debug(msg);
+      });
+
+      process.on('exit', (code) => {
+        log.debug('rule dispatcher exit:', code);
+        resolve(code);
+      });
     });
   }
   // 同步
@@ -114,13 +124,16 @@ async function execShell({ script, async = true, silent = true }) {
     success: true,
     message: ''
   };
+
   try {
-    log.debug('execSync script in child process:');
-    process = execSync(script, { cwd, stdio: [0, 1, 2] }); // {silent,}
+    log.debug('run script in child process:');
+    process = spawnSync(command, args, { encoding: 'utf8', stdio: 'inherit' }); // {silent,}
+    result.message = process.stdout;
+    log.debug('execShell同步执行成功', process);
   } catch (e) {
     result.success = false;
     result.message = e;
-    log.debug('execSync script 出错', e);
+    log.debug('execShell同步执行出错', e);
   }
 
   return result;
@@ -137,15 +150,15 @@ function execJS({ script, async = false, silent = true, plugin }) {
 }
 
 /** * 执行一个套件的指定规则 */
-function execRules({ toolkit, command, preriod }) {
+async function execRules({ toolkit, command, preriod }) {
   if (disableDynamicRules) {
-    return;
+    return null;
   }
   log.debug(`execRules: toolkit=${toolkit}, command=${command}, preriod=${preriod} `);
   const rules = getRules({ toolkit, command, preriod });
   log.debug(`and rules = : ${rules}`);
-  if (!rules) return;
-  rules.forEach(async (rule) => {
+  if (!rules) return null;
+  const promises = rules.map(async (rule) => {
     const { plugin, script, async, type = 'shell', silent } = rule;
     let fiePlugin;
     if (plugin) {
@@ -153,18 +166,17 @@ function execRules({ toolkit, command, preriod }) {
       log.debug('plugin existed or installed:', fiePlugin);
     }
     switch (type) {
-      case 'shell': {
-        execShell({ script, async, silent }); break;
-      }
       case 'node': {
-        execJS({ script, async, silent, plugin: fiePlugin }); break;
+        return execJS({ script, async, silent, plugin: fiePlugin });
       }
+      case 'shell':
       default: {
-        execShell({ script, async, silent });
+        return await execShell({ script, async, silent });
       }
     }
-    return true;
   });
+  const result = await Promise.all(promises);
+  return result;
 }
 
 /** 初始化 规则管理插件 */
