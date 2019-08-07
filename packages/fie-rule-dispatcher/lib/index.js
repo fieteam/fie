@@ -8,9 +8,9 @@ const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
 const { exec, execSync, spawn, spawnSync } = require('child_process');
 const vm = require('vm');
-
+const fieLog = require('fie-log');
 const co = require('co');
-const log = require('fie-log')('fie-rule-dispatcher');
+const log = fieLog('fie-rule-dispatcher');
 
 // 先从环境变量里获取fie配置文件的目录，这样方便做调试
 const cwd = process.cwd();
@@ -95,27 +95,32 @@ async function execShell({ script, async = true, silent = true }) {
   log.debug(`execShell: ${script}`, `. async=${async}, silent=${silent}`);  // silent暂不实现.
   const words = script.split(' ');
   const [command, ...args] = words;
-  let process = null;
+  let childProcess = null;
   if (async) {  // 异步
     return new Promise((resolve, reject) => {
       log.debug(`execShell异步执行:  ${script}`);
-      process = spawn(command, args, { encoding: 'utf8', stdio: 'inherit' });
+      childProcess = spawn(command, args, { encoding: 'utf8', stdio: 'inherit' });
 
-      process.stdout && process.stdout.on('data', (data) => { // process.stdout is null when spawn option have : stdio: 'inherit'
+      childProcess.stdout && childProcess.stdout.on('data', (data) => { // process.stdout is null when spawn option have : stdio: 'inherit'
         const msg = String(data);
         log.info(`execShell 成功, ${script}`);
         log.debug(msg);
       });
 
-      process.stderr && process.stderr.on('data', (data) => {
+      childProcess.stderr && childProcess.stderr.on('data', (data) => {
         const msg = String(data);
         log.error(`execShell 失败, ${script}`);
         log.debug(msg);
       });
 
-      process.on('exit', (code) => {
+      childProcess.on('exit', (code) => {
         log.debug('rule dispatcher exit:', code);
         resolve(code);
+      });
+
+      process.on('exit', () => {
+        log.debug('主进程退出, execShell 子进程也退出.');
+        process.kill(childProcess.pid);
       });
     });
   }
@@ -127,9 +132,13 @@ async function execShell({ script, async = true, silent = true }) {
 
   try {
     log.debug('run script in child process:');
-    process = spawnSync(command, args, { encoding: 'utf8', stdio: 'inherit' }); // {silent,}
-    result.message = process.stdout;
-    log.debug('execShell同步执行成功', process);
+    childProcess = spawnSync(command, args, { encoding: 'utf8', stdio: 'inherit' }); // {silent,}
+    result.message = childProcess.stdout;
+    log.debug('execShell同步执行成功', childProcess);
+    process.on('exit', () => {
+      log.debug('主进程退出, execShell 子进程也退出.');
+      process.kill(childProcess.pid);
+    });
   } catch (e) {
     result.success = false;
     result.message = e;
@@ -140,11 +149,18 @@ async function execShell({ script, async = true, silent = true }) {
 }
 
 function execJS({ script, async = false, silent = true, plugin }) {
-  const vmscript = new vm.Script(script);
-  const sandbox = {
-    curFiePlugin: plugin
-  };
-  const result = vmscript.runInNewContext(sandbox);
+  const scriptWrapper = `(function(){${script}})();`; // 兼容vm默认加return的行为
+  const vmscript = new vm.Script(scriptWrapper);
+  // const sandbox = {  // for runInNewContext
+  //   myPlugin: plugin,
+  //   cwd: process.cwd(),
+  //   fieLog,
+  // };
+  global.$myPlugin = plugin;
+  global.$cwd = process.cwd();
+  global.$fieLog = fieLog;
+
+  const result = vmscript.runInThisContext(); // runInNewContext不支持显示自定义脚本中log, 因此使用runInThisContext. 副作用是污染global
   log.debug(`execJS: script =${script} ,result = ${result}`);
   return result;
 }
