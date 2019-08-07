@@ -7,6 +7,7 @@
 'use strict';
 
 const path = require('path');
+const findUp = require('find-up');
 const fs = require('fs-extra');
 const report = require('fie-report');
 const log = require('fie-log')('core-config');
@@ -116,6 +117,10 @@ const fieConfig = {
    * 获取config.js的文件路径
    */
   getConfigPath() {
+    const p = findUp.sync(this.getConfigName(), { cwd: process.env.FIE_CONFIG_PATH || CWD });
+    if (p) {
+      return path.dirname(p);
+    }
     return process.env.FIE_CONFIG_PATH || CWD;
   },
 };

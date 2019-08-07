@@ -149,6 +149,11 @@ const toolkit = config.getToolkitName();
 // =>  toolkit = fie-toolkit-dev
 ```
 
+## getConfigPath()
+
+> 获取配置文件的路径
+
+从当前目录开始逐级向上查找含有 `fie.config.js` (或其他指定的文件名)文件的路径
 
 ## Support
 
