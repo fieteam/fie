@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+
 'use strict';
 
 require('../lib/config');
@@ -19,7 +20,6 @@ const fiePkg = require('../package.json');
  * 所有 fie 命令的入口，整体架构请见： https://img.alicdn.com/tfs/TB1HBbHRFXXXXXHaXXXXXXXXXXX-1596-1118.png
  */
 co(function* () {
-
   log.debug('fie start run ....');
 
   // fie 家目录存在性检查
@@ -28,27 +28,23 @@ co(function* () {
   // 检测环境是否已初始化
   yield initEnv();
 
-  //初始化语言环境
+  // 初始化语言环境
   const intl = new Intl();
 
   intl.initLocale();
   // fie版本更新提示
   yield fieUpgrade({
-    name : fiePkg.name,
-    version : fiePkg.version
-  });
-  
-
-  //fie 核心运行命令
-  const coreCommands = Object.keys(fieCommands).filter( (item) =>{
-    return item !== 'main';
+    name: fiePkg.name,
+    version: fiePkg.version
   });
 
-  
+
+  // fie 核心运行命令
+  const coreCommands = Object.keys(fieCommands).filter(item => item !== 'main');
+
   const fieArgv = argv();
   const command = fieArgv.command;
   const newArgv = fieArgv.argv;
-
 
   if (coreCommands.indexOf(command) === -1) {
     log.debug('进入套件,插件分支');
@@ -59,7 +55,7 @@ co(function* () {
     // 对 fie.config.js 没有依赖, 也不考虑兼容旧版, 也不执行自定义命令流
     yield fieCommands[command].apply(null, [newArgv]);
   }
-  
+
 
   // 捕获异常
   process.on('uncaughtException', (err) => {

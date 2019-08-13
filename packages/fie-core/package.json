@@ -36,7 +36,7 @@
     "fie-cache": "^3.1.4",
     "fie-commands": "^3.1.6",
     "fie-config": "^3.1.4",
-    "fie-rule-dispatcher": "*",
+    "fie-rule-dispatcher": "0.0.1",
     "fie-env": "^3.1.4",
     "fie-error": "^3.1.4",
     "fie-fs": "^3.1.4",

@@ -22,7 +22,7 @@ const path = require('path');
 const chalk = require('chalk');
 const report = require('fie-report');
 const Intl = require('fie-intl');
-const ruleDispatcher = require('../../fie-rule-dispatcher'); // TODO: 心法
+const ruleDispatcher = require('fie-rule-dispatcher'); // TODO: 心法
 
 const message = require('../locale/index');
 
@@ -158,7 +158,7 @@ function isErrorDirectory(command) {
  */
 module.exports = function* (command, cliArgs) {
   // 保证所有的fie命令都会执行到.
-  yield ruleDispatcher.init();
+  yield ruleDispatcher.init(cliArgs);
   const tasks = fieConfig.get('tasks') || {};
   const hasBeforeTask = fieTask.has(tasks[command], 'before');
   const hasAfterTask = fieTask.has(tasks[command], 'after');
