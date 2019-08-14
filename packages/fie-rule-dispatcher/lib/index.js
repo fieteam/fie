@@ -7,7 +7,7 @@ const fieModule = require('fie-module');
 const fieCache = require('fie-cache');
 const fieConfig = require('fie-config');
 const Intl = require('fie-intl');
-const { spawn, spawnSync } = require('child_process');
+const execa = require('execa');
 const vm = require('vm');
 const fieLog = require('fie-log');
 const co = require('co');
@@ -104,58 +104,29 @@ async function installPluginsIfNeed(plugin) {
 
 // 执行一段sh命令
 async function execShell({ script, async = true }) {
-  log.debug(`execShell: ${script}`, `. async=${async}`);  // silent暂不实现.
-  const words = script.split(' ');
-  const [command, ...args] = words;
-  let childProcess = null;
-  if (async) {  // 异步
-    // return new Promise((resolve, reject) => {
-    log.debug(`execShell异步执行:  ${script}`);
-    childProcess = spawn(command, args, { encoding: 'utf8', stdio: 'inherit' });
+  const childProcess = execa.command(script);
+  childProcess.stdout.pipe(process.stdout);
+  process.on('exit', () => {
+    log.debug('主进程退出, execShell 子进程也退出.');
+    process.kill(childProcess.pid);
+  });
 
-    childProcess.stdout && childProcess.stdout.on('data', (data) => { // process.stdout is null when spawn option have : stdio: 'inherit'
-      const msg = String(data);
-      log.info(`shell run end, ${script}`);
-      log.debug(msg);
-    });
-
-    childProcess.stderr && childProcess.stderr.on('data', (data) => {
-      const msg = String(data);
-      log.error(`execShell 失败, ${script}`);
-      log.debug(msg);
-    });
-
-    childProcess.on('exit', (code) => {
-      log.debug('rule dispatcher exit:', code);
-      // resolve(code);
-    });
-
-    process.on('exit', () => {
-      log.debug('主进程退出, execShell 子进程也退出.');
-      process.kill(childProcess.pid);
-    });
-    return true;
-   // });
-  }
-  // 同步
-  const result = {
-    success: true,
-    message: ''
+  let result = null;
+  const runner = async () => {
+    try {
+      await childProcess;
+      log.debug(`execShell 执行成功: ${script}, async=${async}`);
+      result = { success: true, message: '' };
+    } catch (error) {
+      log.error(`execShell 执行失败: ${script}, error=${error}`);
+      result = { success: false, message: error };
+    }
   };
 
-  try {
-    log.debug('run script in child process:');
-    childProcess = spawnSync(command, args, { encoding: 'utf8', stdio: 'inherit' }); // {silent,}
-    result.message = childProcess.stdout;
-    log.debug('execShell同步执行成功', childProcess);
-    process.on('exit', () => {
-      log.debug('主进程退出, execShell 子进程也退出.');
-      process.kill(childProcess.pid);
-    });
-  } catch (e) {
-    result.success = false;
-    result.message = e;
-    log.debug('execShell同步执行出错', e);
+  if (async) { // 异步
+    runner();
+  } else {    // 同步
+    await runner();
   }
 
   return result;
@@ -164,11 +135,7 @@ async function execShell({ script, async = true }) {
 function execJS({ script, async = false, plugin }) {
   const scriptWrapper = `(function(){${script}})();`; // 兼容vm默认加return的行为
   const vmscript = new vm.Script(scriptWrapper);
-  // const sandbox = {  // for runInNewContext
-  //   myPlugin: plugin,
-  //   cwd: process.cwd(),
-  //   fieLog,
-  // };
+
   global.$myPlugin = plugin;
   global.$cwd = process.cwd();
   global.$fieLog = fieLog;
@@ -243,7 +210,6 @@ async function init(args) {
   return await syncRules();
 }
 
-// 内网转
 const dispatcher = {
   init,
   syncRules,
