@@ -52,3 +52,5 @@ out
 mocha.json
 
 packages/fie-cache/test/fixtures/*.json
+
+build
