@@ -108,7 +108,9 @@ async function execShell({ script, async = true }) {
   childProcess.stdout.pipe(process.stdout);
   process.on('exit', () => {
     log.debug('主进程退出, execShell 子进程也退出.');
-    process.kill(childProcess.pid);
+    try {
+      process.kill(childProcess.pid);
+    } catch (e) {}
   });
 
   let result = null;
@@ -132,20 +134,24 @@ async function execShell({ script, async = true }) {
   return result;
 }
 
-function execJS({ script, async = false, plugin }) {
-  const scriptWrapper = `(function(){${script}})();`; // 兼容vm默认加return的行为
-  const vmscript = new vm.Script(scriptWrapper);
-
+async function execJS({ script, async = false, plugin }) {
   global.$myPlugin = plugin;
   global.$cwd = process.cwd();
+  global.$fieConfig = fieConfig;
   global.$fieLog = fieLog;
-  let result = null;
 
+
+  const scriptWrapper = `(async function(){${script}})();`; // 兼容vm默认加return的行为
+  const vmscript = new vm.Script(scriptWrapper);
+
+  let result = null;  // value , or promise
+
+  // 异步模式下, 接收Promise
   if (async) {
-    Promise.resolve(true).then(() => {
-      vmscript.runInThisContext();
-    });
+    const promise = vmscript.runInThisContext();
+    result = await promise;
   } else {
+    // 同步模式下,接收返回值.
     result = vmscript.runInThisContext(); // runInNewContext不支持显示自定义脚本中log, 因此使用runInThisContext. 副作用是污染global
   }
 
@@ -173,7 +179,7 @@ async function execRules({ toolkit, command, preriod }) {
       }
       switch (type) {
         case 'node': {
-          return execJS({ script, async, silent, plugin: fiePlugin });
+          return await execJS({ script, async, silent, plugin: fiePlugin });
         }
         case 'shell':
         default: {
@@ -185,7 +191,7 @@ async function execRules({ toolkit, command, preriod }) {
     const result = await Promise.all(promises);
     return result;
   } catch (e) {
-    log.error('规则有误,跳过执行');
+    log.error('规则有误,跳过执行. 详细:', e.message);
     return null;
   }
 }

@@ -43,7 +43,6 @@ function* get(name) {
 
   const modulePath = path.resolve(home.getModulesPath(), name);
   const pkgPath = path.resolve(modulePath, 'package.json');
-
   if (fs.existsSync(pkgPath)) {
     log.debug(`存在本地模块 ${pkgPath}`);
     // 本地存在, 判断是否需要更新

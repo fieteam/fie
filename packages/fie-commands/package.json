@@ -34,6 +34,7 @@
     "fie-module-name": "^3.1.8-alpha.0",
     "fie-npm": "^3.1.8-alpha.0",
     "fie-report": "^3.1.8-alpha.0",
+    "fie-rule-dispatcher": "^3.1.8-alpha.0",
     "fie-task": "^3.1.8-alpha.0",
     "fs-extra": "^4.0.2",
     "inquirer": "^3.3.0",
