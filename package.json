@@ -19,7 +19,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "co-mocha": "^1.1.3",
-    "codecov": "^1.0.1",
+    "codecov": "^3.6.5",
     "contributors": "^0.5.1",
     "eslint": "^3.8.1",
     "eslint-config-ais": "0.0.16",
