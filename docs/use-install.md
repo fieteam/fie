@@ -27,7 +27,7 @@ $ npm install fie -g
 若你是在国内，可以使用淘宝的镜像进行安装，安装速度会更快，国内用户推荐：
 
 ```bash
-$ npm install fie -g --registry=https://registry.npm.taobao.org
+$ npm install fie -g --registry=https://registry.npmmirror.com
 ```
 
 注意：如果提示没有权限，请在前面加上 `sudo` 命令。
