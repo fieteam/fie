@@ -23,7 +23,7 @@
 ## Installation
 
 ```bash
-$ npm install fie -g --registry=https://registry.npm.taobao.org
+$ npm install fie -g --registry=https://registry.npmmirror.com
 ```
 
 等待片刻，待安装完成之后在终端执行 `$ fie -v`，正常返回版本信息，表示安装成功。
@@ -78,7 +78,7 @@ fie 使用帮助:  $ fie [command] [options]
 1. 安装fie到npm全局环境中
 
 	```bash
-	$ npm install fie -g --registry=https://registry.npm.taobao.org
+	$ npm install fie -g --registry=https://registry.npmmirror.com
 	```
 
 2. 初始化项目
