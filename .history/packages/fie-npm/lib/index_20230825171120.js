@@ -14,7 +14,7 @@ const fieEnv = require('fie-env');
 function getRegistry() {
   const isIntranet = fieEnv.isIntranet();
   const registry = isIntranet
-    ? 'http://registry.anpm.alibaba-inc.com/'
+    ? 'http://registry.npm.alibaba-inc.com/'
     : 'http://registry.npm.taobao.org/';
   log.debug(registry);
   return registry;
